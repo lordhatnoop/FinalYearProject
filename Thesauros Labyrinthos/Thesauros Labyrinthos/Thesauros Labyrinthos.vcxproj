@@ -74,11 +74,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/../External Libraries/Box2D/include;$(SolutionDir)/../External Libraries/SFML/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/../External Libraries/Box2D/include;$(SolutionDir)/../External Libraries/SFML/include;$(SolutionDir)/../External Libraries/TGUI0.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)/../External Libraries/Box2D/lib;$(SolutionDir)/../External Libraries/SFML/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-main-d.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;sfml-network-d.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/../External Libraries/Box2D/lib;$(SolutionDir)/../External Libraries/SFML/lib;$(SolutionDir)/../External Libraries/TGUI0.8/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-main-d.lib;sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;sfml-audio-d.lib;sfml-network-d.lib;opengl32.lib;tgui-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -95,10 +95,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)/../External Libraries/Box2D/include;$(SolutionDir)/../External Libraries/SFML/include;$(SolutionDir)/../External Libraries/TGUI0.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>sfml-main.lib;sfml-graphics.lib;sfml-window.lib;sfml-system.lib;sfml-audio.lib;sfml-network.lib;opengl32.lib;tgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -116,21 +118,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ExitCell.cpp" />
     <ClCompile Include="FloorCell.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="mazeGeneration.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
+    <ClCompile Include="TextureLoader.cpp" />
+    <ClCompile Include="TorchLight.cpp" />
     <ClCompile Include="WallCell.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="ExitCell.h" />
     <ClInclude Include="FloorCell.h" />
     <ClInclude Include="GameCharacters.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="mazeGeneration.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TextureLoader.h" />
+    <ClInclude Include="TorchLight.h" />
     <ClInclude Include="WallCell.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Shader\Shader.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

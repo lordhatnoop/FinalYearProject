@@ -4,8 +4,8 @@
 class FloorCell : public Cell {
 
 public:
-	FloorCell(int x, int y, sf::Texture &texture);
-	void createSFML(int x, int y, sf::Texture &texture) override;
+	FloorCell(int x, int y);
+	void createSFML(int x, int y) override;
 	void update() override;
 	
 

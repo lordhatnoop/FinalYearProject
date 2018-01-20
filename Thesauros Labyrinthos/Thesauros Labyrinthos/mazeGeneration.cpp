@@ -7,8 +7,8 @@ using namespace std;
 //changing the values of these defines changes the eventual outcome of the maze generation , experiment. (e.g changing radius to 1 result in more of a cave than a maze.
 
 //size of the map
-#define maze_size_x 80
-#define maze_size_y 45
+#define maze_size_x 160
+#define maze_size_y 90
 
 #define cell_Radius 2
 
@@ -24,14 +24,10 @@ int directionList[4][2] = { { 0, -1 },{ 1, 0 },{ 0, 1 },{ -1, 0 } };
 int maze[maze_size_x][maze_size_y];
 int cell[max_Cell_Width][max_Cell_Height];
 
-//wall and floor texture
-sf::Texture wallTexture;/*!< a texture- stores the sfml texture */
-sf::Texture floorTexture;
+
 
 MazeGeneration::MazeGeneration() {
-	//load textures
-	wallTexture.loadFromFile("Assets/Sprites/mazeWalls.png");
-	floorTexture.loadFromFile("Assets/Sprites/mazeFloors.png");
+	
 }
 
 //llok through tank wars (adjacency!)
@@ -107,10 +103,12 @@ void MazeGeneration::generateMaze() {
 			rx += dx;
 			ry += dy;
 		}
+		//if can't dig chooses a random tile that has already been set to be a floor
 		else {
 			do {
 				rx = rand() % max_Cell_Width;
 				ry = rand() % max_Cell_Height;
+				
 			} while (cell[rx][ry] != 1);
 		}
 
@@ -122,6 +120,11 @@ void MazeGeneration::generateMaze() {
 		//update visited cells
 		visitedCells++;
 
+		//so long as it's a floor tile, store's it as the current last tile so that we can use it for the exit if needed
+		if (maze[rx][ry] == 0 ) {
+			endX = rx;
+			endY = ry;
+		}
 	}
 
 	//fillCells();
@@ -156,19 +159,59 @@ void MazeGeneration::generateMaze() {
 			}
 		}
 	}*/
-	addRooms(40, 21, 1);
+	//addRooms(40, 21, 1);
+
+	//attempt at adding ways through the long passage stretchs
+	
+	for (i = 0; i < maze_size_x; i++) {
+		for (j = 0; j < maze_size_y; j++) {
+			//if passage
+			if (maze[i][j] == 0 && maze[i +1][j] == 0 && maze[i+2][j] == 0 && maze[i+3][j] == 0 && maze[i+4][j] == 0 && maze[i+5][j] == 0 && maze[i+6][j] == 0 && maze[i + 7][j] == 0
+				&& maze[i + 8][j] == 0 && maze[i + 9][j] == 0 && maze[i + 10][j] == 0 && maze[i + 11][j] == 0 && maze[i + 12][j] == 0) {
+				//random chance, if it's 9 or 10 will dig. splits up the corridors some more, but experiment with higher numbers to get better maze generation
+				if (rand() % 10 >= 9) {
+					//change above and below to be floor
+					
+						maze[i][j + 1] = 0;
+						maze[i][j - 1] = 0;
+					
+					
+					
+
+					//see if we can fill in the passages
+				//maze[i + 1][j] = 1;
+				//maze[i + 2][j] = 1;
+				//maze[i + 3][j] = 1;
+				//maze[i + 4][j] = 1;
+				}
+			}
+
+			//rand for adding blocks above// experiment with this more.
+			if (rand() % 100 > 90) {
+				maze[i][j + 1] = 1;
+			}
+		}
+	}
+	
+	maze[endX][endY] = 2; // set the end to be 2 at the end of all the other generation to guarentee it's the exit
+
 		// Done, so create the wallCells from the mazecells
-		for (size_t y = 0; y < maze_size_y; y++) {
-			for (size_t x = 0; x < maze_size_x; x++)
+		for (size_t x = 0; x < maze_size_x; x++) {
+			for (size_t y = 0; y < maze_size_y; y++)
 			{
 				//if maze cell is 1 create wall
 				if (maze[x][y] == 1) {
 					printf("#");
-					cellsVector.push_back(new WallCell(x * 20, y * 20, wallTexture));
+					cellsVector.push_back(new WallCell(x * 10, y * 10));
+					
 				}
-				else {
-					printf("."); //otherwise create floorcell
-					cellsVector.push_back(new FloorCell(x * 20, y * 20, floorTexture));
+				else if (maze[x][y] == 0 ){
+					printf("."); // create floorcell
+					cellsVector.push_back(new FloorCell(x * 10, y * 10));
+				}
+				else if (maze[x][y] == 2) {
+					printf("2"); //otherwise create floorcell
+					cellsVector.push_back(new ExitCell(x * 10, y * 10));
 				}
 			}
 		}
@@ -178,7 +221,7 @@ void MazeGeneration::generateMaze() {
 
 
 
-//below is used to return 1 if the cell we are checking is in range(doesn't go off the edge of maze and isn't too far away from cuyrrent cell somehow).
+//below is used to return 1 if the cell we are checking is in range(doesn't go off the edge of maze and isn't too close to current cell so they overlap).
 int MazeGeneration::cellInRange(int x, int y)
 {
 	if (x > 2 && y > 2 && x < maze_size_x - 2 && y < maze_size_y - 2) {

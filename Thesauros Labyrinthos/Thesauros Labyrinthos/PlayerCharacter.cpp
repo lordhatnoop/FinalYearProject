@@ -5,6 +5,7 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	xPosition = x;
 	yPosition = y;
 	createSFML();
+	torch = new TorchLight(xPosition,yPosition);
 }
 
 void PlayerCharacter::createSFML()
@@ -22,6 +23,7 @@ void PlayerCharacter::createCollisionBox()
 
 void PlayerCharacter::update()
 {
+	
 	//move player left by reducing the xposition and setting the posiiton of the rectangle again.
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		xPosition -= 5;
@@ -39,4 +41,16 @@ void PlayerCharacter::update()
 		yPosition -= 5;
 		rectangle.setPosition(xPosition, yPosition);
 	};
+	
+	torchCountdown();
+	//call the torch update so that it updates along with the player
+	torch->update(xPosition,yPosition,maxTorchFuel,currentTorchFuel);
 }
+
+void PlayerCharacter::torchCountdown()
+{
+	if (currentTorchFuel > 0) {
+		currentTorchFuel -= 0.05; // just minus 0.5 perupdate for a test
+	}
+}
+
