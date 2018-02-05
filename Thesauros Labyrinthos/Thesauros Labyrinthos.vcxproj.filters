@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Cells">
+      <UniqueIdentifier>{2e318e70-40f4-4803-a0d1-adbadff896d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cells">
+      <UniqueIdentifier>{e2a9817f-7cd2-45d9-80ad-196ce87e3d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameCharcters">
+      <UniqueIdentifier>{e70c1b63-b3b4-4c62-9e10-74f84efa1c86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameCharcters">
+      <UniqueIdentifier>{d87ea91b-5e67-4146-93c6-3c6170bf5e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Box2D">
+      <UniqueIdentifier>{6f60c2c4-4602-4139-a03e-26cccf68abd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameCharcters\Enemies">
+      <UniqueIdentifier>{093fd635-43f9-4f1b-b705-4aa0300295ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameCharcters\Enemies">
+      <UniqueIdentifier>{ffd7b195-b08a-4e05-b5ed-47a04c298444}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mazeGeneration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorCell.cpp">
+      <Filter>Source Files\Cells</Filter>
+    </ClCompile>
+    <ClCompile Include="WallCell.cpp">
+      <Filter>Source Files\Cells</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCharacter.cpp">
+      <Filter>Source Files\GameCharcters</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TorchLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitCell.cpp">
+      <Filter>Source Files\Cells</Filter>
+    </ClCompile>
+    <ClCompile Include="b2GLDraw.cpp">
+      <Filter>Header Files\Box2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Source Files\GameCharcters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="NonBodyWallCell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mazeGeneration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files\Cells</Filter>
+    </ClInclude>
+    <ClInclude Include="WallCell.h">
+      <Filter>Header Files\Cells</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorCell.h">
+      <Filter>Header Files\Cells</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCharacters.h">
+      <Filter>Header Files\GameCharcters</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCharacter.h">
+      <Filter>Header Files\GameCharcters</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitCell.h">
+      <Filter>Header Files\Cells</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TorchLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="b2GLDraw.h">
+      <Filter>Header Files\Box2D</Filter>
+    </ClInclude>
+    <ClInclude Include="NonBodyWallCell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Header Files\GameCharcters\Enemies</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Shader\Shader.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
