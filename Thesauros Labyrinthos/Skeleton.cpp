@@ -14,7 +14,7 @@ Skeleton::Skeleton(int x, int y)
 	yPosition = y;
 
 	//setup the skeletons Stats
-	visionRange = 10.f;
+	visionRange = 0.f;
 	health = 5;
 	
 	//call createSfml to create the sprite
@@ -44,6 +44,31 @@ void Skeleton::createSFML()
 
 void Skeleton::createCollisionBox(b2World & myWorld)
 {
+
+	//bodyDef
+	BodyDef.type = b2_dynamicBody; // set the playercharacter to ahve a dynamic body from box2d. will allow for movement and being effecetd by gravity and forces
+	BodyDef.position.Set(xPosition / scale + 0.169, yPosition / scale + 0.169); // set the position of the box2d body using the position of the object. divide by scale to convert from real measurements to pixel measurements
+	BodyDef.angle = 0;
+	BodyDef.fixedRotation = true; // prevent rotation
+	BodyDef.userData = this;
+	//BodyDef.userData = "Enemy"; // set the userdata for the bodydef so that we can check what is colliding
+	dynamicBody = myWorld.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
+
+												//box2dShape
+	Shape.SetAsBox(2.f / scale, 4.f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+
+											 //create the fixture
+	FixtureDef.shape = &Shape;
+	FixtureDef.density = 1.f;
+	FixtureDef.friction = 0.0f;
+	FixtureDef.filter.categoryBits = ENEMY; //categoiry
+	FixtureDef.filter.maskBits = PLAYER | WALL; //won't collide with other enemies, but will with player's and walls.
+	dynamicBody->CreateFixture(&FixtureDef);
+}
+
+string Skeleton::getName()
+{
+	return "EnemySkeleton";
 }
 
 void Skeleton::update(PlayerCharacter *player)
@@ -61,7 +86,13 @@ void Skeleton::update(PlayerCharacter *player)
 		//xPosition = xPosition + 1.f;
 		moveRight();
 	}
-	rectangle.setPosition(xPosition, yPosition);
+	else {
+		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // set idle
+	}
+	//rectangle.setPosition(xPosition, yPosition);
+	xPosition = dynamicBody->GetPosition().x * scale;
+	yPosition = dynamicBody->GetPosition().y * scale;
+	rectangle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale);
 }
 
 //functions that will "look" for the player.
@@ -185,8 +216,8 @@ void Skeleton::rise()
 
 void Skeleton::moveRight()
 {
-	xPosition = xPosition + 1.f; // update the position
-
+	//xPosition = xPosition + 1.f; // update the position
+	dynamicBody->SetLinearVelocity(b2Vec2(3, 0));
 	if (timer.getElapsedTime().asSeconds() > 0.5f) { //make sure some time has passed
 		
 		//check which frame of the aniamtion we are on and change animation to match
@@ -294,7 +325,8 @@ void Skeleton::moveRight()
 //to flip the sprite so it goes left
 void Skeleton::moveLeft()
 {
-	xPosition = xPosition - 1.f; // update the position
+	//xPosition = xPosition - 1.f; // update the position
+	dynamicBody->SetLinearVelocity(b2Vec2(-3, 0));
 
 	if (timer.getElapsedTime().asSeconds() > 0.5f) { //make sure some time has passed
 
@@ -395,4 +427,9 @@ void Skeleton::moveLeft()
 		rectangle.setTextureRect(textureSubRect);
 	}
 
+}
+
+void Skeleton::attack()
+{
+	
 }

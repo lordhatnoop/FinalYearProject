@@ -34,12 +34,21 @@
     <Filter Include="Header Files\GameCharcters\Enemies">
       <UniqueIdentifier>{ffd7b195-b08a-4e05-b5ed-47a04c298444}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GameCharcters\Player">
+      <UniqueIdentifier>{40753c64-057d-4c7b-a624-a26fb19b032a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameEngine">
+      <UniqueIdentifier>{1b4729f1-252f-485b-866e-1710e65f3280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameEngine">
+      <UniqueIdentifier>{ad8e329b-22d4-4e9f-9e79-9742bc33a881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameCharcters\Player">
+      <UniqueIdentifier>{10445d17-d970-4c59-8121-ed36ea7e2a47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mazeGeneration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FloorCell.cpp">
@@ -47,21 +56,6 @@
     </ClCompile>
     <ClCompile Include="WallCell.cpp">
       <Filter>Source Files\Cells</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerCharacter.cpp">
-      <Filter>Source Files\GameCharcters</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TorchLight.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ExitCell.cpp">
       <Filter>Source Files\Cells</Filter>
@@ -72,15 +66,33 @@
     <ClCompile Include="Skeleton.cpp">
       <Filter>Source Files\GameCharcters\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="mazeGeneration.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
     <ClCompile Include="NonBodyWallCell.cpp">
+      <Filter>Source Files\Cells</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerCharacter.cpp">
+      <Filter>Source Files\GameCharcters\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\GameCharcters\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="TorchLight.cpp">
+      <Filter>Source Files\GameCharcters\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionListener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mazeGeneration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Cell.h">
@@ -95,32 +107,38 @@
     <ClInclude Include="GameCharacters.h">
       <Filter>Header Files\GameCharcters</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerCharacter.h">
-      <Filter>Header Files\GameCharcters</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ExitCell.h">
       <Filter>Header Files\Cells</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TorchLight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelManager.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="b2GLDraw.h">
       <Filter>Header Files\Box2D</Filter>
     </ClInclude>
-    <ClInclude Include="NonBodyWallCell.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Skeleton.h">
       <Filter>Header Files\GameCharcters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerCharacter.h">
+      <Filter>Header Files\GameCharcters\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\GameCharcters\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="TorchLight.h">
+      <Filter>Header Files\GameCharcters\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="NonBodyWallCell.h">
+      <Filter>Header Files\Cells</Filter>
+    </ClInclude>
+    <ClInclude Include="mazeGeneration.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionListener.h">
+      <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@ enum GameState {
 	menuCreate,
 	loadLevelState,
 	inGameState,
+	deleteLevelState,
 	upgradeState
 };
 
@@ -22,7 +23,7 @@ public:
 	LevelManager(sf::RenderWindow *passedWindow, tgui::Gui *passedGUI);
 	
 	void LoadNextLevel(b2World &world);
-	void DeleteCurrentLevel();
+	void DeleteCurrentLevel(b2World &world);
 	void DeleteMainMenu();
 	void DeleteUpgradeMenu();
 	void update(); // will update all evrything in the currentlevel, will be called in main. cpp while loop
@@ -44,6 +45,13 @@ public:
 
 	void FSM(b2World &world); // Finite state machine
 
+
+	 //TorchGUI//////////
+	tgui::TextBox::Ptr torchFuelUI; // fuel UI for now
+	sf::RectangleShape torchFuelUIBackgroundRed; // the background for the fuel ui
+	sf::RectangleShape torchFuelUIBackgroundWhite; // the background for the fuel ui
+	sf::RectangleShape torchFuelUIImage; // the image by the side of the torch fuel UI
+
 private:
 	
 	void loadMenu();
@@ -55,13 +63,15 @@ private:
 
 	sf::RenderWindow* window; // pointer to the sf window we will pass
 	
+	//GUI//////
 	tgui::Gui* gui; // pointer to the gui we will pass
 	tgui::TextBox::Ptr treasureUI; // textbox UI
 	tgui::TextBox::Ptr healthUI; // healthUI
-
+	
 
 	int levelCounter = 0; // used to track which level we are on 
 
-
+	sf::Clock updateclock;
+	float dt = 1 / 60.f; //delta time - frames above 60, so no need to do fancy calculation 
 
 };

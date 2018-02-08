@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "TextureLoader.h"
 #include "LevelManager.h"
+#include "CollisionListener.h"
 using namespace std;
 
 
@@ -13,20 +14,24 @@ TextureLoader textureLoader; //make global  textureLoader object so it can be us
 
  
 int main() {
-	//! Window creation and mangement
-	sf::RenderWindow gameWindow(sf::VideoMode(1600, 900), "2DPhysicsPuzzleGame"); /*!< creates a window and sets it's properties (size) */
+	// Window creation and mangement
+	sf::RenderWindow gameWindow(sf::VideoMode(1600, 900), "2DPhysicsPuzzleGame"); // creates a window and sets it's properties (size) */
 	gameWindow.setPosition(sf::Vector2i(0, 9.8));
-	gameWindow.setFramerateLimit(60); /*!< set the fps limit for the gamewindow to 60 */
-
+	gameWindow.setFramerateLimit(60); // set the fps limit for the gamewindow to 60 
+	
 	
 	 //Box2D level stuff setup
-	b2Vec2 gravity(0, 9.8f);//normal earth gravity, 9.8 m/s/ = straight down, -9.8 = up (top left is 0,0 so have to flip real world gravity). 
-	float32 timeStep = 1/ 20.0f;      //<the length of time passed to simulate (seconds) */
-	int32 velocityIterations = 8.f;   //<how strongly to correct velocity */
-	int32 positionIterations = 3.f;   //<how strongly to correct position */
+	b2Vec2 gravity(0, 9.8f * 30);//normal earth gravity = 9.8, have to set it really high becasue everything is so small
+	float32 timeStep = 1/ 60.0f;      //the length of time passed to simulate (seconds) */
+	int32 velocityIterations = 8.f;   //how strongly to correct velocity */
+	int32 positionIterations = 3.f;   //how strongly to correct position */
 
-							//b2World* world = new b2World(gravity);//create the box2d world to manage all the bodys,etc and pass it gravity. */
-	b2World world(gravity);
+							
+	b2World world(gravity); //create the box2d world and give it gravity
+
+	CollisionListener collisionListener; // create a contactlistener instance
+
+	world.SetContactListener(&collisionListener); // set the world to use our contact listener
 
 	tgui::Gui gui{ gameWindow }; // create a GUI that using tgui and pass it the gamewindow
 
@@ -59,8 +64,9 @@ int main() {
 	Camera playerView(playerCharacter.xPosition, playerCharacter.yPosition); 
 	*/
 	
-
-	
+//to be sued for fps
+	sf::Clock clock;
+	float lastTime = 0;
 
 	while (gameWindow.isOpen()) {
 
@@ -115,11 +121,25 @@ int main() {
 			gameWindow.draw(levelManager.title); 
 		}
 
-		world.DrawDebugData();
+		
 
+		if (levelManager.getCurrentState() == inGameState) {
+			//world.DrawDebugData();
+			gameWindow.draw(levelManager.torchFuelUIBackgroundWhite);
+			gameWindow.draw(levelManager.torchFuelUIBackgroundRed);
+		}
+	
 		gui.draw();// tell the gui to draw. draw after everything else becasue we want it to sit at the top
+	 // if in game state draw the two background sections for the torch UI
 		
 		 //DISPLAY
+
+		 //fps stuff
+		float currentTime = clock.restart().asSeconds();
+		float fps = 1.f / (currentTime - lastTime);
+		lastTime = currentTime;
+
+
 		gameWindow.display(); /*!< tells the gamewindow to display everything */
 	}
 

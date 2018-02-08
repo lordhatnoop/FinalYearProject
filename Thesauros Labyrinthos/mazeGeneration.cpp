@@ -123,8 +123,8 @@ void MazeGeneration::generateMaze(b2World &world) {
 
 		//so long as it's a floor tile, store's it as the current last tile so that we can use it for the exit if needed
 		if (maze[rx][ry] == 0 ) {
-			endX = rx;
-			endY = ry;
+			endX = rx *20;
+			endY = ry *20;
 		}
 	}
 
@@ -188,7 +188,9 @@ void MazeGeneration::generateMaze(b2World &world) {
 
 			//rand for adding blocks above// experiment with this more.
 			if (rand() % 100 > 90) {
-				maze[i][j + 1] = 1;
+				
+					maze[i][j + 1] = 1; // adds random blocks into the maze above other blocks, randomising it a bit
+				
 			}
 
 			
@@ -215,8 +217,8 @@ void MazeGeneration::generateMaze(b2World &world) {
 			}
 		}
 	}
-	
-	maze[endX][endY] = 2; // set the end to be 2 at the end of all the other generation to guarentee it's the exit
+	maze[startX / 20][startY / 20] = 0; // amke sure the start is always a floor
+	maze[endX/ 20][endY / 20] = 2; // set the end to be 2 at the end of all the other generation to guarentee it's the exit
 
 		// Done, so create the wallCells from the mazecells
 		for (size_t x = 0; x < maze_size_x; x++) {
@@ -234,7 +236,7 @@ void MazeGeneration::generateMaze(b2World &world) {
 				}
 				else if (maze[x][y] == 2) {
 					printf("2"); //otherwise create floorcell
-					cellsVector.push_back(new ExitCell(x * 10, y * 10));
+					//cellsVector.push_back(new ExitCell(x * 10, y * 10));
 				}
 				else if (maze[x][y] == 3) { // if 3, the cell is completely surronded by walls, so create a nonbodyWallcell
 					printf("3");

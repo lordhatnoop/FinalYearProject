@@ -88,10 +88,10 @@ void TorchLight::torchUpdate(float maxFuel, float currentFuel)
 		tempLightCircle.setOutlineColor(sf::Color(0, 0, 0, 255));
 	}*/
 
-	//2nd method - work out the percentage and minus that from 255 and that is the light value. more gradual tick down, less bright
-	float percentageFuelRemaining = (currentFuel / maxFuel) * 100;
-	tempLightCircle.setFillColor(sf::Color(0, 0, 0, 255 - percentageFuelRemaining));
-	tempLightCircle.setOutlineColor(sf::Color(0, 0, 0, 255 - percentageFuelRemaining + 10)); 
+	//2nd method - work out the percentage and minus that from 245 and that is the light value. more gradual tick down, less bright
+	float percentageFuelRemaining = (currentFuel / maxFuel) * 100; //work out the percentage by dividing the current fuel by max fuel then multiplying that by 100
+	tempLightCircle.setFillColor(sf::Color(0, 0, 0, 245 - percentageFuelRemaining));
+	tempLightCircle.setOutlineColor(sf::Color(0, 0, 0, 245 - percentageFuelRemaining + 10)); 
 	//if the fuel is below 50% and the radius hasn't been set to be smaller, set a smaller radius
 	if (percentageFuelRemaining < 50 && tempLightCircle.getRadius() > 30) {
 		tempLightCircle.setRadius(30);

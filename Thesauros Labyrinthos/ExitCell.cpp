@@ -5,7 +5,8 @@ ExitCell::ExitCell(int x, int y)
 	cellSize = sf::Vector2f(10.f, 10.f); // set the size of the object to be 10 by 10
 	cellPosition = sf::Vector2f(x, y);//pos = passed positions
 
-	createSFML();
+	cellType = "Exit";
+	createSFML(); // create the sfml for the exitcell
 }
 
 void ExitCell::createSFML()
