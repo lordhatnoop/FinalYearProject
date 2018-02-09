@@ -13,9 +13,18 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 
 void PlayerCharacter::createSFML()
 {
-	rectangle.setSize(sf::Vector2f(6.f, 6.f));
-	rectangle.setOrigin(sf::Vector2f(3.f, 3.f));
-	rectangle.setFillColor(sf::Color::Green); // sets the colour of the rectangle to be green // placeholder until texture
+	rectangle.setSize(sf::Vector2f(3.f, 6.f));
+	rectangle.setOrigin(sf::Vector2f(1.5f, 3.f));
+	//rectangle.setFillColor(sf::Color::Green); // sets the colour of the rectangle to be green // placeholder until texture
+	rectangle.setTexture(&textureLoader.playerTexture); //set the texture with the textureLoader
+
+	//setup start position on sprite sheet
+	textureSubRect.left = 12.7f;
+	textureSubRect.width = 32.f;
+	textureSubRect.top = 12.f;
+	textureSubRect.height = 64.f;
+	rectangle.setTextureRect(textureSubRect);//tell rectangle to use the setup positions
+
 	rectangle.setPosition(xPosition, yPosition); // set the postion of the rectangle to be the position passed
 	//rectangle.setTextureRect(25,25)
 	//rectangle.setTexture(&texture, false);
@@ -37,7 +46,7 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 		dynamicBody = myWorld.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
 
 		//box2dShape
-		Shape.SetAsBox(3.f / scale, 3.f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+		Shape.SetAsBox(1.5f / scale, 3.f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
 
 		//create the fixture
 		FixtureDef.shape = &Shape;
@@ -47,7 +56,7 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 		FixtureDef.filter.maskBits = ENEMY | WALL; //set to collide with walls and enemies
 		dynamicBody->CreateFixture(&FixtureDef);
 
-		Box2dCreated = true; // set to true so that this doesn't happen again
+		//Box2dCreated = true; // set to true so that this doesn't happen again
 	//}
 }
 
@@ -78,12 +87,14 @@ void PlayerCharacter::update(float dt)
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		//xPosition -= 5;
 		//dynamicBody->ApplyForce(b2Vec2(-5, 0), b2Vec2(0, 0), true);
-		dynamicBody->SetLinearVelocity(b2Vec2(-5, -1));
+		//dynamicBody->SetLinearVelocity(b2Vec2(-5, -1));
+		walkLeft(); //call the walk left function
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		//xPosition += 5;
 		//dynamicBody->ApplyForce(b2Vec2(5, 0), b2Vec2(0, 0), true);
-		dynamicBody->SetLinearVelocity(b2Vec2(5 , -1));
+		//dynamicBody->SetLinearVelocity(b2Vec2(5 , -1));
+		walkRight(); //walk right function
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		//yPosition += 5;
@@ -194,5 +205,169 @@ void PlayerCharacter::InvincibleTimer()
 	if (invincibilityClock->getElapsedTime().asSeconds() > 3) {
 		playerInvincible = false;
 	}
+}
+
+void PlayerCharacter::walkRight()
+{
+	dynamicBody->SetLinearVelocity(b2Vec2(5, -1));
+	
+	//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
+	if (walkAnimationCounter == 1) {
+		textureSubRect.left = 12.7f;
+		textureSubRect.width = 32.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 64.f;
+
+		walkAnimationCounter = 2;
+	}
+	else if (walkAnimationCounter == 2) {
+		textureSubRect.left = 322.f;
+		textureSubRect.width = 32.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 64.f;
+
+		walkAnimationCounter = 3;
+	}
+	else if (walkAnimationCounter == 3) {
+		textureSubRect.left = 401.f;
+		textureSubRect.width = 32.f;
+		textureSubRect.top = 13.f;
+		textureSubRect.height = 63.f;
+
+		walkAnimationCounter = 4;
+	}
+	else if (walkAnimationCounter == 4) {
+		textureSubRect.left = 480.f;
+		textureSubRect.width = 41.f;
+		textureSubRect.top = 13.f;
+		textureSubRect.height = 63.f;
+
+		walkAnimationCounter = 5;
+	}
+	else if (walkAnimationCounter == 5) {
+		textureSubRect.left = 570.f;
+		textureSubRect.width = 31.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 62.f;
+
+		walkAnimationCounter = 6;
+	}
+	else if (walkAnimationCounter == 6) {
+		textureSubRect.left = 650.f;
+		textureSubRect.width = 32.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 62.f;
+
+		walkAnimationCounter = 7;
+	}
+	else if (walkAnimationCounter == 7) {
+		textureSubRect.left = 730.f;
+		textureSubRect.width = 35.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 62.f;
+
+		walkAnimationCounter = 8;
+	}
+	else if (walkAnimationCounter == 8) {
+		textureSubRect.left = 816.f;
+		textureSubRect.width = 35.f;
+		textureSubRect.top = 13.f;
+		textureSubRect.height = 63.f;
+
+		walkAnimationCounter = 9;
+	}
+	else if (walkAnimationCounter == 9) {
+		textureSubRect.left = 899.f;
+		textureSubRect.width = 34.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 64.f;
+
+		walkAnimationCounter = 2;
+	}
+
+	rectangle.setTextureRect(textureSubRect); // set to use the new texture rect positions
+	facingLeftORRight = true; // set true for facing right
+}
+
+//same as walk right, but inversed velocity and and texture rect positins start from the right and minus the width to flip the image
+void PlayerCharacter::walkLeft()
+{
+	dynamicBody->SetLinearVelocity(b2Vec2(-5, -1));
+	//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
+	if (walkAnimationCounter == 1) {
+		textureSubRect.left = 44.7f;
+		textureSubRect.width = -32.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 64.f;
+		
+		walkAnimationCounter = 2;
+	}
+	else if (walkAnimationCounter == 2) {
+		textureSubRect.left = 354.f;
+		textureSubRect.width = -32.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 64.f;
+
+		walkAnimationCounter = 3;
+	}
+	else if (walkAnimationCounter == 3) {
+		textureSubRect.left = 433.f;
+		textureSubRect.width = -32.f;
+		textureSubRect.top = 13.f;
+		textureSubRect.height = 63.f;
+
+		walkAnimationCounter = 4;
+	}
+	else if (walkAnimationCounter == 4) {
+		textureSubRect.left = 521.f;
+		textureSubRect.width = -41.f;
+		textureSubRect.top = 13.f;
+		textureSubRect.height = 63.f;
+
+		walkAnimationCounter = 5;
+	}
+	else if (walkAnimationCounter == 5) {
+		textureSubRect.left = 601.f;
+		textureSubRect.width = -31.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 62.f;
+
+		walkAnimationCounter = 6;
+	}
+	else if (walkAnimationCounter == 6) {
+		textureSubRect.left = 682.f;
+		textureSubRect.width = -32.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 62.f;
+
+		walkAnimationCounter = 7;
+	}
+	else if (walkAnimationCounter == 7) {
+		textureSubRect.left = 765.f;
+		textureSubRect.width = -35.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 62.f;
+
+		walkAnimationCounter = 8;
+	}
+	else if (walkAnimationCounter == 8) {
+		textureSubRect.left = 851.f;
+		textureSubRect.width = -35.f;
+		textureSubRect.top = 13.f;
+		textureSubRect.height = 63.f;
+
+		walkAnimationCounter = 9;
+	}
+	else if (walkAnimationCounter == 9) {
+		textureSubRect.left = 933.f;
+		textureSubRect.width = -34.f;
+		textureSubRect.top = 12.f;
+		textureSubRect.height = 64.f;
+
+		walkAnimationCounter = 2;
+	}
+
+	rectangle.setTextureRect(textureSubRect); // set to use the new texture rect positions
+	facingLeftORRight = false; //set false for facing left
 }
 

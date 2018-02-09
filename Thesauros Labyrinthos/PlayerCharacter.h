@@ -24,11 +24,22 @@ public:
 
 	bool canJump = false; //check for if we can jump
 
+	bool facingLeftORRight = true; // true = right, false = left;
 private:
 	void torchCountdown();
+	//update clocks
 	sf::Clock *updateclock;
 	sf::Clock *invincibilityClock;
+
 	void collidingWithEnemy();
+
+	//function for invincibility
 	void InvincibleTimer();
-	bool Box2dCreated = false;
+
+	//walk animation counter, used to change which frame of animation to display
+	int walkAnimationCounter = 1;
+	void walkRight();
+	void walkLeft();
+	
+	//bool Box2dCreated = false;
 };

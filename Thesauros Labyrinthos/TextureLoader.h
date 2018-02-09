@@ -1,12 +1,12 @@
 #pragma once
 #include "stdafx.h"
-
+ //class that loads in all of the textures and holds them
 class TextureLoader {
 public:
 	
 	TextureLoader();
 
-	//wall and floor texture
+	//The various textures in the game
 	sf::Texture wallTexture;
 	sf::Texture wallTexture2;
 	sf::Texture floorTexture;
@@ -22,6 +22,7 @@ public:
 	sf::Texture healthBarTexture2;
 	sf::Texture healthBarTexture1;
 	sf::Texture skeletonTexture;
+	sf::Texture playerTexture;
 	//test for torch / spotlight
 	sf::RenderTexture testRenderTExture;
 	sf::Sprite darknessSprite;

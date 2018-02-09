@@ -257,7 +257,7 @@ void LevelManager::update()
 	
 	/////////////////////////DRAW///////////////////////////////////////////////////
 	//set the window to use the cameraview
-	//window->setView(playerView->cameraView);
+	window->setView(playerView->cameraView);
 
 	//draw all the maze cells
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) {

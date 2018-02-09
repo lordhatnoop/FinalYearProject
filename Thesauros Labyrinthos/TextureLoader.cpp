@@ -24,6 +24,7 @@ void TextureLoader::loadTextures()
 	healthBarTexture2.loadFromFile("Assets/Sprites/UI/heart2.png");
 	healthBarTexture1.loadFromFile("Assets/Sprites/UI/heart.png");
 	skeletonTexture.loadFromFile("Assets/Sprites/Enemies/Skeleton/Skeleton.png");
+	playerTexture.loadFromFile("Assets/Sprites/Player/Archer.png");
 	//WIP - works, needs tweaking
 	/*testRenderTExture.create(800, 450);
 	testRenderTExture.clear(sf::Color(0, 0, 0, 200));
