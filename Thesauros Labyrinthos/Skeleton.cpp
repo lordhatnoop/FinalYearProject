@@ -29,7 +29,7 @@ void Skeleton::createSFML()
 	rectangle.setSize(sf::Vector2f(6.f, 2.f));
 	rectangle.setOrigin(sf::Vector2f(3.f, 1.f)); //starts off on the floor as pile of bones 
 	rectangle.setFillColor(sf::Color::Yellow); // sets the colour of the rectangle to be Yellow // placeholder until texture
-	rectangle.setPosition(xPosition, yPosition); // set the postion of the rectangle to be the position passed
+	rectangle.setPosition(xPosition, yPosition +3); // set the postion of the rectangle to be the position passed
 
 	//setup the start position of the texture Subrect (rectangle that is the part of the sprite sheet we are using
 	textureSubRect.left = 415; //left side of the rectangle
@@ -62,7 +62,7 @@ void Skeleton::createCollisionBox(b2World & myWorld)
 	FixtureDef.density = 1.f;
 	FixtureDef.friction = 0.0f;
 	FixtureDef.filter.categoryBits = ENEMY; //categoiry
-	FixtureDef.filter.maskBits = PLAYER | WALL; //won't collide with other enemies, but will with player's and walls.
+	FixtureDef.filter.maskBits = PLAYER | WALL | PLAYERPROJECTILE; //won't collide with other enemies, but will with player's, projectiles and walls.
 	dynamicBody->CreateFixture(&FixtureDef);
 }
 
@@ -92,6 +92,7 @@ void Skeleton::update(PlayerCharacter *player)
 	//rectangle.setPosition(xPosition, yPosition);
 	xPosition = dynamicBody->GetPosition().x * scale;
 	yPosition = dynamicBody->GetPosition().y * scale;
+	
 	rectangle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale);
 }
 

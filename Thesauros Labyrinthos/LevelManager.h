@@ -26,7 +26,7 @@ public:
 	void DeleteCurrentLevel(b2World &world);
 	void DeleteMainMenu();
 	void DeleteUpgradeMenu();
-	void update(); // will update all evrything in the currentlevel, will be called in main. cpp while loop
+	void update(b2World &myWorld); // will update all evrything in the currentlevel, will be called in main. cpp while loop
 
 	GameState getCurrentState() { return currentState; }
 

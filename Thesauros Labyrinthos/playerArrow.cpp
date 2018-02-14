@@ -11,7 +11,8 @@ playerArrow::playerArrow(int x, int y, bool playerDirection)
 void playerArrow::createSFML()
 {
 	if (direction == false) {// if the direction is left
-		arrowRect.setPosition(sf::Vector2f(xPosition - 1, yPosition)); // set the arrow position to be slightly to the left of the player when created
+		xPosition = xPosition - 2; // update the xposition so it can be used for the body too
+		arrowRect.setPosition(sf::Vector2f(xPosition, yPosition)); // set the arrow position to be slightly to the left of the player when created
 
 		//set the texture to start from the right and use negative width and hie=ght to get texture flipped to face left
 		arrowTextureRect.left = 1030; //998
@@ -20,7 +21,8 @@ void playerArrow::createSFML()
 		arrowTextureRect.height = -5;
 	}
 	else if (direction == true) {//else if directiopn is right
-		arrowRect.setPosition(sf::Vector2f(xPosition + 1, yPosition)); // set the arrow position to be slightly to the Right of the player when created
+		xPosition = xPosition + 2;
+		arrowRect.setPosition(sf::Vector2f(xPosition, yPosition)); // set the arrow position to be slightly to the Right of the player when created
 
 		//set texture sheet position
 		arrowTextureRect.left = 998; 
@@ -33,5 +35,29 @@ void playerArrow::createSFML()
 	arrowRect.setOrigin(sf::Vector2f(1.f, 0.5f));
 	arrowRect.setTexture(&textureLoader.playerTexture); //set texture to be the player texture from the loader. has arrows on it
 	arrowRect.setTextureRect(arrowTextureRect); //tell it to use the setup textureRect sprite sheet positions
+}
+
+void playerArrow::createHitBox(b2World &myWorld)
+{
+	float scale = 30.f;
+	//bodyDef
+	BodyDef.type = b2_staticBody; // set the playercharacter to ahve a dynamic body from box2d. will allow for movement and being effecetd by gravity and forces
+	BodyDef.position.Set(xPosition / scale  , yPosition / scale ); // set the position of the box2d body using the position of the object. divide by scale to convert from real measurements to pixel measurements
+	BodyDef.angle = 0;
+	BodyDef.fixedRotation = true; // prevent rotation
+	BodyDef.userData = this;
+	//	BodyDef.userData = "playerCharacter"; // set the Userdata so that we can check what is colliding
+	dynamicBody = myWorld.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
+
+												//box2dShape
+	Shape.SetAsBox(1.f / scale, 0.5f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+
+											  //create the fixture
+	FixtureDef.shape = &Shape;
+	FixtureDef.density = 1.f;
+	FixtureDef.friction = 0.0f;
+	FixtureDef.filter.categoryBits = PLAYERPROJECTILE; // set the category to be player projectile
+	FixtureDef.filter.maskBits = ENEMY | WALL; //set to collide with walls and enemies - don't want it to collide with player or other arrows
+	dynamicBody->CreateFixture(&FixtureDef);
 }
 

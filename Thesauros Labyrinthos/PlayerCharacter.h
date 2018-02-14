@@ -9,7 +9,7 @@ public:
 	void createSFML();
 	void createCollisionBox(b2World &myWorld);
 	string getName();
-	void update(float dt);
+	void update(float dt, b2World &myWorld);
 	TorchLight* torch;
 
 	int treasure = 0;//hold the amount of treasure

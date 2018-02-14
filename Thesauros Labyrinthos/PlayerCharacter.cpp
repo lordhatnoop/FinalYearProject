@@ -39,7 +39,7 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 
 		//bodyDef
 		BodyDef.type = b2_dynamicBody; // set the playercharacter to ahve a dynamic body from box2d. will allow for movement and being effecetd by gravity and forces
-		BodyDef.position.Set(xPosition / scale + 0.169, yPosition / scale + 0.169); // set the position of the box2d body using the position of the object. divide by scale to convert from real measurements to pixel measurements
+		BodyDef.position.Set(xPosition / scale + 0.169, yPosition / scale + 0.17); // set the position of the box2d body using the position of the object. divide by scale to convert from real measurements to pixel measurements
 		BodyDef.angle = 0;
 		BodyDef.fixedRotation = true; // prevent rotation
 		BodyDef.userData = this;
@@ -66,7 +66,7 @@ string PlayerCharacter::getName()
 	return "PlayerCharacter";
 }
 
-void PlayerCharacter::update(float dt)
+void PlayerCharacter::update(float dt, b2World &myWorld)
 {
 	
 	//if the player touched an enemy, call the collide with enemy function
@@ -100,20 +100,22 @@ void PlayerCharacter::update(float dt)
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		//yPosition += 5;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		//yPosition -= 5;
-		if (canJump == true) { // make sure we can jump first
-			dynamicBody->ApplyLinearImpulse(b2Vec2(0, -4), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
-		}
-	}
+	
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
 		arrowVector.push_back(new playerArrow(xPosition, yPosition, facingLeftORRight));
+		arrowVector.back()->createHitBox(myWorld);
 	}
 	else {
 		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // if no buttons are being pressed, no velocity
 	}
 		
-	
+	//not else if so that we can jump while moving
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+		//yPosition -= 5;
+		if (canJump == true) { // make sure we can jump first
+			dynamicBody->ApplyLinearImpulse(b2Vec2(0, -1), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
+		}
+	}
 	
 	//rectangle.setPosition(xPosition, yPosition);
 	//update the xPOsition and Yposiition so that it can still be sued for the torch
@@ -215,9 +217,10 @@ void PlayerCharacter::walkRight()
 	dynamicBody->SetLinearVelocity(b2Vec2(5, -1));
 	
 	//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
+	//sprite sheet has inconsistenet sizes for each frame. just use the largest avlue for the width and height to add a few blank frames to the smaller ones so that the sprite doesn't keep visibly chanign shape.
 	if (walkAnimationCounter == 1) {
 		textureSubRect.left = 12.7f;
-		textureSubRect.width = 32.f;
+		textureSubRect.width = 41.f;
 		textureSubRect.top = 12.f;
 		textureSubRect.height = 64.f;
 
@@ -225,7 +228,7 @@ void PlayerCharacter::walkRight()
 	}
 	else if (walkAnimationCounter == 2) {
 		textureSubRect.left = 322.f;
-		textureSubRect.width = 32.f;
+		textureSubRect.width = 41.f;
 		textureSubRect.top = 12.f;
 		textureSubRect.height = 64.f;
 
@@ -233,9 +236,9 @@ void PlayerCharacter::walkRight()
 	}
 	else if (walkAnimationCounter == 3) {
 		textureSubRect.left = 401.f;
-		textureSubRect.width = 32.f;
+		textureSubRect.width = 41.f;
 		textureSubRect.top = 13.f;
-		textureSubRect.height = 63.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 4;
 	}
@@ -243,45 +246,45 @@ void PlayerCharacter::walkRight()
 		textureSubRect.left = 480.f;
 		textureSubRect.width = 41.f;
 		textureSubRect.top = 13.f;
-		textureSubRect.height = 63.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 5;
 	}
 	else if (walkAnimationCounter == 5) {
 		textureSubRect.left = 570.f;
-		textureSubRect.width = 31.f;
+		textureSubRect.width = 41.f;
 		textureSubRect.top = 12.f;
-		textureSubRect.height = 62.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 6;
 	}
 	else if (walkAnimationCounter == 6) {
 		textureSubRect.left = 650.f;
-		textureSubRect.width = 32.f;
+		textureSubRect.width = 41.f;
 		textureSubRect.top = 12.f;
-		textureSubRect.height = 62.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 7;
 	}
 	else if (walkAnimationCounter == 7) {
 		textureSubRect.left = 730.f;
-		textureSubRect.width = 35.f;
+		textureSubRect.width = 41.f;
 		textureSubRect.top = 12.f;
-		textureSubRect.height = 62.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 8;
 	}
 	else if (walkAnimationCounter == 8) {
 		textureSubRect.left = 816.f;
-		textureSubRect.width = 35.f;
+		textureSubRect.width = 41.f;
 		textureSubRect.top = 13.f;
-		textureSubRect.height = 63.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 9;
 	}
 	else if (walkAnimationCounter == 9) {
 		textureSubRect.left = 899.f;
-		textureSubRect.width = 34.f;
+		textureSubRect.width = 41.f;
 		textureSubRect.top = 12.f;
 		textureSubRect.height = 64.f;
 
@@ -299,7 +302,7 @@ void PlayerCharacter::walkLeft()
 	//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
 	if (walkAnimationCounter == 1) {
 		textureSubRect.left = 44.7f;
-		textureSubRect.width = -32.f;
+		textureSubRect.width = -41.f;
 		textureSubRect.top = 12.f;
 		textureSubRect.height = 64.f;
 		
@@ -307,7 +310,7 @@ void PlayerCharacter::walkLeft()
 	}
 	else if (walkAnimationCounter == 2) {
 		textureSubRect.left = 354.f;
-		textureSubRect.width = -32.f;
+		textureSubRect.width = -41.f;
 		textureSubRect.top = 12.f;
 		textureSubRect.height = 64.f;
 
@@ -315,9 +318,9 @@ void PlayerCharacter::walkLeft()
 	}
 	else if (walkAnimationCounter == 3) {
 		textureSubRect.left = 433.f;
-		textureSubRect.width = -32.f;
+		textureSubRect.width = -41.f;
 		textureSubRect.top = 13.f;
-		textureSubRect.height = 63.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 4;
 	}
@@ -325,45 +328,45 @@ void PlayerCharacter::walkLeft()
 		textureSubRect.left = 521.f;
 		textureSubRect.width = -41.f;
 		textureSubRect.top = 13.f;
-		textureSubRect.height = 63.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 5;
 	}
 	else if (walkAnimationCounter == 5) {
 		textureSubRect.left = 601.f;
-		textureSubRect.width = -31.f;
+		textureSubRect.width = -41.f;
 		textureSubRect.top = 12.f;
-		textureSubRect.height = 62.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 6;
 	}
 	else if (walkAnimationCounter == 6) {
 		textureSubRect.left = 682.f;
-		textureSubRect.width = -32.f;
+		textureSubRect.width = -41.f;
 		textureSubRect.top = 12.f;
-		textureSubRect.height = 62.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 7;
 	}
 	else if (walkAnimationCounter == 7) {
 		textureSubRect.left = 765.f;
-		textureSubRect.width = -35.f;
+		textureSubRect.width = -41.f;
 		textureSubRect.top = 12.f;
-		textureSubRect.height = 62.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 8;
 	}
 	else if (walkAnimationCounter == 8) {
 		textureSubRect.left = 851.f;
-		textureSubRect.width = -35.f;
+		textureSubRect.width = -41.f;
 		textureSubRect.top = 13.f;
-		textureSubRect.height = 63.f;
+		textureSubRect.height = 64.f;
 
 		walkAnimationCounter = 9;
 	}
 	else if (walkAnimationCounter == 9) {
 		textureSubRect.left = 933.f;
-		textureSubRect.width = -34.f;
+		textureSubRect.width = -41.f;
 		textureSubRect.top = 12.f;
 		textureSubRect.height = 64.f;
 

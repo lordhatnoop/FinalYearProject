@@ -40,7 +40,7 @@ void LevelManager::FSM(b2World &world)
 		DeleteCurrentLevel(world);
 		break;
 	case inGameState:
-		update(); // for ingame state we just want to call the update function to keep updating the game
+		update(world); // for ingame state we just want to call the update function to keep updating the game
 		break;
 
 	case upgradeState:
@@ -187,12 +187,12 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	currentState = loadLevelState; // transition to load level state to load the next level
 }
 
-void LevelManager::update()
+void LevelManager::update(b2World &World)
 {
 	//////////////////////////////////UPDATE//////////////////////////////////////////////////
 	// call the player update function and pass delta time
 	
-	playerCharacter->update(dt);
+	playerCharacter->update(dt, World);
 	
 	//update the camera and pass the playerposition so camera can follow.
 	playerView->update(playerCharacter->dynamicBody->GetPosition().x * 30.f, playerCharacter->dynamicBody->GetPosition().y * 30.f);
@@ -295,7 +295,7 @@ void LevelManager::update()
 	//draw stuff
 	
 	window->draw(playerCharacter->rectangle);
-	//window->draw(playerCharacter->torch->torchSprite);
+	window->draw(playerCharacter->torch->torchSprite);
 
 	
 }

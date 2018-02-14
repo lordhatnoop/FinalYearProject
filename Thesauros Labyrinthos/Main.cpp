@@ -122,13 +122,13 @@ int main() {
 		}
 
 		
-
+		world.DrawDebugData(); //debug draw for boxz2d - displays bodies,etc
 		if (levelManager.getCurrentState() == inGameState) {
-			//world.DrawDebugData();
+			
 			gameWindow.draw(levelManager.torchFuelUIBackgroundWhite);
 			gameWindow.draw(levelManager.torchFuelUIBackgroundRed);
 		}
-	
+		
 		gui.draw();// tell the gui to draw. draw after everything else becasue we want it to sit at the top
 	 // if in game state draw the two background sections for the torch UI
 		
