@@ -1,6 +1,7 @@
 #pragma once
 #include "GameCharacters.h"
 #include "TorchLight.h"
+#include "playerArrow.h"
 class PlayerCharacter : public GameCharacters {
 
 public:
@@ -25,6 +26,8 @@ public:
 	bool canJump = false; //check for if we can jump
 
 	bool facingLeftORRight = true; // true = right, false = left;
+
+	vector<playerArrow*> arrowVector;
 private:
 	void torchCountdown();
 	//update clocks

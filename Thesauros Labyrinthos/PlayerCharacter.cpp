@@ -1,5 +1,6 @@
 #include "PlayerCharacter.h"
 #include "textureLoader.h"
+
 PlayerCharacter::PlayerCharacter(int x, int y)
 {
 	xPosition = x;
@@ -99,11 +100,14 @@ void PlayerCharacter::update(float dt)
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 		//yPosition += 5;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 		//yPosition -= 5;
 		if (canJump == true) { // make sure we can jump first
 			dynamicBody->ApplyLinearImpulse(b2Vec2(0, -4), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
 		}
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+		arrowVector.push_back(new playerArrow(xPosition, yPosition, facingLeftORRight));
 	}
 	else {
 		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // if no buttons are being pressed, no velocity
@@ -117,8 +121,7 @@ void PlayerCharacter::update(float dt)
 	yPosition = dynamicBody->GetPosition().y * scale;
 	//update the rectangle position to be the new position if there is one
 	rectangle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale);
-	//rectangle.setRotation((180 / b2_pi) * dynamicBody->GetAngle()); // sets the rectangle's angle to follow the body so that the graphics and collision box sync up. have to times the angle by (180 / b2_pi) because box2d use radians and we have to change that to degrees for sfml.
-	
+
 	//limit how frequently the torch fuel will countdown based on time 
 	if (updateclock->getElapsedTime().asSeconds() > 1) {
 		torchCountdown(); // call the torch countdown to remove some fuel from the player
@@ -128,7 +131,7 @@ void PlayerCharacter::update(float dt)
 	torch->update(xPosition,yPosition,maxTorchFuel,currentTorchFuel);
 
 	
-
+	
 }
 
 void PlayerCharacter::torchCountdown()

@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 class playerArrow {
 public:
 
@@ -10,4 +11,9 @@ public:
 	int xPosition;
 	int yPosition;
 	bool direction; //store the player direction and use it for our direction. still right = true and left = false
+
+	//sfml stuff
+	sf::RectangleShape arrowRect;
+	sf::IntRect arrowTextureRect;
+
 };

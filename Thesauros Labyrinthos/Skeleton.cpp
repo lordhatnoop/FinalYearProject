@@ -14,7 +14,7 @@ Skeleton::Skeleton(int x, int y)
 	yPosition = y;
 
 	//setup the skeletons Stats
-	visionRange = 0.f;
+	visionRange = 20.f;
 	health = 5;
 	
 	//call createSfml to create the sprite

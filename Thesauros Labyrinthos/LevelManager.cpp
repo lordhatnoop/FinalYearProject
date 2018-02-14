@@ -289,7 +289,11 @@ void LevelManager::update()
 		}
 	}
 
+	for (int i = 0; i < playerCharacter->arrowVector.size(); i++) { //get the arrow vector size and iterate through
+		window->draw(playerCharacter->arrowVector[i]->arrowRect);
+	}
 	//draw stuff
+	
 	window->draw(playerCharacter->rectangle);
 	//window->draw(playerCharacter->torch->torchSprite);
 
