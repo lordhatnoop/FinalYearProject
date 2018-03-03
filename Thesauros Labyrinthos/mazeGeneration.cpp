@@ -4,27 +4,6 @@
 #include "mazeGeneration.h"
 
 using namespace std;
-//changing the values of these defines changes the eventual outcome of the maze generation , experiment. (e.g changing radius to 1 result in more of a cave than a maze.
-
-//size of the map
-#define maze_size_x 160
-#define maze_size_y 90
-
-#define cell_Radius 2
-
-#define MAGIC 666
-
-#define max_Cell_Width (maze_size_x / cell_Radius -1)
-#define max_Cell_Height (maze_size_y / cell_Radius -1 )
-
-// This saves us from making a bunch of similar conditionals for checking directions 
-int directionList[4][2] = { { 0, -1 },{ 1, 0 },{ 0, 1 },{ -1, 0 } };
-
-//create maze and cell arrays.
-int maze[maze_size_x][maze_size_y];
-int cell[max_Cell_Width][max_Cell_Height];
-
-int mazeChangeArray[maze_size_x][maze_size_y]; // cell array used for changing the maze when we are still checking it, so that the changes don't affect the check
 
 
 MazeGeneration::MazeGeneration() {
@@ -189,7 +168,7 @@ void MazeGeneration::generateMaze(b2World &world) {
 			//rand for adding blocks above// experiment with this more.
 			if (rand() % 100 > 90) {
 				
-					maze[i][j + 1] = 1; // adds random blocks into the maze above other blocks, randomising it a bit
+					maze[i][j + 1] = 4; // adds random blocks into the maze above other blocks, randomising it a bit
 				
 			}
 
@@ -227,12 +206,12 @@ void MazeGeneration::generateMaze(b2World &world) {
 				//if maze cell is 1 create wall
 				if (maze[x][y] == 1) {
 					printf("#");
-					cellsVector.push_back(new WallCell(x * 10, y * 10, world));
+					cellsVector.push_back(std::shared_ptr<WallCell>(new WallCell(x * 10, y * 10, world)));
 					
 				}
 				else if (maze[x][y] == 0 ){
 					printf("."); // create floorcell
-					cellsVector.push_back(new FloorCell(x * 10, y * 10));
+					cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(x * 10, y * 10)));
 				}
 				else if (maze[x][y] == 2) {
 					printf("2"); //otherwise create floorcell
@@ -240,7 +219,11 @@ void MazeGeneration::generateMaze(b2World &world) {
 				}
 				else if (maze[x][y] == 3) { // if 3, the cell is completely surronded by walls, so create a nonbodyWallcell
 					printf("3");
-					cellsVector.push_back(new NonBodyWallCell(x * 10, y * 10));
+					cellsVector.push_back(std::shared_ptr<NonBodyWallCell>(new NonBodyWallCell(x * 10, y * 10)));
+				}
+				else if(maze[x][y] == 4) { // if 4, the cell is a fake wall created during the random extra walls.
+					printf("4");
+					cellsVector.push_back(std::shared_ptr<FakeWallCell>(new FakeWallCell(x * 10, y * 10,world)));
 				}
 			}
 		}

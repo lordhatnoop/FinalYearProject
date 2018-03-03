@@ -58,7 +58,7 @@ void WallCell::update()
 //function that will add the box2d elements 
 void WallCell::createBox2D(b2World &world)
 {
-	BodyDef.type = b2_staticBody; // set the playercharacter to ahve a dynamic body from box2d. will allow for movement and being effecetd by gravity and forces
+	BodyDef.type = b2_staticBody; //set the wall to have a staticbody becasue we don't want them to be affected by gravity or be moved byt the player
 	BodyDef.position.Set(cellPosition.x / scale + 0.169, cellPosition.y / scale + 0.169);
 	BodyDef.angle = 0;
 	BodyDef.userData = this; //set userdata for collision checks

@@ -94,6 +94,9 @@ void Skeleton::update(PlayerCharacter *player)
 	yPosition = dynamicBody->GetPosition().y * scale;
 	
 	rectangle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale);
+
+	checkDead(); //check if the skeelton has ran out of health
+
 }
 
 //functions that will "look" for the player.
@@ -317,6 +320,7 @@ void Skeleton::moveRight()
 
 		//set the texture rect if we have updated it. do at end so that it'll update no matter which frame
 		rectangle.setTextureRect(textureSubRect);
+		
 	}
 
 }
@@ -433,4 +437,11 @@ void Skeleton::moveLeft()
 void Skeleton::attack()
 {
 	
+}
+
+void Skeleton::checkDead()
+{
+	if (health <= 0) { // if ran out of health
+		dead = true;
+	}
 }

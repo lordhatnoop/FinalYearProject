@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "skeleton.h"
+#include "Medusa.h"
 #include "PlayerCharacter.h"
 #include "Camera.h"
 #include "TextureLoader.h"
@@ -30,8 +31,8 @@ public:
 
 	GameState getCurrentState() { return currentState; }
 
-	vector <Skeleton*> skeletonsVector;
-
+	vector <std::shared_ptr<Skeleton>> skeletonsVector; //use sharedPtr because it handles deleting the pointers for me once they are removed from the vector
+	vector <std::shared_ptr<Medusa>> medusaVector;
 	//below creates a mazegenerator object and then talls it to call the generatemaze function
 	MazeGeneration mazeGenerator;
 
@@ -73,5 +74,5 @@ private:
 
 	sf::Clock updateclock;
 	float dt = 1 / 60.f; //delta time - frames above 60, so no need to do fancy calculation 
-
+	vector<std::shared_ptr<playerArrow>>::iterator arrowIterator;
 };

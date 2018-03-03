@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ExitCell.h"
 #include "Skeleton.h"
+
 #include "Cell.h"
 using namespace std;
 
@@ -112,9 +113,26 @@ void LevelManager::LoadNextLevel(b2World &world)
 		playerCharacter->xPosition = mazeGenerator.startX;
 		playerCharacter->yPosition = mazeGenerator.startY;
 		//////////////////////////SKELETON TEST/////////////////////////////////////////
-		Skeleton *testEnemy = new Skeleton(mazeGenerator.startX - 10, mazeGenerator.startY );
+		//Enemy spawn test
+		for (int i = 0; i < 10;) { //10 loops
+			int EnemyX = rand() % 1599 + 1;
+			int EnemyY = rand() % 899 + 1; //create X and Y postitons in the range of positions they can be 
+
+			if (mazeGenerator.maze[EnemyX / 10][EnemyY / 10] == 0) {// check the randomised position against the maze to see if it's a floor (don't want  them to spawn in walls) (divide by 10 to change from screenposition to array position)
+				skeletonsVector.push_back(std::shared_ptr<Skeleton>(new Skeleton(EnemyX, EnemyY))); //create a new enemy at that point if it's floor
+				skeletonsVector.back()->createCollisionBox(world); //create the skeletons collision box (box2d)
+				i++; // progress i. progress i here so that we're guarenteed 10 enemies
+			}
+		}
+		/*
+		std::shared_ptr<Skeleton> testEnemy = std::shared_ptr<Skeleton>(new Skeleton(mazeGenerator.startX - 10, mazeGenerator.startY ));
 		testEnemy->createCollisionBox(world);
 		skeletonsVector.push_back(testEnemy);
+		*/
+		
+		std::shared_ptr<Medusa> testEnemy = std::shared_ptr<Medusa>(new Medusa(mazeGenerator.startX - 10, mazeGenerator.startY));
+		testEnemy->createCollisionBox(world);
+		medusaVector.push_back(testEnemy);
 		
 		//GUI CREATION//////////////////////////////////////////
 		if (gui->getWidgets().size() <= 0) {//if the gui is empty 
@@ -161,8 +179,8 @@ void LevelManager::LoadNextLevel(b2World &world)
 
 		}
 
-		ExitCell *exit;
-		exit = new ExitCell(mazeGenerator.endX, mazeGenerator.endY);
+		std::shared_ptr<ExitCell> exit;
+		exit = std::shared_ptr<ExitCell>(new ExitCell(mazeGenerator.endX, mazeGenerator.endY));
 		mazeGenerator.cellsVector.push_back(exit);
 
 		
@@ -193,15 +211,32 @@ void LevelManager::update(b2World &World)
 	// call the player update function and pass delta time
 	
 	playerCharacter->update(dt, World);
-	
+	//update the arrows
+	for (int i = 0; i < playerCharacter->arrowVector.size(); i++) {
+		playerCharacter->arrowVector[i]->update();
+		
+	}
+	//iterate through arrow vector using the iterator and remove them if destoryed, else carry on iterating. do this using iterators and seperate from thje other arrow update to avoid errors
+	for (arrowIterator = playerCharacter->arrowVector.begin(); arrowIterator != playerCharacter->arrowVector.end();) {
+		if ((*arrowIterator)->destroyed == true) { //if arrow destroyed
+			World.DestroyBody((*arrowIterator)->dynamicBody); //destroy the body
+			arrowIterator = playerCharacter->arrowVector.erase(arrowIterator); // remove from arrow vector
+		}
+		else {
+			arrowIterator++;
+		}
+	}
 	//update the camera and pass the playerposition so camera can follow.
 	playerView->update(playerCharacter->dynamicBody->GetPosition().x * 30.f, playerCharacter->dynamicBody->GetPosition().y * 30.f);
 
-
+	//update any skeletons
 	for (int i = 0; i < skeletonsVector.size(); i++) {
 		skeletonsVector[i]->update(playerCharacter);
 	}
-
+	//update any medusa
+	for (int i = 0; i < medusaVector.size(); i++) {
+		medusaVector[i]->update(playerCharacter);
+	}
 	//////////////////////GUI UPDATE//////////////////////////////////////////////////////////////////
 
 	//treasure UI
@@ -267,6 +302,10 @@ void LevelManager::update(b2World &World)
 	//draw the skeletons
 	for (int i = 0; i < skeletonsVector.size(); i++) {
 		window->draw(skeletonsVector[i]->rectangle);
+	}
+	//draw medusas
+	for (int i = 0; i < medusaVector.size(); i++) {
+		window->draw(medusaVector[i]->rectangle);
 	}
 
 	//for testing

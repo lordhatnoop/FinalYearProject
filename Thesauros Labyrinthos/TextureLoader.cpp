@@ -9,8 +9,9 @@ TextureLoader::TextureLoader()
 
 void TextureLoader::loadTextures()
 {
+	//load in all of the Textures here so that we can use them everywhere else and don't have to keep reloading them
 	wallTexture.loadFromFile("Assets/Sprites/mazeWalls.png");
-	wallTexture2.loadFromFile("Assets/Sprites/mazeWall2.png");
+	fakeWallTexture.loadFromFile("Assets/Sprites/DarkerWall.png");
 	floorTexture.loadFromFile("Assets/Sprites/mazeFloors.png");
 	//menuBackgroundTexture.loadFromFile("Assets/Sprites/")
 	titleTexture.loadFromFile("Assets/Sprites/Menu/title.png");
@@ -25,6 +26,7 @@ void TextureLoader::loadTextures()
 	healthBarTexture1.loadFromFile("Assets/Sprites/UI/heart.png");
 	skeletonTexture.loadFromFile("Assets/Sprites/Enemies/Skeleton/Skeleton.png");
 	playerTexture.loadFromFile("Assets/Sprites/Player/Archer.png");
+	medusaTexture.loadFromFile("Assets/Sprites/Enemies/Medusa/Medusa.png");
 	//WIP - works, needs tweaking
 	/*testRenderTExture.create(800, 450);
 	testRenderTExture.clear(sf::Color(0, 0, 0, 200));

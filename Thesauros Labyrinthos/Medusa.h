@@ -1,34 +1,31 @@
 #pragma once
 #include "GameCharacters.h"
 #include "PlayerCharacter.h"
-class Skeleton : public GameCharacters
+class Medusa : public GameCharacters
 {
 public:
-	
-	~Skeleton();
+	~Medusa();
 
-	Skeleton(int x, int y);
+	Medusa(int x, int y);
 	void createSFML();
 	void createCollisionBox(b2World &myWorld);
 	string getName();
 	void update(PlayerCharacter *player);
 	void LookForPlayer(PlayerCharacter *player);
+
 	sf::Clock timer;
 	bool dead = false;// is enemy dead? will be changed by the checkDead function
-private:
-	bool risen = false; // bool to check if done the rise aniuamtion 
-	bool triggerRise = false; // bool to trigger the rise animation
 
+private:
 	//bools for which side the player is on
 	bool playerLeft = false;
-	bool playerRight = false; 
-
-	void rise(); //function to do rise animation
-
+	bool playerRight = false;
+	bool playerInAttackRange = false;
 	int walkAnimationFrame = 0;
+	int attackAnimationFrame = 0;
 	void moveRight();
 	void moveLeft();
-	void attack();
+	void attack(PlayerCharacter *player);
 	void checkDead();
-};
 
+};

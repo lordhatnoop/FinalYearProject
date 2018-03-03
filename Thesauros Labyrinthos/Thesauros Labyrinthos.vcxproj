@@ -122,10 +122,12 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionListener.cpp" />
     <ClCompile Include="ExitCell.cpp" />
+    <ClCompile Include="FakeWallCell.cpp" />
     <ClCompile Include="FloorCell.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="mazeGeneration.cpp" />
+    <ClCompile Include="Medusa.cpp" />
     <ClCompile Include="NonBodyWallCell.cpp" />
     <ClCompile Include="playerArrow.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
@@ -140,10 +142,12 @@
     <ClInclude Include="Cell.h" />
     <ClInclude Include="CollisionListener.h" />
     <ClInclude Include="ExitCell.h" />
+    <ClInclude Include="FakeWallCell.h" />
     <ClInclude Include="FloorCell.h" />
     <ClInclude Include="GameCharacters.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="mazeGeneration.h" />
+    <ClInclude Include="Medusa.h" />
     <ClInclude Include="NonBodyWallCell.h" />
     <ClInclude Include="playerArrow.h" />
     <ClInclude Include="PlayerCharacter.h" />

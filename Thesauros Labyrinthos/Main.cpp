@@ -134,13 +134,15 @@ int main() {
 		
 		 //DISPLAY
 
-		 //fps stuff
-		float currentTime = clock.restart().asSeconds();
-		float fps = 1.f / (currentTime - lastTime);
-		lastTime = currentTime;
+		
 
 
 		gameWindow.display(); /*!< tells the gamewindow to display everything */
+		//fps stuff
+		float currentTime = clock.restart().asSeconds();
+		float fps = 1.f / (currentTime - lastTime);
+		lastTime = currentTime;
+		printf("%f \n", fps);
 	}
 
 

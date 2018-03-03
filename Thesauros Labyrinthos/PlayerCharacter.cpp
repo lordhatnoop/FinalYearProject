@@ -57,6 +57,31 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 		FixtureDef.filter.maskBits = ENEMY | WALL; //set to collide with walls and enemies
 		dynamicBody->CreateFixture(&FixtureDef);
 
+		//setup the sensors
+		//add three sensors so that we can detect when the play is touching the ground or clung to the side of a wall to allow jumping (for side, it's lore wise going to be wall climbing). let's us make sure can't jump when touching ceiling (contact with top of player)
+		//foot sensor
+		Shape.SetAsBox(0.75f / scale, 0.3f / scale, b2Vec2(0, 3.f /scale),0); //setup the size of the sensor and set it's center at the bottom of the player
+		footSensor.isSensor = true;// set as a sensor
+		footSensor.shape = &Shape;
+		footSensor.filter.categoryBits = PLAYER; // set the category to be player
+		footSensor.filter.maskBits = WALL; //set to collide with walls only since that's what we want it to detect as a sensor
+		dynamicBody->CreateFixture(&footSensor); //add the sensor to the body
+
+		//left sensor
+		Shape.SetAsBox(0.3f / scale, 1.5f / scale, b2Vec2(-1.5f /scale, 0.f ), 0); //setup the size of the sensor and set it's center at the left of the player
+		leftSensor.isSensor = true;// set as a sensor
+		leftSensor.shape = &Shape;
+		leftSensor.filter.categoryBits = PLAYER; // set the category to be player
+		leftSensor.filter.maskBits =  WALL; //set to collide with walls 
+		dynamicBody->CreateFixture(&leftSensor); //add the sensor to the body
+
+		//right sensor
+		Shape.SetAsBox(0.3f / scale, 1.5f / scale, b2Vec2(1.5f / scale, 0.f), 0); //setup the size of the sensor and set it's center at the right of the player
+		rightSensor.isSensor = true;// set as a sensor
+		rightSensor.shape = &Shape;
+		rightSensor.filter.categoryBits = PLAYER; // set the category to be player
+		rightSensor.filter.maskBits = WALL; //set to collide with walls 
+		dynamicBody->CreateFixture(&leftSensor); //add the sensor to the body
 		//Box2dCreated = true; // set to true so that this doesn't happen again
 	//}
 }
@@ -102,18 +127,20 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 	}
 	
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
-		arrowVector.push_back(new playerArrow(xPosition, yPosition, facingLeftORRight));
+		arrowVector.push_back(std::shared_ptr<playerArrow>( new playerArrow(xPosition, yPosition, facingLeftORRight))); //push an arrow to the back of the vector.
 		arrowVector.back()->createHitBox(myWorld);
 	}
 	else {
 		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // if no buttons are being pressed, no velocity
 	}
-		
+
+	if (canJump == true) { // make sure we can jump first
 	//not else if so that we can jump while moving
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-		//yPosition -= 5;
-		if (canJump == true) { // make sure we can jump first
-			dynamicBody->ApplyLinearImpulse(b2Vec2(0, -1), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
+		
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			//yPosition -= 5;
+
+			dynamicBody->ApplyLinearImpulse(b2Vec2(0, -0.25), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
 		}
 	}
 	

@@ -6,7 +6,7 @@ public:
 	playerArrow(int x, int y, bool playerDirection);
 	void createSFML();
 	void createHitBox(b2World &myWorld);
-
+	void update();
 	//will store the info passed on creation
 	int xPosition;
 	int yPosition;
@@ -23,7 +23,7 @@ public:
 	b2FixtureDef FixtureDef;// the box2d fixture def. 
 	
 	b2Body *dynamicBody;
-
+	bool destroyed = false; // bool for setting arrows destoryoed 
 
 	//share the categories so that can filter collision.
 	enum entityCategory {
@@ -32,4 +32,7 @@ public:
 		WALL = 0x0004,
 		PLAYERPROJECTILE = 0x0005
 	};
+
+	float scale = 30.f;
+	
 };

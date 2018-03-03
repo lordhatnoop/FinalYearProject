@@ -27,7 +27,13 @@ public:
 
 	bool facingLeftORRight = true; // true = right, false = left;
 
-	vector<playerArrow*> arrowVector;
+	bool isStone = false; //bool used to check if we have been turned to stone by a medusa enemy
+
+	b2FixtureDef footSensor;
+	b2FixtureDef leftSensor;
+	b2FixtureDef rightSensor;
+
+	vector<std::shared_ptr<playerArrow>> arrowVector;
 private:
 	void torchCountdown();
 	//update clocks

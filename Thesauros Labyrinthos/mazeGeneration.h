@@ -5,13 +5,39 @@
 #include "FloorCell.h"
 #include "ExitCell.h"
 #include "NonBodyWallCell.h"
+#include "FakeWallCell.h"
+
+//changing the values of these defines changes the eventual outcome of the maze generation , experiment. (e.g changing radius to 1 result in more of a cave than a maze.
+//size of the map
+#define maze_size_x 160
+#define maze_size_y 90
+
+#define cell_Radius 2
+
+#define MAGIC 666
+
+#define max_Cell_Width (maze_size_x / cell_Radius -1)
+#define max_Cell_Height (maze_size_y / cell_Radius -1 )
 
 class MazeGeneration {
 public:
 	MazeGeneration();
 	void generateMaze(b2World &world);
-	vector <Cell*> cellsVector;
+	vector <std::shared_ptr<Cell>> cellsVector;
 	
+	
+
+
+	// This saves us from making a bunch of similar conditionals for checking directions 
+	int directionList[4][2] = { { 0, -1 },{ 1, 0 },{ 0, 1 },{ -1, 0 } };
+
+	//create maze and cell arrays.
+	int maze[maze_size_x][maze_size_y];
+	int cell[max_Cell_Width][max_Cell_Height];
+
+	int mazeChangeArray[maze_size_x][maze_size_y]; // cell array used for changing the maze when we are still checking it, so that the changes don't affect the check
+
+
 	//ints to hold the x and y of the first cell so we can use that as the start for the player
 	int startX;
 	int startY;

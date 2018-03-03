@@ -30,12 +30,17 @@ void CollisionListener::BeginContact(b2Contact * contact)
 
 	//check if player is grounded, or touching another wall
 	else if (fixtureA->GetFilterData().categoryBits == PLAYER && fixtureB->GetFilterData().categoryBits == WALL) {
-		static_cast<PlayerCharacter*>(bodyUserData)->canJump = true; // get the player that is being collided with, and set it's bool for being able to jump to true
+		if (fixtureA->IsSensor()) { // make sure it's a sensor. sensors are on the bottom and left/ right of player. check this so that we can only jump if bottom or left / right are touching and not the top of the player
+			//only sensors are the ones being used for this so don't need to check data or anything
+			static_cast<PlayerCharacter*>(bodyUserData)->canJump = true; // get the player that is being collided with, and set it's bool for being able to jump to true
+		}
 	}
 	else if (fixtureA->GetFilterData().categoryBits == WALL && fixtureB->GetFilterData().categoryBits == PLAYER) {
-		static_cast<PlayerCharacter*>(bodyUserData2)->canJump = true; // get the player that is being collided with, and set it's bool for being able to jump to true
+		if (fixtureB->IsSensor()) { // make sure player fixture is sensor
+			static_cast<PlayerCharacter*>(bodyUserData2)->canJump = true; // get the player that is being collided with, and set it's bool for being able to jump to true
+		}
 	}
-
+	ArrowCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for arrow collision
 	
 	/*
 	//get what objects each one is 
@@ -50,6 +55,8 @@ void CollisionListener::BeginContact(b2Contact * contact)
 		static_cast<PlayerCharacter*>(bodyUserData2)->m_contactingEnemy = true;
 	}
 	*/ //works for just enemies
+
+
 }
 void CollisionListener::EndContact(b2Contact * contact)
 {
@@ -69,4 +76,33 @@ void CollisionListener::EndContact(b2Contact * contact)
 	else if (fixtureA->GetFilterData().categoryBits == WALL && fixtureB->GetFilterData().categoryBits == PLAYER) {
 		static_cast<PlayerCharacter*>(bodyUserData2)->canJump = false; // set back to false, becasue collision is ending
 	}
+
+	
+
+	
 }
+
+//listen for arrow collisions and react
+void CollisionListener::ArrowCollision(void * userData1, void * userData2, b2Fixture* fixture1, b2Fixture* fixture2)
+{
+	//if arrow and wall collision
+	//wall wilkl be fine, destroy arrow
+	if (fixture1->GetFilterData().categoryBits == PLAYERPROJECTILE && fixture2->GetFilterData().categoryBits == WALL) {
+		static_cast<playerArrow*>(userData1)->destroyed = true; //set arrow to be destroyed
+	}
+	else if (fixture1->GetFilterData().categoryBits == WALL && fixture2->GetFilterData().categoryBits == PLAYERPROJECTILE) {
+		static_cast<playerArrow*>(userData2)->destroyed = true;
+	}
+
+	//arrow enemy collision
+	else if (fixture1->GetFilterData().categoryBits == PLAYERPROJECTILE && fixture2->GetFilterData().categoryBits == ENEMY) {
+		static_cast<playerArrow*>(userData1)->destroyed = true; //arrow destoryed
+		static_cast<Skeleton*>(userData2)->health--;// reduce enemy health
+	}
+	else if (fixture1->GetFilterData().categoryBits == ENEMY && fixture2->GetFilterData().categoryBits == PLAYERPROJECTILE) {
+		static_cast<playerArrow*>(userData2)->destroyed = true; //arrow destoryed
+		static_cast<Skeleton*>(userData1)->health--;// reduce enemy health
+		
+	}
+}
+

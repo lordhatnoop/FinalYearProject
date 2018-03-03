@@ -93,6 +93,12 @@
     <ClCompile Include="playerArrow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Medusa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FakeWallCell.cpp">
+      <Filter>Source Files\Cells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -145,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="playerArrow.h">
       <Filter>Header Files\GameCharcters\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Medusa.h">
+      <Filter>Header Files\GameCharcters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="FakeWallCell.h">
+      <Filter>Header Files\Cells</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

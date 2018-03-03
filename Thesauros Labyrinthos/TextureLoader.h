@@ -8,7 +8,7 @@ public:
 
 	//The various textures in the game
 	sf::Texture wallTexture;
-	sf::Texture wallTexture2;
+	sf::Texture fakeWallTexture;
 	sf::Texture floorTexture;
 	sf::Texture menuBackgroundTexture;
 	sf::Texture titleTexture;
@@ -23,6 +23,7 @@ public:
 	sf::Texture healthBarTexture1;
 	sf::Texture skeletonTexture;
 	sf::Texture playerTexture;
+	sf::Texture medusaTexture;
 	//test for torch / spotlight
 	sf::RenderTexture testRenderTExture;
 	sf::Sprite darknessSprite;
