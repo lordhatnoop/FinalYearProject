@@ -1,6 +1,6 @@
 #include "PlayerCharacter.h"
 #include "textureLoader.h"
-
+#include "FlameCloakItem.h"
 PlayerCharacter::PlayerCharacter(int x, int y)
 {
 	xPosition = x;
@@ -13,7 +13,9 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	invincibilityClock = new sf::Clock;
 	petrifiedClock = new sf::Clock;
 	CurrentItemClock = new sf::Clock;
+
 	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
+	AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
 }
 
 void PlayerCharacter::createSFML()
@@ -157,28 +159,9 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 		}
 
 		//ITEM USE
-		//check for items on cooldown
-		if (CurrentItemClock->getElapsedTime().asSeconds() > AquiredItems[currentItem]->coolDownTimer) {// if the time since last use is longer than the item cooldown
-			itemsOnCooldown = false; // not on cooldown
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-			if (itemsOnCooldown == false) { //so long as items aren't on cooldown
-				//set the active item to be the current item when we press the button to use items
-				//done so that we don't have to loop through the aquired vector checking which items are active to update, and instead can just update whatever is attached to active item
-				activeItem = AquiredItems[currentItem];
-				//update the position of the item
-				activeItem->xPosition = xPosition ;
-				activeItem->yPosition = yPosition ;
-				activeItem->createSfml();
-				activeItem->createBox2D(myWorld);
-				activeItem->durationTimer->restart(); //resatrt the items timer so that we get accurate duration
-				activeItem->active = true;
-
-				// ITEMS ON COOLDOWN UPDATE - used item so need to change this
-				itemsOnCooldown = true;
-				CurrentItemClock->restart();
-			}
-		}
+		ItemUse(myWorld);
+		
+		
 	}
 	else if (isStone == true) { //else if player is stone
 		Petrified(); //run the petrified code (timer for how long to be petrified)
@@ -206,8 +189,9 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 			activeItem = nullptr; //once active item has been detsoryed and isn't active anymore, it can become nullptr again so we stop updating it
 		}
 	}
-	if (itemsOnCooldown == false) { // only allow swapping when items aren't on cooldown( just to prevent issues)
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) { // if pressed q
+	
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) { // if pressed q
+		if (itemsOnCooldown == false) { // only allow swapping when items aren't on cooldown( just to prevent issues)
 			currentItem++; //update the current item
 			if (currentItem > AquiredItems.size() - 1) { // check current item isn't too large
 				currentItem = 0; //if it is reset it back to 0
@@ -464,6 +448,35 @@ void PlayerCharacter::Petrified()
 	if (petrifiedTime >= 2) {
 		isStone = false; //no longer stone
 
+	}
+}
+
+//function for checking if we can use items and allowing for use if we can 
+void PlayerCharacter::ItemUse(b2World &myWorld)
+{
+	//check for items on cooldown
+	if (CurrentItemClock->getElapsedTime().asSeconds() > AquiredItems[currentItem]->coolDownTimer) {// if the time since last use is longer than the item cooldown
+		itemsOnCooldown = false; // not on cooldown
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+		if (itemsOnCooldown == false) { //so long as items aren't on cooldown
+										//set the active item to be the current item when we press the button to use items
+										//done so that we don't have to loop through the aquired vector checking which items are active to update, and instead can just update whatever is attached to active item
+			activeItem = AquiredItems[currentItem];
+			//update the position of the item
+			activeItem->xPosition = xPosition;
+			activeItem->yPosition = yPosition;
+			activeItem->itemDamage = activeItem->itemDamage * ItemDamageMultiplier; //multiply the item damage by the multplier to apply any item damage upgrades 
+			activeItem->createSfml();
+			activeItem->createBox2D(myWorld);
+			
+			activeItem->durationTimer->restart(); //resatrt the items timer so that we get accurate duration
+			activeItem->active = true;
+
+			// ITEMS ON COOLDOWN UPDATE - used item so need to change this
+			itemsOnCooldown = true;
+			CurrentItemClock->restart();
+		}
 	}
 }
 

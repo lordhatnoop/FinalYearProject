@@ -17,9 +17,8 @@ public:
 	bool dead = false;// is enemy dead? will be changed by the checkDead function
 
 private:
-	//bools for which side the player is on
-	bool playerLeft = false;
-	bool playerRight = false;
+	
+
 	bool playerInAttackRange = false;
 	int walkAnimationFrame = 0;
 	int attackAnimationFrame = 0;

@@ -6,6 +6,7 @@
 
 void CollisionListener::BeginContact(b2Contact * contact)
 {
+	contactHandled = false; //reset the bool
 	//get the fixtures
 	b2Fixture* fixtureA = contact->GetFixtureA();
 	b2Fixture* fixtureB = contact->GetFixtureB();
@@ -43,6 +44,7 @@ void CollisionListener::BeginContact(b2Contact * contact)
 
 	ArrowCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for arrow collision
 	PlayerRopeCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for player and rope collision
+	FlameCloakCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for FlameCloakCollision
 	/*
 	//get what objects each one is 
 	std::string nameA = ((GameCharacters*)bodyUserData)->getName();
@@ -61,7 +63,7 @@ void CollisionListener::BeginContact(b2Contact * contact)
 }
 void CollisionListener::EndContact(b2Contact * contact)
 {
-
+	contactHandled = false; //reset the contactHandled bool to be used again
 	//get the fixtures
 	b2Fixture* fixtureA = contact->GetFixtureA();
 	b2Fixture* fixtureB = contact->GetFixtureB();
@@ -78,8 +80,11 @@ void CollisionListener::EndContact(b2Contact * contact)
 		static_cast<PlayerCharacter*>(bodyUserData2)->canJump = false; // set back to false, becasue collision is ending
 	}
 
-	//run the the end code for rope collision to check if the collision ending is for the player and rope
-	EndRopeCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB);
+	//put every subsequent method call in an else if checking the bool contacthandled  is false so that it only runs until the collision is handled
+	else if (contactHandled == false) {
+		//run the the end code for rope collision to check if the collision ending is for the player and rope
+		EndRopeCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB);
+	}
 	
 }
 
@@ -132,6 +137,37 @@ void CollisionListener::EndRopeCollision(void * userData1, void * userData2, b2F
 	else if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == ITEM) {
 		if (userData2 == "Rope") {
 			static_cast<PlayerCharacter*>(userData1)->canClimb = false;
+		}
+	}
+}
+
+//check for flameCloak collision with enemies
+void CollisionListener::FlameCloakCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == ITEM && fixture2->GetFilterData().categoryBits == ENEMY) {
+		if (userData1 == "FlameCloak") { //check the userdata of the second colliding item for what type of item it is.
+			static_cast<GameCharacters*>(userData2)->health = static_cast<GameCharacters*>(userData1)->health - static_cast<GameItems*>(userData1)->itemDamage; // deal the item damage to the enemy
+			
+			//check which side the player is on to check which way to knock the enemy back, then apply the knockbnack force
+			if (static_cast<GameCharacters*>(userData2)->playerLeft = true) {
+				static_cast<GameCharacters*>(userData2)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(0.25f, 0.f), true);
+			}
+			else if (static_cast<GameCharacters*>(userData2)->playerRight = true) {
+				static_cast<GameCharacters*>(userData2)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(-0.25f, 0.f), true);
+			}
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == ENEMY && fixture2->GetFilterData().categoryBits == ITEM) {
+		if (userData2 == "FlameCloak") {
+			static_cast<GameCharacters*>(userData1)->health = static_cast<GameCharacters*>(userData1)->health - static_cast<GameItems*>(userData2)->itemDamage;
+		
+			//check which side the player is on to check which way to knock the enemy back, then apply the knockbnack force
+			if (static_cast<GameCharacters*>(userData1)->playerLeft = true) {
+				static_cast<GameCharacters*>(userData1)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(0.25f, 0.f), true);
+			}
+			else if (static_cast<GameCharacters*>(userData1)->playerRight = true) {
+				static_cast<GameCharacters*>(userData1)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(-0.25f, 0.f), true);
+			}
 		}
 	}
 }

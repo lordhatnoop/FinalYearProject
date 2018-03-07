@@ -29,6 +29,7 @@ public:
 	int duration;
 	bool active = false;
 	int scale = 30;
+	float itemDamage;
 
 	virtual void update() {};
 	virtual void createSfml() {};

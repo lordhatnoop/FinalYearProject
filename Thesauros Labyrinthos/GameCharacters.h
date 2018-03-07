@@ -13,7 +13,7 @@ public:
 	int yPosition;
 
 	//variables for enemies
-	int health;
+	float health;
 	int damage;
 	float visionRange;
 	
@@ -37,6 +37,9 @@ public:
 	
 	const float scale = 30.f;
 
+	//bools for which side the player is on
+	bool playerLeft = false;
+	bool playerRight = false;
 
 
 	//enum that holds the diffrent type of entities for collision filtering

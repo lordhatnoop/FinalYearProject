@@ -9,6 +9,8 @@ public:
 	void ArrowCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void PlayerRopeCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void EndRopeCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
+	void FlameCloakCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
+
 	//enum that holds the diffrent type of entities for collision filtering
 	enum entityCategory {
 		ENEMY = 0x0001,
@@ -18,4 +20,6 @@ public:
 		ITEM = 0x0006
 	};
 
+private:
+	bool contactHandled = false; //used to check if the contact is handled , to prevent checking every combo of collision
 };

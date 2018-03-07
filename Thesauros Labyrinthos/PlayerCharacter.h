@@ -22,7 +22,7 @@ public:
 	float maxTorchFuel = 100.f; // will be upgradable, holds max fuel
 	float currentTorchFuel = 100.f;//set this to equal maxTorchfuel at the start to ensure max fuel at the beggining of the game
 
-
+	float ItemDamageMultiplier = 1.f; // a multiplier that will be sued to increase item damage - this is what gets upgraded to improve item damage
 	//bools used for various player and item update things
 	bool m_contactingEnemy = false;
 
@@ -73,5 +73,7 @@ private:
 	//action to take when petrified (by medusa setting (is stone) to true)
 	void Petrified();
 	
+
+	void ItemUse(b2World &myWorld);
 	//bool Box2dCreated = false;
 };

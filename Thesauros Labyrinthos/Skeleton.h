@@ -19,10 +19,7 @@ private:
 	bool risen = false; // bool to check if done the rise aniuamtion 
 	bool triggerRise = false; // bool to trigger the rise animation
 
-	//bools for which side the player is on
-	bool playerLeft = false;
-	bool playerRight = false; 
-
+	
 	void rise(); //function to do rise animation
 
 	int walkAnimationFrame = 0;

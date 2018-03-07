@@ -30,7 +30,7 @@ void RopeItem::createBox2D(b2World &myWorld)
 	BodyDef.angle = 0;
 	BodyDef.fixedRotation = true; // prevent rotation
 	BodyDef.userData = "Rope"; //store what type of item it is (rope) so that we can use that to check for the collision manager how to react when colliding with item. do this to reduce the number of different enums we have and gheneralise items to ITEMS;
-	//	BodyDef.userData = "playerCharacter"; // set the Userdata so that we can check what is colliding
+	
 	Box2DBody = myWorld.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
 
 												//box2dShape

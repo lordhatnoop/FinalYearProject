@@ -123,6 +123,7 @@
     <ClCompile Include="CollisionListener.cpp" />
     <ClCompile Include="ExitCell.cpp" />
     <ClCompile Include="FakeWallCell.cpp" />
+    <ClCompile Include="FlameCloakItem.cpp" />
     <ClCompile Include="FloorCell.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="CollisionListener.h" />
     <ClInclude Include="ExitCell.h" />
     <ClInclude Include="FakeWallCell.h" />
+    <ClInclude Include="FlameCloakItem.h" />
     <ClInclude Include="FloorCell.h" />
     <ClInclude Include="GameCharacters.h" />
     <ClInclude Include="GameItems.h" />

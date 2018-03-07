@@ -49,6 +49,9 @@
     <Filter Include="Header Files\Items">
       <UniqueIdentifier>{8deb3b8c-d14b-45d6-92bf-67806cb628c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Items">
+      <UniqueIdentifier>{0369f093-8470-4a58-9bef-efa3fa683f75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -90,19 +93,22 @@
     <ClCompile Include="TorchLight.cpp">
       <Filter>Source Files\GameCharcters\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionListener.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="playerArrow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FakeWallCell.cpp">
       <Filter>Source Files\Cells</Filter>
     </ClCompile>
     <ClCompile Include="Medusa.cpp">
       <Filter>Source Files\GameCharcters\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="playerArrow.cpp">
+      <Filter>Source Files\GameCharcters\Player</Filter>
+    </ClCompile>
     <ClCompile Include="RopeItem.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionListener.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="FlameCloakItem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -168,6 +174,9 @@
       <Filter>Header Files\Items</Filter>
     </ClInclude>
     <ClInclude Include="RopeItem.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="FlameCloakItem.h">
       <Filter>Header Files\Items</Filter>
     </ClInclude>
   </ItemGroup>
