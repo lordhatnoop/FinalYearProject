@@ -78,8 +78,8 @@ void CollisionListener::EndContact(b2Contact * contact)
 		static_cast<PlayerCharacter*>(bodyUserData2)->canJump = false; // set back to false, becasue collision is ending
 	}
 
-	
-
+	//run the the end code for rope collision to check if the collision ending is for the player and rope
+	EndRopeCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB);
 	
 }
 
@@ -117,6 +117,21 @@ void CollisionListener::PlayerRopeCollision(void * userData1, void * userData2, 
 	else if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == ITEM) {
 		if (userData2 == "Rope") {
 			static_cast<PlayerCharacter*>(userData1)->canClimb = true;
+		}
+	}
+}
+
+// the function to run once the collison with a rope has ended
+void CollisionListener::EndRopeCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == ITEM && fixture2->GetFilterData().categoryBits == PLAYER) {
+		if (userData1 == "Rope") { //check the userdata of the second colliding item for what type of item it is.
+			static_cast<PlayerCharacter*>(userData2)->canClimb = false; //set the player can climb to false so that they can no longer climb the rope
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == ITEM) {
+		if (userData2 == "Rope") {
+			static_cast<PlayerCharacter*>(userData1)->canClimb = false;
 		}
 	}
 }

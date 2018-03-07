@@ -138,6 +138,7 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 			dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // if no buttons are being pressed, no velocity
 		}
 
+		//check bools for varius status so that we know what we can and can't do before attempting to do it
 		if (canJump == true) { // make sure we can jump first
 		//not else if so that we can jump while moving
 
@@ -145,6 +146,13 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 				//yPosition -= 5;
 
 				dynamicBody->ApplyLinearImpulse(b2Vec2(0, -0.25), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
+			}
+		}
+		if (canClimb == true) { //check if can CLimb is true so we know whether we are touching a rope we can climb (set by collision listener)
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { //if we are pressing the W (up) key while can climb is true, climb the rope
+				//yPosition -= 5;
+
+				dynamicBody->SetLinearVelocity(b2Vec2(0, -10.f)); //set negative velocity so that we move upwards
 			}
 		}
 
