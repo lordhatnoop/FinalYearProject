@@ -131,6 +131,7 @@
     <ClCompile Include="NonBodyWallCell.cpp" />
     <ClCompile Include="playerArrow.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
+    <ClCompile Include="RopeItem.cpp" />
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="TorchLight.cpp" />
@@ -145,12 +146,14 @@
     <ClInclude Include="FakeWallCell.h" />
     <ClInclude Include="FloorCell.h" />
     <ClInclude Include="GameCharacters.h" />
+    <ClInclude Include="GameItems.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="mazeGeneration.h" />
     <ClInclude Include="Medusa.h" />
     <ClInclude Include="NonBodyWallCell.h" />
     <ClInclude Include="playerArrow.h" />
     <ClInclude Include="PlayerCharacter.h" />
+    <ClInclude Include="RopeItem.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureLoader.h" />

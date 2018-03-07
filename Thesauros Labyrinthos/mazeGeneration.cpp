@@ -168,22 +168,34 @@ void MazeGeneration::generateMaze(b2World &world) {
 			//rand for adding blocks above// experiment with this more.
 			if (rand() % 100 > 90) {
 				
-					maze[i][j + 1] = 4; // adds random blocks into the maze above other blocks, randomising it a bit
+					maze[i][j + 1] = 2; // adds random blocks into the maze above other blocks, randomising it a bit
 				
 			}
 
-			
+			//with the addition of the fake walls, the below method didn't work (some walls becam,e fake walls (4 at the time) so bodies where left where they were adjoined to other walls
 			//we are creating too many bodies having everything have one. check for walls that are completely surronded so that we can create "fake walls", wall cells without the box2d body
-			if (maze[i][j + 1] == 1 
-				&& maze[i + 1][j] == 1 
-				&& maze[i][j - 1] == 1 
-				&& maze[i - 1][j] == 1 ) {
+			/*
+			if (maze[i][j + 1] == 1  
+				&& maze[i + 1][j] == 1  
+				&& maze[i][j - 1] == 1  
+				&& maze[i - 1][j] == 1  ) {
 				
 				//set the temp to be 3 so that we don't change the current maze while we're still checking it
 				//maze[i][j] = 3;
 				mazeChangeArray[i][j] = 3;
+			}*/
+			//attempt at version accounting for fake walls (after changing fake walls to be 2 not 4)
+			if (maze[i][j + 1] >0 && maze[i][j + 1] < 3
+				&& maze[i + 1][j] > 0 && maze[i + 1][j] < 3
+				&& maze[i][j - 1] > 0 && maze[i][j - 1] < 3
+				&& maze[i - 1][j] > 0 && maze[i - 1][j] < 3) {
+
+				//set the temp to be 3 so that we don't change the current maze while we're still checking it
+				//originallt tried changing the maze array itself straight away, of course this resulted in the next cell along no longer detcting being completely surronded
+				//resulting in a checkboard pattern of bodies
+				//maze[i][j] = 3;
+				mazeChangeArray[i][j] = 3;
 			}
-			
 			
 
 		}
@@ -209,11 +221,15 @@ void MazeGeneration::generateMaze(b2World &world) {
 					cellsVector.push_back(std::shared_ptr<WallCell>(new WallCell(x * 10, y * 10, world)));
 					
 				}
+				else if (maze[x][y] == 2) { // if 4, the cell is a fake wall created during the random extra walls.
+					printf("2");
+					cellsVector.push_back(std::shared_ptr<FakeWallCell>(new FakeWallCell(x * 10, y * 10, world)));
+				}
 				else if (maze[x][y] == 0 ){
 					printf("."); // create floorcell
 					cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(x * 10, y * 10)));
 				}
-				else if (maze[x][y] == 2) {
+				else if (maze[x][y] == 4) {
 					printf("2"); //otherwise create floorcell
 					//cellsVector.push_back(new ExitCell(x * 10, y * 10));
 				}
@@ -221,10 +237,7 @@ void MazeGeneration::generateMaze(b2World &world) {
 					printf("3");
 					cellsVector.push_back(std::shared_ptr<NonBodyWallCell>(new NonBodyWallCell(x * 10, y * 10)));
 				}
-				else if(maze[x][y] == 4) { // if 4, the cell is a fake wall created during the random extra walls.
-					printf("4");
-					cellsVector.push_back(std::shared_ptr<FakeWallCell>(new FakeWallCell(x * 10, y * 10,world)));
-				}
+				
 			}
 		}
 

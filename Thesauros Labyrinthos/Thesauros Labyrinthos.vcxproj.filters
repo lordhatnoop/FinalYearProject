@@ -46,6 +46,9 @@
     <Filter Include="Source Files\GameCharcters\Player">
       <UniqueIdentifier>{10445d17-d970-4c59-8121-ed36ea7e2a47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Items">
+      <UniqueIdentifier>{8deb3b8c-d14b-45d6-92bf-67806cb628c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -93,11 +96,14 @@
     <ClCompile Include="playerArrow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Medusa.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FakeWallCell.cpp">
       <Filter>Source Files\Cells</Filter>
+    </ClCompile>
+    <ClCompile Include="Medusa.cpp">
+      <Filter>Source Files\GameCharcters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="RopeItem.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="FakeWallCell.h">
       <Filter>Header Files\Cells</Filter>
+    </ClInclude>
+    <ClInclude Include="GameItems.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="RopeItem.h">
+      <Filter>Header Files\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

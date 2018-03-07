@@ -4,7 +4,7 @@
 #include <iostream>
 #include "ExitCell.h"
 #include "Skeleton.h"
-
+#include "RopeItem.h"
 #include "Cell.h"
 using namespace std;
 
@@ -112,6 +112,8 @@ void LevelManager::LoadNextLevel(b2World &world)
 		//set the player's position on the screen
 		playerCharacter->xPosition = mazeGenerator.startX;
 		playerCharacter->yPosition = mazeGenerator.startY;
+		
+		
 		//////////////////////////SKELETON TEST/////////////////////////////////////////
 		//Enemy spawn test
 		for (int i = 0; i < 10;) { //10 loops
@@ -251,7 +253,7 @@ void LevelManager::update(b2World &World)
 	torchFuelUIBackgroundRed.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
 	torchFuelUIBackgroundWhite.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
 
-	//PLayerHEalth UI
+	//PLayerHealth UI
 	//check the player's health and update the UI based on that
 	if (playerCharacter->playerHealth == 1) {
 		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture1); //change to the one heart texture
@@ -332,10 +334,14 @@ void LevelManager::update(b2World &World)
 		window->draw(playerCharacter->arrowVector[i]->arrowRect);
 	}
 	//draw stuff
-	
+
+	//playerDraw stuff - done here so that we don't have to pass player the window
+	if (playerCharacter->activeItem != nullptr) { // so loong as active item isn't null
+		window->draw(playerCharacter->activeItem->rectangle);//draw it
+	}
 	window->draw(playerCharacter->rectangle);
 	window->draw(playerCharacter->torch->torchSprite);
-
+	
 	
 }
 

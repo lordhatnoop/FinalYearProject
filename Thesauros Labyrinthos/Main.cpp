@@ -43,14 +43,14 @@ int main() {
 	 world.SetDebugDraw(&debugDraw);
 														 
 	 uint32 flags = 0; //type of drawing mode
-														 //types of drawing
-														 flags += b2Draw::e_shapeBit;
-														 flags += b2Draw::e_jointBit;
-														 flags += b2Draw::e_aabbBit;
-														 //flags += b2Draw::e_pairBit;
-														 //flags += b2Draw::e_centerOfMassBit;
+	 //types of drawing
+	 flags += b2Draw::e_shapeBit;
+	 flags += b2Draw::e_jointBit;
+	 flags += b2Draw::e_aabbBit;
+	 //flags += b2Draw::e_pairBit;
+	//flags += b2Draw::e_centerOfMassBit;
 
-														 debugDraw.SetFlags(flags); //passes flags created above to the debugDraw to be used.
+	 debugDraw.SetFlags(flags); //passes flags created above to the debugDraw to be used.
 														 
 
 	/*
@@ -64,8 +64,12 @@ int main() {
 	Camera playerView(playerCharacter.xPosition, playerCharacter.yPosition); 
 	*/
 	
+
+	 sf::Clock deltaTimeClock;
+	 float dt;
 //to be sued for fps
 	sf::Clock clock;
+	
 	float lastTime = 0;
 
 	while (gameWindow.isOpen()) {

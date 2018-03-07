@@ -8,8 +8,12 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	createSFML();
 	//createCollisionBox(myWorld);
 	torch = new TorchLight(xPosition,yPosition);
+	//start the clocks
 	updateclock = new sf::Clock;
 	invincibilityClock = new sf::Clock;
+	petrifiedClock = new sf::Clock;
+	CurrentItemClock = new sf::Clock;
+	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
 }
 
 void PlayerCharacter::createSFML()
@@ -93,57 +97,84 @@ string PlayerCharacter::getName()
 
 void PlayerCharacter::update(float dt, b2World &myWorld)
 {
-	
-	//if the player touched an enemy, call the collide with enemy function
-	if (m_contactingEnemy == true) {
-		collidingWithEnemy();
-		m_contactingEnemy = false; // stop contacting enemy 
-	}
-	//if the player is invincible
-	if (playerInvincible == true) {
-		InvincibleTimer(); // call the invincibility function
-	}
+	if (isStone == false) { //so long as the player isn't stone, let them take action
+		//if the player touched an enemy, call the collide with enemy function
+		if (m_contactingEnemy == true) {
+			collidingWithEnemy();
+			m_contactingEnemy = false; // stop contacting enemy 
+		}
+		//if the player is invincible
+		if (playerInvincible == true) {
+			InvincibleTimer(); // call the invincibility function
+		}
 
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
-		playerHealth--;//reduce playerHealth by 1
-		
-	}
-	//move player left by reducing the xposition and setting the posiiton of the rectangle again.
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		//xPosition -= 5;
-		//dynamicBody->ApplyForce(b2Vec2(-5, 0), b2Vec2(0, 0), true);
-		//dynamicBody->SetLinearVelocity(b2Vec2(-5, -1));
-		walkLeft(); //call the walk left function
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		//xPosition += 5;
-		//dynamicBody->ApplyForce(b2Vec2(5, 0), b2Vec2(0, 0), true);
-		//dynamicBody->SetLinearVelocity(b2Vec2(5 , -1));
-		walkRight(); //walk right function
-	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		//yPosition += 5;
-	}
-	
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
-		arrowVector.push_back(std::shared_ptr<playerArrow>( new playerArrow(xPosition, yPosition, facingLeftORRight))); //push an arrow to the back of the vector.
-		arrowVector.back()->createHitBox(myWorld);
-	}
-	else {
-		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // if no buttons are being pressed, no velocity
-	}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
+			playerHealth--;//reduce playerHealth by 1
 
-	if (canJump == true) { // make sure we can jump first
-	//not else if so that we can jump while moving
-		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-			//yPosition -= 5;
+		}
+		//move player left by reducing the xposition and setting the posiiton of the rectangle again.
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			//xPosition -= 5;
+			//dynamicBody->ApplyForce(b2Vec2(-5, 0), b2Vec2(0, 0), true);
+			//dynamicBody->SetLinearVelocity(b2Vec2(-5, -1));
+			walkLeft(); //call the walk left function
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			//xPosition += 5;
+			//dynamicBody->ApplyForce(b2Vec2(5, 0), b2Vec2(0, 0), true);
+			//dynamicBody->SetLinearVelocity(b2Vec2(5 , -1));
+			walkRight(); //walk right function
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			//yPosition += 5;
+		}
 
-			dynamicBody->ApplyLinearImpulse(b2Vec2(0, -0.25), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) { //attack
+			arrowVector.push_back(std::shared_ptr<playerArrow>(new playerArrow(xPosition, yPosition, facingLeftORRight))); //push an arrow to the back of the vector.
+			arrowVector.back()->createHitBox(myWorld);
+		}
+		else {
+			dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // if no buttons are being pressed, no velocity
+		}
+
+		if (canJump == true) { // make sure we can jump first
+		//not else if so that we can jump while moving
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+				//yPosition -= 5;
+
+				dynamicBody->ApplyLinearImpulse(b2Vec2(0, -0.25), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
+			}
+		}
+
+		//ITEM USE
+		//check for items on cooldown
+		if (CurrentItemClock->getElapsedTime().asSeconds() > AquiredItems[currentItem]->coolDownTimer) {// if the time since last use is longer than the item cooldown
+			itemsOnCooldown = false; // not on cooldown
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+			if (itemsOnCooldown == false) { //so long as items aren't on cooldown
+				//set the active item to be the current item when we press the button to use items
+				//done so that we don't have to loop through the aquired vector checking which items are active to update, and instead can just update whatever is attached to active item
+				activeItem = AquiredItems[currentItem];
+				//update the position of the item
+				activeItem->xPosition = xPosition ;
+				activeItem->yPosition = yPosition ;
+				activeItem->createSfml();
+				activeItem->createBox2D(myWorld);
+				activeItem->durationTimer->restart(); //resatrt the items timer so that we get accurate duration
+				activeItem->active = true;
+
+				// ITEMS ON COOLDOWN UPDATE - used item so need to change this
+				itemsOnCooldown = true;
+				CurrentItemClock->restart();
+			}
 		}
 	}
-	
+	else if (isStone == true) { //else if player is stone
+		Petrified(); //run the petrified code (timer for how long to be petrified)
+	}
 	//rectangle.setPosition(xPosition, yPosition);
 	//update the xPOsition and Yposiition so that it can still be sued for the torch
 	xPosition = dynamicBody->GetPosition().x * scale;
@@ -159,8 +190,22 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 	//call the torch update so that it updates along with the player
 	torch->update(xPosition,yPosition,maxTorchFuel,currentTorchFuel);
 
-	
-	
+	//ITEMS VECTOR UPDATE
+	if(activeItem != nullptr) { //so long as active item isn't null
+		activeItem->update(); //update it.
+		if (activeItem->active == false) {
+			activeItem->destroy(myWorld); //destroy the item // call here to pass world
+			activeItem = nullptr; //once active item has been detsoryed and isn't active anymore, it can become nullptr again so we stop updating it
+		}
+	}
+	if (itemsOnCooldown == false) { // only allow swapping when items aren't on cooldown( just to prevent issues)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) { // if pressed q
+			currentItem++; //update the current item
+			if (currentItem > AquiredItems.size() - 1) { // check current item isn't too large
+				currentItem = 0; //if it is reset it back to 0
+			}
+		}
+	}
 }
 
 void PlayerCharacter::torchCountdown()
@@ -241,7 +286,7 @@ void PlayerCharacter::InvincibleTimer()
 
 void PlayerCharacter::walkRight()
 {
-	dynamicBody->SetLinearVelocity(b2Vec2(5, -1));
+	dynamicBody->SetLinearVelocity(b2Vec2(5 , -1));
 	
 	//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
 	//sprite sheet has inconsistenet sizes for each frame. just use the largest avlue for the width and height to add a few blank frames to the smaller ones so that the sprite doesn't keep visibly chanign shape.
@@ -402,5 +447,15 @@ void PlayerCharacter::walkLeft()
 
 	rectangle.setTextureRect(textureSubRect); // set to use the new texture rect positions
 	facingLeftORRight = false; //set false for facing left
+}
+
+void PlayerCharacter::Petrified()
+{
+	//clock is restarted in medusa.cpp when she attacks
+	int petrifiedTime = petrifiedClock->getElapsedTime().asSeconds();
+	if (petrifiedTime >= 2) {
+		isStone = false; //no longer stone
+
+	}
 }
 

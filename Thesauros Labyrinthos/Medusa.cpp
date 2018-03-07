@@ -71,7 +71,9 @@ void Medusa::update(PlayerCharacter * player)
 	//look for the player (get which side they are ona nd if the enemy can see them)
 	LookForPlayer(player);
 	if (playerInAttackRange == true) {
-		attack(player);
+		if (timer.getElapsedTime().asSeconds() > 5.f) { //make sure some time has passed since the last attack 
+			attack(player);
+		}
 		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // stop velocity so we don't keep sliding
 	}
 	//if player left or right are true (player is seen on either of those sides) do the one of the below
@@ -211,7 +213,7 @@ void Medusa::moveRight()
 void Medusa::moveLeft()
 {
 	dynamicBody->SetLinearVelocity(b2Vec2(-3, 0));
-	if (timer.getElapsedTime().asSeconds() > 0.5f) { //make sure some time has passed
+	//if (timer.getElapsedTime().asSeconds() > 0.5f) { //make sure some time has passed
 													 //check which frame of the aniamtion we are on and change animation to match
 													 //distances between each sprite on sheet are different, so have to manually set each position
 
@@ -286,18 +288,37 @@ void Medusa::moveLeft()
 
 		rectangle.setTextureRect(textureSubRect); //update the rectangle to use the new texturesubrect info
 		timer.restart(); //restart the timer
-	}
+	//}
 }
 
 void Medusa::attack(PlayerCharacter *player)
 {
-	player->isStone = true;// set the player's bool so it knows to react
-	if (timer.getElapsedTime().asSeconds() > 0.5f) { //make sure some time has passed
+
 		if (attackAnimationFrame == 0) {
 
 		}
+		else if (attackAnimationFrame == 1) {
 
-	}
+		}
+		else if (attackAnimationFrame == 2) {
+
+		}
+		else if (attackAnimationFrame == 3) {
+
+		}
+		else if (attackAnimationFrame == 4) {
+
+		}
+		else if (attackAnimationFrame == 5) {
+
+		}
+		else if (attackAnimationFrame == 6) {
+			//set the player to stone on  the last frame of the aniamtion so that it doesn't hgappen until aniamtion is complete
+			player->isStone = true;// set the player's bool so it knows to react
+			player->petrifiedClock->restart(); //restart the petrified clock so that we can have it count the time petrified// do here becasue it was just the easiest place to only reset when turning player to stone
+			
+			timer.restart();// restart the timer once animation is complete so that we will know have to wait some time before ther next petrify attack (becasue of timer in update)
+		}
 }
 
 

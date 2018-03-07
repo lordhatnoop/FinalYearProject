@@ -2,7 +2,7 @@
 #include "CollisionListener.h"
 #include "Skeleton.h"
 #include "PlayerCharacter.h"
-
+#include "GameCharacters.h"
 
 void CollisionListener::BeginContact(b2Contact * contact)
 {
@@ -40,8 +40,9 @@ void CollisionListener::BeginContact(b2Contact * contact)
 			static_cast<PlayerCharacter*>(bodyUserData2)->canJump = true; // get the player that is being collided with, and set it's bool for being able to jump to true
 		}
 	}
+
 	ArrowCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for arrow collision
-	
+	PlayerRopeCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for player and rope collision
 	/*
 	//get what objects each one is 
 	std::string nameA = ((GameCharacters*)bodyUserData)->getName();
@@ -97,12 +98,26 @@ void CollisionListener::ArrowCollision(void * userData1, void * userData2, b2Fix
 	//arrow enemy collision
 	else if (fixture1->GetFilterData().categoryBits == PLAYERPROJECTILE && fixture2->GetFilterData().categoryBits == ENEMY) {
 		static_cast<playerArrow*>(userData1)->destroyed = true; //arrow destoryed
-		static_cast<Skeleton*>(userData2)->health--;// reduce enemy health
+		static_cast<GameCharacters*>(userData2)->health--;// reduce enemy health
 	}
 	else if (fixture1->GetFilterData().categoryBits == ENEMY && fixture2->GetFilterData().categoryBits == PLAYERPROJECTILE) {
 		static_cast<playerArrow*>(userData2)->destroyed = true; //arrow destoryed
-		static_cast<Skeleton*>(userData1)->health--;// reduce enemy health
+		static_cast<GameCharacters*>(userData1)->health--;// reduce enemy health
 		
+	}
+}
+
+void CollisionListener::PlayerRopeCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == ITEM && fixture2->GetFilterData().categoryBits == PLAYER) {
+		if (userData1 == "Rope") { //check the userdata of the second colliding item for what type of item it is.
+			static_cast<PlayerCharacter*>(userData2)->canClimb = true; //set the player can climb to true so that they can climb the rope
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == ITEM) {
+		if (userData2 == "Rope") {
+			static_cast<PlayerCharacter*>(userData1)->canClimb = true;
+		}
 	}
 }
 
