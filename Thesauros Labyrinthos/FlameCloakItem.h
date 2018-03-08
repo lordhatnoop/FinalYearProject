@@ -10,7 +10,7 @@ public:
 		coolDownTimer = 20; // cooldown time
 		duration = 5; // short duration to prevent from being too strong 
 		durationTimer = new sf::Clock;
-		itemDamage = 1; // the damage the item does
+		itemDamage = 1; // the damage the item does - not too much as this item is meant more for mix of damage and protection
 	}
 	//override the inherited methods
 	void update() override;

@@ -334,12 +334,12 @@ void LevelManager::update(b2World &World)
 		window->draw(playerCharacter->arrowVector[i]->arrowRect);
 	}
 	//draw stuff
-
 	//playerDraw stuff - done here so that we don't have to pass player the window
 	if (playerCharacter->activeItem != nullptr) { // so loong as active item isn't null
 		window->draw(playerCharacter->activeItem->rectangle);//draw it
 	}
 	window->draw(playerCharacter->rectangle);
+	window->draw(playerCharacter->shieldCircle);
 	window->draw(playerCharacter->torch->torchSprite);
 	
 	
@@ -348,6 +348,52 @@ void LevelManager::update(b2World &World)
 
 void LevelManager::upgradesMenu()
 {
+	playerCharacter->xPosition = 20000; //move the player off screen. don';t destory so we still have access to treasure, upgrades ,etc
+	
+	//create the upgrade menu buttons
+	tgui::Button::Ptr UpgradeItemDamage = tgui::Button::create(); // create a button on the menu
+	UpgradeItemDamage->setPosition(400, 300); // set the position of the button
+	UpgradeItemDamage->setSize(800, 100); // set the start button size
+	UpgradeItemDamage->setText("Upgrade Item Damage"); // set text
+	UpgradeItemDamage->setTextSize(40); // set size of the text
+
+	gui->add(UpgradeItemDamage); //add the start button to the gui so that it can be drawn and managed.
+
+	UpgradeItemDamage->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+
+	//next button
+	tgui::Button::Ptr UpgradeMaxHealth = tgui::Button::create(); // create a button on the menu
+	UpgradeMaxHealth->setPosition(400, 450); // set the position of the button
+	UpgradeMaxHealth->setSize(800, 100); // set the start button size
+	UpgradeMaxHealth->setText("Upgrade Max Health"); // set text
+	UpgradeMaxHealth->setTextSize(40); // set size of the text
+
+	gui->add(UpgradeMaxHealth); //add the start button to the gui so that it can be drawn and managed.
+
+	UpgradeMaxHealth->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+
+
+	//next Button 
+	tgui::Button::Ptr PlayerAddHealth = tgui::Button::create(); // create a button on the menu
+	PlayerAddHealth->setPosition(400, 600); // set the position of the button
+	PlayerAddHealth->setSize(800, 100); // set the start button size
+	PlayerAddHealth->setText("Recover Health"); // set text
+	PlayerAddHealth->setTextSize(40); // set size of the text
+
+	gui->add(PlayerAddHealth); //add the start button to the gui so that it can be drawn and managed.
+
+	PlayerAddHealth->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+	
+	//next button
+	tgui::Button::Ptr ShieldEnergyUpgrade = tgui::Button::create(); // create a button on the menu
+	ShieldEnergyUpgrade->setPosition(400, 600); // set the position of the button
+	ShieldEnergyUpgrade->setSize(800, 100); // set the start button size
+	ShieldEnergyUpgrade->setText("Shield Energy Upgrade"); // set text
+	ShieldEnergyUpgrade->setTextSize(40); // set size of the text
+
+	gui->add(ShieldEnergyUpgrade); //add the start button to the gui so that it can be drawn and managed.
+
+	ShieldEnergyUpgrade->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
 
 }
 
@@ -361,10 +407,39 @@ void LevelManager::SignalManager(string msg)
 		//LoadNextLevel(); // load the level
 		currentState = loadLevelState;
 	}
-	if (msg == "Exit Game") {
+	else if (msg == "Exit Game") {
 		window->close();; // tell the window to close becasue we want to exit
 	}
-	if (msg == "Options") {
+	else if (msg == "Options") {
 		std::cout << "Options Button pressed" << std::endl; // test it recognises the button
 	}
+
+	else if (msg == "Upgrade Item Damage") {
+		if (playerCharacter->treasure >= itemDamageUpgradeCost * itemDamageUpgradeMultiplier) { // if the player has more treasure than the cost
+			playerCharacter->ItemDamageMultiplier = playerCharacter->ItemDamageMultiplier + 0.25f;//upgrade the item damage multiplier
+			playerCharacter->treasure = playerCharacter->treasure - itemDamageUpgradeCost * itemDamageUpgradeMultiplier; // remove the treasure
+			itemDamageUpgradeMultiplier = itemDamageUpgradeMultiplier + 0.25f; // increase the cost multiplier so it'll cost more next time
+		}
+	}
+
+	else if (msg == "Upgrade Max Health") {
+		if (playerCharacter->treasure >= maxHealthUpgradeCost * maxHealthUpgradeMultiplier) { // if the player has more treasure than the cost
+			playerCharacter->playerMaxHealth = playerCharacter->playerMaxHealth + 1;//upgrade the player's max health
+			playerCharacter->playerHealth = playerCharacter->playerHealth + 1; //fill the extra health we just gained
+			playerCharacter->treasure = playerCharacter->treasure - maxHealthUpgradeCost * maxHealthUpgradeMultiplier; // remove the gold
+			itemDamageUpgradeMultiplier = itemDamageUpgradeMultiplier + 1.f; // increase the cost multiplier so it'll cost more next time
+			
+		}
+	}
+
+	else if (msg == "Recover Health") {
+		if (playerCharacter->treasure >= 2000) { // if the player has more treasure than the cost
+			if (playerCharacter->playerHealth < playerCharacter->playerMaxHealth) { // if the current health is less than max health we can add an extra health point
+				playerCharacter->playerHealth = playerCharacter->playerHealth + 1; // add one health back to the player
+				playerCharacter->treasure = playerCharacter->treasure - 2000; //remove the treasure
+				 //no multiplier for this one. just high initial cost
+			}
+		}
+	}
+
 }

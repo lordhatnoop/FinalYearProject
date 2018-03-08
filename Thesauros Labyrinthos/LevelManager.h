@@ -37,7 +37,7 @@ public:
 	MazeGeneration mazeGenerator;
 
 	//create a playercharacter object and pass the start position of the maze generation since this will always be a floor tile (good place to start).
-	PlayerCharacter* playerCharacter;
+	PlayerCharacter* playerCharacter; //create a playercharacter here so that we can just move it off screen when we don't need it, because we want some of the information to stay constant between levels(treasure, upgrades,etc) and so can't destroy the player and create a new one eahc level
 
 	//create a a camera object that will be used for the player's view. pass the player positions so that they can be used to set the center of the camera on the player
 	Camera* playerView;
@@ -56,7 +56,17 @@ public:
 private:
 	
 	void loadMenu();
+
+	//upgrades menu stuff
 	void upgradesMenu();
+	//floats to hold the cost of the upgrades
+	float itemDamageUpgradeCost = 800.f; //start cost
+	float maxHealthUpgradeCost = 1000.f; //start cost
+
+	//floats to hold the cost multiplier so that we can increase the cost for each upgrade
+	float itemDamageUpgradeMultiplier = 1.f;
+	float maxHealthUpgradeMultiplier = 1.f;
+
 
 	void SignalManager(string msg);
 

@@ -35,6 +35,12 @@ void PlayerCharacter::createSFML()
 	rectangle.setPosition(xPosition, yPosition); // set the postion of the rectangle to be the position passed
 	//rectangle.setTextureRect(25,25)
 	//rectangle.setTexture(&texture, false);
+
+	//setup the shield circle
+	shieldCircle.setPosition(xPosition, yPosition); //position
+	shieldCircle.setOrigin(6.f, 6.f); //origin = half of size to center it on player
+	shieldCircle.setRadius(6); //radius of the circle
+	shieldCircle.setScale(0.7, 1); // set the x scale a bit smaller to mold the circle slightly
 }
 
 void PlayerCharacter::createCollisionBox(b2World &myWorld)
@@ -105,8 +111,8 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 			collidingWithEnemy();
 			m_contactingEnemy = false; // stop contacting enemy 
 		}
-		//if the player is invincible
-		if (playerInvincible == true) {
+		//if the player is invincible and it's not because of the shield
+		if (playerInvincible == true && shielding == false) {
 			InvincibleTimer(); // call the invincibility function
 		}
 
@@ -148,6 +154,7 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 				//yPosition -= 5;
 
 				dynamicBody->ApplyLinearImpulse(b2Vec2(0, -0.25), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
+				 temp = dynamicBody->GetLinearVelocity();
 			}
 		}
 		if (canClimb == true) { //check if can CLimb is true so we know whether we are touching a rope we can climb (set by collision listener)
@@ -161,17 +168,25 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 		//ITEM USE
 		ItemUse(myWorld);
 		
+		//shield use
+		playerShield();
 		
 	}
 	else if (isStone == true) { //else if player is stone
 		Petrified(); //run the petrified code (timer for how long to be petrified)
 	}
+
+
 	//rectangle.setPosition(xPosition, yPosition);
 	//update the xPOsition and Yposiition so that it can still be sued for the torch
 	xPosition = dynamicBody->GetPosition().x * scale;
 	yPosition = dynamicBody->GetPosition().y * scale;
 	//update the rectangle position to be the new position if there is one
 	rectangle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale);
+	shieldCircle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale); //also update the circle
+
+
+
 
 	//limit how frequently the torch fuel will countdown based on time 
 	if (updateclock->getElapsedTime().asSeconds() > 1) {
@@ -212,8 +227,9 @@ void PlayerCharacter::collidingWithEnemy()
 	//so long as the player isn't invincible
 	if (playerInvincible == false) {
 		playerHealth--; //reduce the playerHealth
-		dynamicBody->ApplyLinearImpulse(b2Vec2(5, 0), b2Vec2(0, 0), true); //apply an impulse to player, to knock them back
+		dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(5, 0), true); //apply an impulse to player, to knock them back
 		playerInvincible = true; // set the player invinicble so can't keep taking damage
+		playerHit = false; // used to differntaite between types of invincibility 
 		invincibilityClock->restart(); // restart the clock so we can time it
 	}
 }
@@ -273,6 +289,7 @@ void PlayerCharacter::InvincibleTimer()
 	//once three seconds have passed, remove invincibility
 	if (invincibilityClock->getElapsedTime().asSeconds() > 3) {
 		playerInvincible = false;
+		playerHit = false;
 	}
 }
 
@@ -466,6 +483,7 @@ void PlayerCharacter::ItemUse(b2World &myWorld)
 			//update the position of the item
 			activeItem->xPosition = xPosition;
 			activeItem->yPosition = yPosition;
+		
 			activeItem->itemDamage = activeItem->itemDamage * ItemDamageMultiplier; //multiply the item damage by the multplier to apply any item damage upgrades 
 			activeItem->createSfml();
 			activeItem->createBox2D(myWorld);
@@ -480,3 +498,21 @@ void PlayerCharacter::ItemUse(b2World &myWorld)
 	}
 }
 
+
+void PlayerCharacter::playerShield()
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) { //if left shift is pressed
+		if (shieldEnergy > 0) {
+			//turn both shielding and playerinvincible to true so that we get the invincible effect but not the timer for the invincibility 
+			shielding = true;
+			playerInvincible = true;
+			shieldCircle.setFillColor(sf::Color(175, 238, 238, 180)); // set the shield circle colour to be  light blue with a low aplha so it's somewhat see through
+			//remove some shield energy
+			shieldEnergy = shieldEnergy - 0.5f;
+		}
+	}
+	else if (playerHit == false) { //make sure player hit is false before changing invincibility. this is to make sure we don't remove the player hit invincibility
+		playerInvincible = false;
+		shieldCircle.setFillColor(sf::Color(0, 0, 100, 0)); //set completely see through so we can't see it (inactive)
+	}
+}

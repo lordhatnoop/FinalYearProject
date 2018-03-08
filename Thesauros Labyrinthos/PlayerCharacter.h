@@ -51,16 +51,30 @@ public:
 	bool itemsOnCooldown = false;
 	bool updateCurrentItem;
 	sf::Clock *CurrentItemClock;
-
+	b2Vec2 temp;
 	//clock for us being petrified
 	sf::Clock *petrifiedClock;
+
+
+	//shield variables
+	float shieldEnergy = 100.f;
+	float shieldEnergyMax = 100.f;
+	bool shielding = false;
+	bool playerHit = false;
+	sf::CircleShape shieldCircle;
+
 private:
 	void torchCountdown();
 	//update clocks
 	sf::Clock *updateclock;
 	sf::Clock *invincibilityClock;
 
+	//called if the bool for colliding is set to true by the collision listener
 	void collidingWithEnemy();
+
+	//method for using the shield
+	void playerShield();
+	
 
 	//function for invincibility
 	void InvincibleTimer();
