@@ -45,7 +45,13 @@ void LevelManager::FSM(b2World &world)
 		break;
 
 	case upgradeState:
-
+		upgradesMenu();
+		break;
+	case upgradeIdleState:
+		upgradesMenuIdle();
+		break;
+	case deleteUpgradeMenuState:
+		DeleteUpgradeMenu();
 		break;
 	}
 }
@@ -197,11 +203,25 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 {
 	world.DestroyBody(playerCharacter->dynamicBody); // destroy the player character body
 	//playerCharacter->dynamicBody = nullptr; // set body null
-	playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //reset the amount of fuel the player has for the torch
+	//playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //reset the amount of fuel the player has for the torch
 
-
+	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) {
+		if (mazeGenerator.cellsVector[i]->cellBody != nullptr) {
+			world.DestroyBody(mazeGenerator.cellsVector[i]->cellBody); //destroy all the cell bodies
+		}
+	}
 	mazeGenerator.cellsVector.clear(); // clear the cells vector so that we can create the new maze
+
+	for (int i = 0; i < skeletonsVector.size(); i++) {
+		world.DestroyBody(skeletonsVector[i]->dynamicBody); //destroy all the skeleton bodies
+	}
 	skeletonsVector.clear(); //clear the skeletons vector
+
+	for (int i = 0; i < medusaVector.size(); i++) {
+		world.DestroyBody(medusaVector[i]->dynamicBody); //destroy all the medusa bodies
+	}
+	medusaVector.clear();//clear the medusa vector
+
 	gui->removeAllWidgets(); //remove all the gui
 
 	currentState = loadLevelState; // transition to load level state to load the next level
@@ -313,11 +333,12 @@ void LevelManager::update(b2World &World)
 	//for testing
 	//if L is pressed
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
-		for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) { //search vector
+		/*for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) { //search vector
 			if (mazeGenerator.cellsVector[i]->cellType == "Exit") { // find the exit cell
 				mazeGenerator.cellsVector[i]->ExitReached = true;
 			}
-		}
+		}*/
+		currentState = deleteLevelState;
 	}
 	
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) { //search vector
@@ -352,8 +373,8 @@ void LevelManager::upgradesMenu()
 	
 	//create the upgrade menu buttons
 	tgui::Button::Ptr UpgradeItemDamage = tgui::Button::create(); // create a button on the menu
-	UpgradeItemDamage->setPosition(400, 300); // set the position of the button
-	UpgradeItemDamage->setSize(800, 100); // set the start button size
+	UpgradeItemDamage->setPosition(200, 200); // set the position of the button
+	UpgradeItemDamage->setSize(800, 50); // set the start button size
 	UpgradeItemDamage->setText("Upgrade Item Damage"); // set text
 	UpgradeItemDamage->setTextSize(40); // set size of the text
 
@@ -363,8 +384,8 @@ void LevelManager::upgradesMenu()
 
 	//next button
 	tgui::Button::Ptr UpgradeMaxHealth = tgui::Button::create(); // create a button on the menu
-	UpgradeMaxHealth->setPosition(400, 450); // set the position of the button
-	UpgradeMaxHealth->setSize(800, 100); // set the start button size
+	UpgradeMaxHealth->setPosition(200, 300); // set the position of the button
+	UpgradeMaxHealth->setSize(800, 50); // set the start button size
 	UpgradeMaxHealth->setText("Upgrade Max Health"); // set text
 	UpgradeMaxHealth->setTextSize(40); // set size of the text
 
@@ -375,8 +396,8 @@ void LevelManager::upgradesMenu()
 
 	//next Button 
 	tgui::Button::Ptr PlayerAddHealth = tgui::Button::create(); // create a button on the menu
-	PlayerAddHealth->setPosition(400, 600); // set the position of the button
-	PlayerAddHealth->setSize(800, 100); // set the start button size
+	PlayerAddHealth->setPosition(200, 400); // set the position of the button
+	PlayerAddHealth->setSize(800, 50); // set the start button size
 	PlayerAddHealth->setText("Recover Health"); // set text
 	PlayerAddHealth->setTextSize(40); // set size of the text
 
@@ -385,16 +406,156 @@ void LevelManager::upgradesMenu()
 	PlayerAddHealth->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
 	
 	//next button
-	tgui::Button::Ptr ShieldEnergyUpgrade = tgui::Button::create(); // create a button on the menu
-	ShieldEnergyUpgrade->setPosition(400, 600); // set the position of the button
-	ShieldEnergyUpgrade->setSize(800, 100); // set the start button size
-	ShieldEnergyUpgrade->setText("Shield Energy Upgrade"); // set text
-	ShieldEnergyUpgrade->setTextSize(40); // set size of the text
+	tgui::Button::Ptr ShieldEnergyRefill = tgui::Button::create(); // create a button on the menu
+	ShieldEnergyRefill->setPosition(200, 500); // set the position of the button
+	ShieldEnergyRefill->setSize(800, 50); // set the start button size
+	ShieldEnergyRefill->setText("Shield Energy Refill"); // set text
+	ShieldEnergyRefill->setTextSize(40); // set size of the text
 
-	gui->add(ShieldEnergyUpgrade); //add the start button to the gui so that it can be drawn and managed.
+	gui->add(ShieldEnergyRefill); //add the start button to the gui so that it can be drawn and managed.
 
-	ShieldEnergyUpgrade->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+	ShieldEnergyRefill->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
 
+	//next button
+	tgui::Button::Ptr ShieldMaxEnergyUpgrade = tgui::Button::create(); // create a button on the menu
+	ShieldMaxEnergyUpgrade->setPosition(200, 600); // set the position of the button
+	ShieldMaxEnergyUpgrade->setSize(800, 50); // set the start button size
+	ShieldMaxEnergyUpgrade->setText("Shield Max Energy Upgrade"); // set text
+	ShieldMaxEnergyUpgrade->setTextSize(40); // set size of the text
+
+	gui->add(ShieldMaxEnergyUpgrade); //add the start button to the gui so that it can be drawn and managed.
+
+	ShieldMaxEnergyUpgrade->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+
+
+	//next button
+	tgui::Button::Ptr TorchRefill = tgui::Button::create(); // create a button on the menu
+	TorchRefill->setPosition(200, 700); // set the position of the button
+	TorchRefill->setSize(800, 50); // set the start button size
+	TorchRefill->setText("Torch Refill"); // set text
+	TorchRefill->setTextSize(40); // set size of the text
+
+	gui->add(TorchRefill); //add the start button to the gui so that it can be drawn and managed.
+
+	TorchRefill->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+
+	//setup the cost boxes next to the Buttons and our gold box
+	//our current treasure textBox
+	treasureUI = tgui::TextBox::create();
+	treasureUI->setPosition(0, 0); // set the textBox to be positioned at 0,0
+	treasureUI->setSize(200, 25); // set the size
+	treasureUI->setTextSize(20); // set the font size
+	treasureUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
+	treasureUI->getRenderer()->setBorderColor(sf::Color::Black);//border colour
+
+	gui->add(treasureUI); // add the treasure UI to the gui
+
+
+	//Cost box
+	ItemDamageCostUI = tgui::TextBox::create();
+	ItemDamageCostUI->setPosition(1100, 200); // set the textBox to be positioned at 0,0
+	ItemDamageCostUI->setSize(200, 50); // set the size
+	ItemDamageCostUI->setTextSize(20); // set the font size
+	ItemDamageCostUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
+	ItemDamageCostUI->getRenderer()->setBorderColor(sf::Color::Black);//border colour
+
+	gui->add(ItemDamageCostUI); // add the treasure UI to the gui
+
+	//next Cost Box
+	MaxHealthCostUI = tgui::TextBox::create();
+	MaxHealthCostUI->setPosition(1100, 300); // set the textBox to be positioned at 0,0
+	MaxHealthCostUI->setSize(200, 50); // set the size
+	MaxHealthCostUI->setTextSize(20); // set the font size
+	MaxHealthCostUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
+	MaxHealthCostUI->getRenderer()->setBorderColor(sf::Color::Black);//border colour
+
+	gui->add(MaxHealthCostUI); // add the treasure UI to the gui
+
+	//next cost box
+	AddHealthCostUI = tgui::TextBox::create();
+	AddHealthCostUI->setPosition(1100, 400); // set the textBox to be positioned at 0,0
+	AddHealthCostUI->setSize(200, 50); // set the size
+	AddHealthCostUI->setTextSize(20); // set the font size
+	AddHealthCostUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
+	AddHealthCostUI->getRenderer()->setBorderColor(sf::Color::Black);//border colour
+
+	gui->add(AddHealthCostUI); // add the treasure UI to the gui
+
+	//next cost box
+	EnergyRefillCostUI = tgui::TextBox::create();
+	EnergyRefillCostUI->setPosition(1100, 500); // set the textBox to be positioned at 0,0
+	EnergyRefillCostUI->setSize(200, 50); // set the size
+	EnergyRefillCostUI->setTextSize(20); // set the font size
+	EnergyRefillCostUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
+	EnergyRefillCostUI->getRenderer()->setBorderColor(sf::Color::Black);//border colour
+
+	gui->add(EnergyRefillCostUI); // add the treasure UI to the gui
+
+	//next cost Box
+	EnergyMaxUpgradeCostUI = tgui::TextBox::create();
+	EnergyMaxUpgradeCostUI->setPosition(1100, 600); // set the textBox to be positioned at 0,0
+	EnergyMaxUpgradeCostUI->setSize(200, 50); // set the size
+	EnergyMaxUpgradeCostUI->setTextSize(20); // set the font size
+	EnergyMaxUpgradeCostUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
+	EnergyMaxUpgradeCostUI->getRenderer()->setBorderColor(sf::Color::Black);//border colour
+
+	gui->add(EnergyMaxUpgradeCostUI); // add the treasure UI to the gui
+
+	//next cost Box
+	TorchRefillCostUI = tgui::TextBox::create();
+	TorchRefillCostUI->setPosition(1100, 700); // set the textBox to be positioned at 0,0
+	TorchRefillCostUI->setSize(200, 50); // set the size
+	TorchRefillCostUI->setTextSize(20); // set the font size
+	TorchRefillCostUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
+	TorchRefillCostUI->getRenderer()->setBorderColor(sf::Color::Black);//border colour
+
+	gui->add(TorchRefillCostUI); // add the treasure UI to the gui
+
+
+	//create two buttons, one for advance and one for going back
+	tgui::Button::Ptr CarryOnButton = tgui::Button::create(); // create a button on the menu
+	CarryOnButton->setPosition(400, 800); // set the position of the button
+	CarryOnButton->setSize(400, 50); // set the start button size
+	CarryOnButton->setText("Continue Game"); // set text
+	CarryOnButton->setTextSize(40); // set size of the text
+
+	gui->add(CarryOnButton); //add the start button to the gui so that it can be drawn and managed.
+
+	CarryOnButton->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+
+	//second button
+	tgui::Button::Ptr BeginBackwardsRun = tgui::Button::create(); // create a button on the menu
+	BeginBackwardsRun->setPosition(900, 800); // set the position of the button
+	BeginBackwardsRun->setSize(400, 50); // set the start button size
+	BeginBackwardsRun->setText("Begin Retreat Run"); // set text
+	BeginBackwardsRun->setTextSize(40); // set size of the text
+
+	gui->add(BeginBackwardsRun); //add the start button to the gui so that it can be drawn and managed.
+
+	BeginBackwardsRun->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+
+	
+	currentState = upgradeIdleState; //transition to idle state so that we don't keep creating the buttons over and over again while we use the menu
+}
+
+void LevelManager::upgradesMenuIdle()
+{
+	//set the text for all of the cost boxes and our treasure text box in the "idle" state for the upgrade menu so that it keeps getting updated ( this function will be run until we leave the upgrade menu)
+	treasureUI->setText("Treasure: " + to_string(playerCharacter->treasure)); //set the treasure text to be our current treasure
+	ItemDamageCostUI->setText("Cost: " + to_string(itemDamageUpgradeCost* itemDamageUpgradeMultiplier)); //set the text to be "cost : the result of the cost * the multiplier"
+	MaxHealthCostUI->setText("Cost: " + to_string(maxHealthUpgradeCost* maxHealthUpgradeMultiplier));
+	AddHealthCostUI->setText("Cost: 2000"); //has  a set cost, so don't need to convert the int to a string and can just set the number in the string
+	EnergyRefillCostUI->setText("Cost: 2000");
+	EnergyMaxUpgradeCostUI->setText("Cost: " + to_string(energyMaxUpgradeCost* energyMaxUpgradeMultiplier));
+	TorchRefillCostUI->setText("Cost: 500");
+
+}
+
+void LevelManager::DeleteUpgradeMenu()
+{
+	//delete the upgrade menu GUI
+	gui->removeAllWidgets();
+	currentState = loadLevelState; //transition to the next level
 }
 
 
@@ -440,6 +601,32 @@ void LevelManager::SignalManager(string msg)
 				 //no multiplier for this one. just high initial cost
 			}
 		}
+	}
+	else if (msg == "Shield Energy Refill") {
+		if (playerCharacter->treasure >= 2000) { // if the player has more treasure than the cost
+			if (playerCharacter->shieldEnergy < playerCharacter->shieldEnergyMax) { // if the current energy is less than max energy we can add an extra health point
+				playerCharacter->shieldEnergy = playerCharacter->shieldEnergyMax; // add energy back to player
+				playerCharacter->treasure = playerCharacter->treasure - 2000; //remove the treasure
+																			  //no multiplier for this one. just high initial cost
+			}
+		}
+	}
+	else if (msg == "Shield Max Energy Upgrade") {
+		if (playerCharacter->treasure >= energyMaxUpgradeCost * energyMaxUpgradeMultiplier) {
+			playerCharacter->shieldEnergyMax = playerCharacter->shieldEnergyMax + 25.f; // increase max energy
+			playerCharacter->shieldEnergy = playerCharacter->shieldEnergyMax; //refill the energy to be nice
+			playerCharacter->treasure = playerCharacter->treasure - energyMaxUpgradeCost * energyMaxUpgradeMultiplier; //remove the gold
+			energyMaxUpgradeMultiplier = energyMaxUpgradeMultiplier + 0.2f;
+		}
+	}
+	else if (msg == "Torch Refill") {
+		if (playerCharacter->treasure >= 500) {
+			playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //refill torch fuel
+			playerCharacter->treasure - 500; //remove gold
+		}
+	}
+	else if (msg == "Continue Game") {
+		currentState = deleteUpgradeMenuState; //transition to the deletion of the upgrade menu to prepare for next level
 	}
 
 }

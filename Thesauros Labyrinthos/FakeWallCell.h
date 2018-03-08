@@ -13,6 +13,6 @@ public:
 
 	int textureCounter;
 
-	b2Body *staticBody;
+	
 
 };

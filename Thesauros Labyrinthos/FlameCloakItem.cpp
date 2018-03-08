@@ -18,7 +18,7 @@ void FlameCloakItem::update()
 		
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 			//yPosition -= 5;
-
+			//used breakpoitns to see the difference between the two so that i could do the math
 			Box2DBody->ApplyLinearImpulse(b2Vec2(0, -0.55), b2Vec2(0, 0), true); // apply an impulse to propel flamecloak upward with the player jump - it's a larger impulse than the player's becasue of the larger body size. maths worked out it needed to be roughly 2.2 x the size of the players
 			 temp = Box2DBody->GetLinearVelocity();
 		}

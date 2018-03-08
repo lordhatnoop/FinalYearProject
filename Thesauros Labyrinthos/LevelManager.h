@@ -15,7 +15,9 @@ enum GameState {
 	loadLevelState,
 	inGameState,
 	deleteLevelState,
-	upgradeState
+	upgradeState,
+	upgradeIdleState,
+	deleteUpgradeMenuState
 };
 
 class LevelManager {
@@ -59,14 +61,15 @@ private:
 
 	//upgrades menu stuff
 	void upgradesMenu();
+	void upgradesMenuIdle();
 	//floats to hold the cost of the upgrades
 	float itemDamageUpgradeCost = 800.f; //start cost
 	float maxHealthUpgradeCost = 1000.f; //start cost
-
+	float energyMaxUpgradeCost = 3000.f; //start cost
 	//floats to hold the cost multiplier so that we can increase the cost for each upgrade
 	float itemDamageUpgradeMultiplier = 1.f;
 	float maxHealthUpgradeMultiplier = 1.f;
-
+	float energyMaxUpgradeMultiplier = 1.f;
 
 	void SignalManager(string msg);
 
@@ -78,6 +81,14 @@ private:
 	tgui::Gui* gui; // pointer to the gui we will pass
 	tgui::TextBox::Ptr treasureUI; // textbox UI
 	tgui::TextBox::Ptr healthUI; // healthUI
+
+	//upgrades menu GUI extras
+	tgui::TextBox::Ptr ItemDamageCostUI;
+	tgui::TextBox::Ptr MaxHealthCostUI;
+	tgui::TextBox::Ptr AddHealthCostUI;
+	tgui::TextBox::Ptr EnergyRefillCostUI;
+	tgui::TextBox::Ptr EnergyMaxUpgradeCostUI;
+	tgui::TextBox::Ptr TorchRefillCostUI;
 	
 
 	int levelCounter = 0; // used to track which level we are on 

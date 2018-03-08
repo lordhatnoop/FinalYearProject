@@ -11,6 +11,7 @@ public:
 	sf::RectangleShape rectangle;
 	string cellType; // sued for idnetifying cells in the vector
 	bool ExitReached = false;
+	b2Body *cellBody;
 protected:
 	const int scale = 30.f; //scale used for box2d - 30 pixels to a meter, used in multiplication and dividing to get appropriate physics for while keeping same pixel size.
 	sf::Vector2f cellSize; // vector2f to store the objectsize

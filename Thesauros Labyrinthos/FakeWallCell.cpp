@@ -32,7 +32,7 @@ void FakeWallCell::createBox2D(b2World & world)
 	
 	BodyDef.userData = this; //set userdata for collision checks
 	BodyDef.fixedRotation = true; //set fixed rotation so that it doesn't rotate when moving
-	staticBody = world.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
+	cellBody = world.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
 
 											 //box2dShape
 	cellBox2DPolygonShape.SetAsBox(5.f / scale, 4.8f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
@@ -44,5 +44,5 @@ void FakeWallCell::createBox2D(b2World & world)
 	objectFixtureDef.filter.categoryBits = WALL; // set category to be wall
 
 	objectFixtureDef.filter.maskBits = PLAYER | ENEMY | PLAYERPROJECTILE; //set walls to collide with player's, projectiles anbd enemieis, won't collide with each other
-	staticBody->CreateFixture(&objectFixtureDef);
+	cellBody->CreateFixture(&objectFixtureDef);
 }
