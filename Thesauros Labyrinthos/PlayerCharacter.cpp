@@ -3,6 +3,7 @@
 #include "FlameCloakItem.h"
 PlayerCharacter::PlayerCharacter(int x, int y)
 {
+	treasure = 200000;
 	xPosition = x;
 	yPosition = y;
 	createSFML();

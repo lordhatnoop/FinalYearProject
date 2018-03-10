@@ -7,6 +7,7 @@ public:
 	TextureLoader();
 
 	//The various textures in the game
+	sf::Texture backgroundTexture;
 	sf::Texture wallTexture;
 	sf::Texture fakeWallTexture;
 	sf::Texture floorTexture;

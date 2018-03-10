@@ -5,6 +5,7 @@
 #include "TextureLoader.h"
 #include "LevelManager.h"
 #include "CollisionListener.h"
+#include <iostream>
 using namespace std;
 
 
@@ -17,7 +18,7 @@ int main() {
 	// Window creation and mangement
 	sf::RenderWindow gameWindow(sf::VideoMode(1600, 900), "2DPhysicsPuzzleGame"); // creates a window and sets it's properties (size) */
 	gameWindow.setPosition(sf::Vector2i(0, 9.8));
-	gameWindow.setFramerateLimit(60); // set the fps limit for the gamewindow to 60 
+	gameWindow.setFramerateLimit(30); // set the fps limit for the gamewindow to 60 
 	
 	
 	 //Box2D level stuff setup
@@ -67,15 +68,22 @@ int main() {
 
 	 sf::Clock deltaTimeClock;
 	 float dt;
-//to be sued for fps
+//to be used for fps
 	sf::Clock clock;
-	
-	float lastTime = 0;
+	sf::Time time;
+	//float lastTime = 0;
+	//create a background image
+	sf::RectangleShape backgroundSprite;
+	backgroundSprite.setSize(sf::Vector2f(1600, 900));//set size to be window size so it fills entire window
+	backgroundSprite.setTexture(&textureLoader.backgroundTexture);
 
 	while (gameWindow.isOpen()) {
 
-
 		gameWindow.clear(sf::Color::Black);/*!<  clears the window each frame so that it can be updated and old frames aren't left on screen */
+
+		gameWindow.draw(backgroundSprite); //draw the background texture first so that it's displayed on the very bottom. doesn't need to be updated so can be called before all of that
+
+		
 		world.Step(timeStep, velocityIterations, positionIterations); // steps the world physics - like a game loop for the box2d world */
 
 		levelManager.FSM(world);
@@ -142,11 +150,20 @@ int main() {
 
 
 		gameWindow.display(); /*!< tells the gamewindow to display everything */
+
+
 		//fps stuff
+		/*
 		float currentTime = clock.restart().asSeconds();
 		float fps = 1.f / (currentTime - lastTime);
 		lastTime = currentTime;
 		printf("%f \n", fps);
+		*/
+		time = clock.getElapsedTime();
+		float fps = 1.f / time.asSeconds();
+		cout << fps << endl;
+		//printf("FPS = %f  \n", fps);
+		clock.restart().asSeconds();
 	}
 
 

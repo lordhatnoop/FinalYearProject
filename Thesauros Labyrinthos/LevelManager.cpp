@@ -6,6 +6,7 @@
 #include "Skeleton.h"
 #include "RopeItem.h"
 #include "Cell.h"
+
 using namespace std;
 
 LevelManager::LevelManager(sf::RenderWindow *passedWindow, tgui::Gui *passedGUI)
@@ -20,6 +21,8 @@ LevelManager::LevelManager(sf::RenderWindow *passedWindow, tgui::Gui *passedGUI)
 	playerView = new Camera(playerCharacter->xPosition, playerCharacter->yPosition);
 
 	currentState = menuCreate; //set the state to be menustate so that we load the menu 
+
+	
 }
 
 void LevelManager::FSM(b2World &world)
@@ -191,8 +194,8 @@ void LevelManager::LoadNextLevel(b2World &world)
 		exit = std::shared_ptr<ExitCell>(new ExitCell(mazeGenerator.endX, mazeGenerator.endY));
 		mazeGenerator.cellsVector.push_back(exit);
 
-		
-		
+		//create the minimap
+		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
 
 		playerCharacter->createCollisionBox(world);
 		currentState = inGameState;// set the current state to be ingame state so that we can start updating the game
@@ -312,7 +315,15 @@ void LevelManager::update(b2World &World)
 		healthUI->setSize(200, 25); // change the size of the bar so that the hearts don't get sacled up
 	}
 	
+
+	
+	
+	
+
+
 	/////////////////////////DRAW///////////////////////////////////////////////////
+	
+
 	//set the window to use the cameraview
 	window->setView(playerView->cameraView);
 
@@ -354,6 +365,8 @@ void LevelManager::update(b2World &World)
 	for (int i = 0; i < playerCharacter->arrowVector.size(); i++) { //get the arrow vector size and iterate through
 		window->draw(playerCharacter->arrowVector[i]->arrowRect);
 	}
+
+
 	//draw stuff
 	//playerDraw stuff - done here so that we don't have to pass player the window
 	if (playerCharacter->activeItem != nullptr) { // so loong as active item isn't null
@@ -361,9 +374,18 @@ void LevelManager::update(b2World &World)
 	}
 	window->draw(playerCharacter->rectangle);
 	window->draw(playerCharacter->shieldCircle);
-	window->draw(playerCharacter->torch->torchSprite);
+	//window->draw(playerCharacter->torch->torchSprite);
 	
+	//set the window to the minimap view so we can tell the minimap what to draw
+	window->setView(gameMiniMap->minimapView);
+
+	//draw all the minimap stuff and update it 
+	gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
 	
+
+	//set the window back to the normal view
+	window->setView(playerView->cameraView);
+
 }
 
 
@@ -439,7 +461,7 @@ void LevelManager::upgradesMenu()
 
 	TorchRefill->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
 
-	//setup the cost boxes next to the Buttons and our gold box
+	//setup the cost boxes next to the Buttons and our player GUI so we know what we have
 	//our current treasure textBox
 	treasureUI = tgui::TextBox::create();
 	treasureUI->setPosition(0, 0); // set the textBox to be positioned at 0,0
@@ -450,6 +472,24 @@ void LevelManager::upgradesMenu()
 
 	gui->add(treasureUI); // add the treasure UI to the gui
 
+	///////HEALTH UI///////////////
+	healthUI = tgui::TextBox::create();
+	healthUI->setPosition(200, 0);
+	healthUI->setSize(200, 25);
+	//healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture2);
+
+	gui->add(healthUI);
+
+	///////////////////////FUEL UI////////////////////////////////////
+	//the textbox portion
+	torchFuelUI = tgui::TextBox::create();
+	torchFuelUI->setPosition(400, 0); // set the textBox to be positioned at 400,0
+	torchFuelUI->setSize(600, 25); // set the size
+	torchFuelUI->setTextSize(16); // set the font size
+	torchFuelUI->getRenderer()->setBackgroundColor(sf::Color::Transparent); // set colour
+	torchFuelUI->getRenderer()->setBorderColor(sf::Color::Green);//border colour
+
+	gui->add(torchFuelUI);
 
 	//Cost box
 	ItemDamageCostUI = tgui::TextBox::create();
@@ -534,6 +574,8 @@ void LevelManager::upgradesMenu()
 
 	BeginBackwardsRun->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
 
+
+
 	
 	currentState = upgradeIdleState; //transition to idle state so that we don't keep creating the buttons over and over again while we use the menu
 }
@@ -548,7 +590,47 @@ void LevelManager::upgradesMenuIdle()
 	EnergyRefillCostUI->setText("Cost: 2000");
 	EnergyMaxUpgradeCostUI->setText("Cost: " + to_string(energyMaxUpgradeCost* energyMaxUpgradeMultiplier));
 	TorchRefillCostUI->setText("Cost: 500");
+	//TorchFuel UI
+	torchFuelUI->setText("Fuel Remaining: " + to_string(playerCharacter->currentTorchFuel) + " / " + to_string(playerCharacter->maxTorchFuel)); //set the text for the fuel UI to display the current and max fuel. 
 
+	//PLayerHealth UI
+	//check the player's health and update the UI based on that
+	if (playerCharacter->playerHealth == 1) {
+		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture1); //change to the one heart texture
+		healthUI->setSize(22.2f, 25); // change the size of the bar so that the hearts don't get sacled up
+	}
+	else if (playerCharacter->playerHealth == 2) {
+		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture2);
+		healthUI->setSize(44.4f, 25); // change the size of the bar so that the hearts don't get sacled up
+	}
+	else if (playerCharacter->playerHealth == 3) {
+		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture3);
+		healthUI->setSize(66.6f, 25); // change the size of the bar so that the hearts don't get sacled up
+	}
+	else if (playerCharacter->playerHealth == 4) {
+		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture4);
+		healthUI->setSize(88.8f, 25); // change the size of the bar so that the hearts don't get sacled up
+	}
+	else if (playerCharacter->playerHealth == 5) {
+		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture5);
+		healthUI->setSize(111.0f, 25); // change the size of the bar so that the hearts don't get sacled up
+	}
+	else if (playerCharacter->playerHealth == 6) {
+		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture6);
+		healthUI->setSize(133.2f, 25); // change the size of the bar so that the hearts don't get sacled up
+	}
+	else if (playerCharacter->playerHealth == 7) {
+		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture7);
+		healthUI->setSize(155.4f, 25); // change the size of the bar so that the hearts don't get sacled up
+	}
+	else if (playerCharacter->playerHealth == 8) {
+		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture8);
+		healthUI->setSize(177.6f, 25); // change the size of the bar so that the hearts don't get sacled up
+	}
+	else if (playerCharacter->playerHealth == 9) {
+		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture9);
+		healthUI->setSize(200, 25); // change the size of the bar so that the hearts don't get sacled up
+	}
 }
 
 void LevelManager::DeleteUpgradeMenu()

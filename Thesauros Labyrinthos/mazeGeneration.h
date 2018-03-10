@@ -9,8 +9,8 @@
 
 //changing the values of these defines changes the eventual outcome of the maze generation , experiment. (e.g changing radius to 1 result in more of a cave than a maze.
 //size of the map
-#define maze_size_x 160
-#define maze_size_y 90
+#define maze_size_x 80
+#define maze_size_y 45
 
 #define cell_Radius 2
 
@@ -24,7 +24,13 @@ public:
 	MazeGeneration();
 	void generateMaze(b2World &world);
 	vector <std::shared_ptr<Cell>> cellsVector;
-	
+	/*
+	vector <WallCell> wallCellVector;
+	vector <FakeWallCell> fakeWallCellVector;
+	vector <FloorCell> floorCellVector;
+	vector <NonBodyWallCell> nonBodyWallCellVector;
+	vector <ExitCell> exitCellVector;
+	*/
 	
 
 

@@ -28,6 +28,7 @@ void TextureLoader::loadTextures()
 	playerTexture.loadFromFile("Assets/Sprites/Player/Archer.png");
 	medusaTexture.loadFromFile("Assets/Sprites/Enemies/Medusa/Medusa.png");
 	flameCloakTexture.loadFromFile("Assets/Sprites/FireSprite.png");
+	backgroundTexture.loadFromFile("Assets/Sprites/background.png");
 	//WIP - works, needs tweaking
 	/*testRenderTExture.create(800, 450);
 	testRenderTExture.clear(sf::Color(0, 0, 0, 200));

@@ -7,6 +7,8 @@ FakeWallCell::FakeWallCell(int x, int y, b2World & world)
 
 	createSFML(); // call staright to the createSFML function as part of the contructor so that it is done on creation of the cell.
 	createBox2D(world); // call after the rectangle is created so that collision box can use the sfml sizes.
+
+	cellType = "Fake wall cell";
 }
 
 void FakeWallCell::createSFML()

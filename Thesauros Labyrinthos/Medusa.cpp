@@ -218,66 +218,66 @@ void Medusa::moveLeft()
 													 //distances between each sprite on sheet are different, so have to manually set each position
 
 		textureSubRect.width = -55; //set width negative for flipped and going left. will always be 55 becasue of using highest value to make sprites same size
-								   //don't cchange height cause don't want it upside down
+		//don't cchange height cause don't want it upside down
 		if (walkAnimationFrame == 0) {
 			//set the new sprite position
-			textureSubRect.left = 5;
+			textureSubRect.left = 60;
 			textureSubRect.top = 93;
 		}
 		else if (walkAnimationFrame == 1) {
-			textureSubRect.left = 72;
+			textureSubRect.left = 127;
 			textureSubRect.top = 94;
 		}
 		else if (walkAnimationFrame == 2) {
-			textureSubRect.left = 134;
+			textureSubRect.left = 189;
 			textureSubRect.top = 95;
 		}
 		else if (walkAnimationFrame == 3) {
-			textureSubRect.left = 199;
+			textureSubRect.left = 254;
 			textureSubRect.top = 93;
 		}
 		else if (walkAnimationFrame == 4) {
-			textureSubRect.left = 261;
+			textureSubRect.left = 316;
 			textureSubRect.top = 94;
 		}
 		else if (walkAnimationFrame == 5) {
-			textureSubRect.left = 321;
+			textureSubRect.left = 376;
 			textureSubRect.top = 95;
 		}
 		else if (walkAnimationFrame == 6) {
-			textureSubRect.left = 384;
+			textureSubRect.left = 439;
 			textureSubRect.top = 93;
 		}
 		else if (walkAnimationFrame == 7) {
-			textureSubRect.left = 448;
+			textureSubRect.left = 503;
 			textureSubRect.top = 95;
 		}
 		else if (walkAnimationFrame == 8) {
-			textureSubRect.left = 514;
+			textureSubRect.left = 569;
 			textureSubRect.top = 93;
 		}
 		else if (walkAnimationFrame == 9) {
-			textureSubRect.left = 579;
+			textureSubRect.left = 634;
 			textureSubRect.top = 94;
 		}
 		else if (walkAnimationFrame == 10) {
-			textureSubRect.left = 640;
+			textureSubRect.left = 695;
 			textureSubRect.top = 95;
 		}
 		else if (walkAnimationFrame == 11) {
-			textureSubRect.left = 714;
+			textureSubRect.left = 769;
 			textureSubRect.top = 93;
 		}
 		else if (walkAnimationFrame == 12) {
-			textureSubRect.left = 792;
+			textureSubRect.left = 847;
 			textureSubRect.top = 94;
 		}
 		else if (walkAnimationFrame == 13) {
-			textureSubRect.left = 859;
+			textureSubRect.left = 914;
 			textureSubRect.top = 95;
 		}
 		else if (walkAnimationFrame == 14) {
-			textureSubRect.left = 931;
+			textureSubRect.left = 986;
 			textureSubRect.top = 93;
 		}
 		//after we've decided which animation to do, update the count so next time through we'll change

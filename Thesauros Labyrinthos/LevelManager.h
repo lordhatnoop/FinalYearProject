@@ -6,7 +6,7 @@
 #include "Camera.h"
 #include "TextureLoader.h"
 #include "mazeGeneration.h"
-
+#include "MiniMap.h"
 
 // enum for the states of the game
 enum GameState {
@@ -44,6 +44,9 @@ public:
 	//create a a camera object that will be used for the player's view. pass the player positions so that they can be used to set the center of the camera on the player
 	Camera* playerView;
 
+	//create a minimap object
+	MiniMap* gameMiniMap;
+
 	sf::Sprite title;
 
 	void FSM(b2World &world); // Finite state machine
@@ -54,6 +57,12 @@ public:
 	sf::RectangleShape torchFuelUIBackgroundRed; // the background for the fuel ui
 	sf::RectangleShape torchFuelUIBackgroundWhite; // the background for the fuel ui
 	sf::RectangleShape torchFuelUIImage; // the image by the side of the torch fuel UI
+
+
+	//background
+	//create a background image
+	sf::RectangleShape backgroundSprite;
+	
 
 private:
 	

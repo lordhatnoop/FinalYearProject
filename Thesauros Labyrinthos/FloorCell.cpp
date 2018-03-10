@@ -7,6 +7,7 @@ FloorCell::FloorCell(int x, int y)
 	cellPosition = sf::Vector2f(x, y);//pos = passed positions
 
 	createSFML(); // call staright to the createSFML function as part of the contructor so that it is done on creation of the cell.
+	cellType = "floor cell";
 }
 
 void FloorCell::createSFML()

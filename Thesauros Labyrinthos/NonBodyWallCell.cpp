@@ -11,7 +11,7 @@ NonBodyWallCell::NonBodyWallCell(int x, int y) {
 
 	createSFML(); // call staright to the createSFML function as part of the contructor so that it is done on creation of the cell.
 	
-
+	cellType = "non-body wall cell";
 
 }
 

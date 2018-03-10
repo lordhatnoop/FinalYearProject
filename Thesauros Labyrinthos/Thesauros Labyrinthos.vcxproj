@@ -129,6 +129,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="mazeGeneration.cpp" />
     <ClCompile Include="Medusa.cpp" />
+    <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="NonBodyWallCell.cpp" />
     <ClCompile Include="playerArrow.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="mazeGeneration.h" />
     <ClInclude Include="Medusa.h" />
+    <ClInclude Include="MiniMap.h" />
     <ClInclude Include="NonBodyWallCell.h" />
     <ClInclude Include="playerArrow.h" />
     <ClInclude Include="PlayerCharacter.h" />
