@@ -315,32 +315,46 @@ void LevelManager::update(b2World &World)
 		healthUI->setSize(200, 25); // change the size of the bar so that the hearts don't get sacled up
 	}
 	
-
-	
-	
-	
-
-
 	/////////////////////////DRAW///////////////////////////////////////////////////
 	
 
 	//set the window to use the cameraview
-	window->setView(playerView->cameraView);
+	//window->setView(playerView->cameraView);
 
 	//draw all the maze cells
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) {
-		window->draw(mazeGenerator.cellsVector[i]->rectangle);
+		if (mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition + 50.f ||
+			mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition - 50.f) { //if the cell is within the camera view
+			if (mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition + 50.f ||
+				mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition - 50.f) { //same check as above but for yposition - draw culling. only draw the cell if it's in our camera view
+
+				window->draw(mazeGenerator.cellsVector[i]->rectangle);
+			}
+		}
 	}
 
 	//draw the skeletons
 	for (int i = 0; i < skeletonsVector.size(); i++) {
-		window->draw(skeletonsVector[i]->rectangle);
+		if (skeletonsVector[i]->xPosition >= playerCharacter->xPosition && skeletonsVector[i]->xPosition <= playerCharacter->xPosition + 50.f ||
+			skeletonsVector[i]->xPosition <= playerCharacter->xPosition && skeletonsVector[i]->xPosition >= playerCharacter->xPosition - 50.f) { //if the skeleton is within the camera view
+			if (skeletonsVector[i]->yPosition >= playerCharacter->yPosition && skeletonsVector[i]->yPosition <= playerCharacter->yPosition + 50.f ||
+				skeletonsVector[i]->yPosition <= playerCharacter->yPosition && skeletonsVector[i]->yPosition >= playerCharacter->yPosition - 50.f) { //same check as above but for yposition
+
+				window->draw(skeletonsVector[i]->rectangle);
+			}
+		}
 	}
 	//draw medusas
 	for (int i = 0; i < medusaVector.size(); i++) {
-		window->draw(medusaVector[i]->rectangle);
-	}
+		if (medusaVector[i]->xPosition >= playerCharacter->xPosition && medusaVector[i]->xPosition <= playerCharacter->xPosition + 50.f ||
+			medusaVector[i]->xPosition <= playerCharacter->xPosition && medusaVector[i]->xPosition >= playerCharacter->xPosition - 50.f) { //if the medusa is within the camera view
+			if (medusaVector[i]->yPosition >= playerCharacter->yPosition && medusaVector[i]->yPosition <= playerCharacter->yPosition + 50.f ||
+				medusaVector[i]->yPosition <= playerCharacter->yPosition && medusaVector[i]->yPosition >= playerCharacter->yPosition - 50.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
 
+				window->draw(medusaVector[i]->rectangle);
+			}
+		}
+	}
 	//for testing
 	//if L is pressed
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
@@ -377,14 +391,14 @@ void LevelManager::update(b2World &World)
 	//window->draw(playerCharacter->torch->torchSprite);
 	
 	//set the window to the minimap view so we can tell the minimap what to draw
-	window->setView(gameMiniMap->minimapView);
+	//window->setView(gameMiniMap->minimapView);
 
 	//draw all the minimap stuff and update it 
-	gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
+	//gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
 	
 
 	//set the window back to the normal view
-	window->setView(playerView->cameraView);
+	//window->setView(playerView->cameraView);
 
 }
 
