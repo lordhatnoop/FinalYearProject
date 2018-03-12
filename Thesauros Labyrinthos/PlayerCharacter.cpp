@@ -296,7 +296,7 @@ void PlayerCharacter::InvincibleTimer()
 
 void PlayerCharacter::walkRight()
 {
-	dynamicBody->SetLinearVelocity(b2Vec2(5 , -1));
+	dynamicBody->SetLinearVelocity(b2Vec2(5  , -1 ));
 	
 	//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
 	//sprite sheet has inconsistenet sizes for each frame. just use the largest avlue for the width and height to add a few blank frames to the smaller ones so that the sprite doesn't keep visibly chanign shape.

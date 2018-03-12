@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "GameCharacters.h"
+#include "TreasureChest.h"
 class CollisionListener : public b2ContactListener {
 
 public:
@@ -10,14 +11,15 @@ public:
 	void PlayerRopeCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void EndRopeCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void FlameCloakCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
-
+	void TreasureChestCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	//enum that holds the diffrent type of entities for collision filtering
 	enum entityCategory {
 		ENEMY = 0x0001,
 		PLAYER = 0x0002,
 		WALL = 0x0004,
 		PLAYERPROJECTILE = 0x0005,
-		ITEM = 0x0006
+		ITEM = 0x0006,
+		TREASURECHEST = 0x0007
 	};
 
 private:

@@ -9,7 +9,8 @@ public:
 		PLAYER = 0x0002,
 		WALL = 0x0004,
 		PLAYERPROJECTILE = 0x0005,
-		ITEM = 0x0006
+		ITEM = 0x0006,
+		TREASURECHEST = 0x0007
 	};
 	
 	//want the items to have two fixtures, one for colliding with walls, etc and proper collision so that the items don't fall through the world
@@ -32,7 +33,7 @@ public:
 	bool active = false;
 	int scale = 30;
 	float itemDamage;
-
+	string itemName;
 	virtual void update() {};
 	virtual void createSfml() {};
 	virtual void createBox2D(b2World &myWorld) {};

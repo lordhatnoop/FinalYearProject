@@ -194,6 +194,22 @@ void LevelManager::LoadNextLevel(b2World &world)
 		exit = std::shared_ptr<ExitCell>(new ExitCell(mazeGenerator.endX, mazeGenerator.endY));
 		mazeGenerator.cellsVector.push_back(exit);
 
+
+		//create treasure chests
+		for (int i = 0; i < 3;) {
+			int chestX = rand() % 1599 + 1;
+			int chestY = rand() % 899 + 1; //create X and Y postitons in the range of positions they can be 
+
+			if (mazeGenerator.maze[chestX / 10][chestY / 10] == 0) {// check the randomised position against the maze to see if it's a floor (don't want  them to spawn in walls) (divide by 10 to change from screenposition to array position)
+				treasureChestVector.push_back(TreasureChest(chestX, chestY)); //for testing, push a single chest to the back
+				treasureChestVector.back().createBody(world); //create the body
+				i++; // progress i. progress i here so that we're guarenteed 3 chests
+			}
+
+		}
+		treasureChestVector.push_back(TreasureChest(playerCharacter->xPosition + 5 , playerCharacter->yPosition +5 )); //for testing, push a single chest to the back
+		treasureChestVector.back().createBody(world); //create the body
+
 		//create the minimap
 		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
 
@@ -224,6 +240,13 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 		world.DestroyBody(medusaVector[i]->dynamicBody); //destroy all the medusa bodies
 	}
 	medusaVector.clear();//clear the medusa vector
+
+
+	for (int i = 0; i < treasureChestVector.size(); i++) {
+		world.DestroyBody(treasureChestVector[i].chestBody); //destroy all the treasureChest bodies
+	}
+	treasureChestVector.clear();
+
 
 	gui->removeAllWidgets(); //remove all the gui
 
@@ -261,6 +284,11 @@ void LevelManager::update(b2World &World)
 	//update any medusa
 	for (int i = 0; i < medusaVector.size(); i++) {
 		medusaVector[i]->update(playerCharacter);
+	}
+
+	//update any treasure chests
+	for (int i = 0; i < treasureChestVector.size(); i++) {
+		treasureChestVector[i].update();
 	}
 	//////////////////////GUI UPDATE//////////////////////////////////////////////////////////////////
 
@@ -319,14 +347,14 @@ void LevelManager::update(b2World &World)
 	
 
 	//set the window to use the cameraview
-	//window->setView(playerView->cameraView);
+	window->setView(playerView->cameraView);
 
 	//draw all the maze cells
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) {
 		if (mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition + 50.f ||
-			mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition - 50.f) { //if the cell is within the camera view
+			mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition - 60.f) { //if the cell is within the camera view
 			if (mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition + 50.f ||
-				mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition - 50.f) { //same check as above but for yposition - draw culling. only draw the cell if it's in our camera view
+				mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw the cell if it's in our camera view
 
 				window->draw(mazeGenerator.cellsVector[i]->rectangle);
 			}
@@ -336,9 +364,9 @@ void LevelManager::update(b2World &World)
 	//draw the skeletons
 	for (int i = 0; i < skeletonsVector.size(); i++) {
 		if (skeletonsVector[i]->xPosition >= playerCharacter->xPosition && skeletonsVector[i]->xPosition <= playerCharacter->xPosition + 50.f ||
-			skeletonsVector[i]->xPosition <= playerCharacter->xPosition && skeletonsVector[i]->xPosition >= playerCharacter->xPosition - 50.f) { //if the skeleton is within the camera view
+			skeletonsVector[i]->xPosition <= playerCharacter->xPosition && skeletonsVector[i]->xPosition >= playerCharacter->xPosition - 60.f) { //if the skeleton is within the camera view
 			if (skeletonsVector[i]->yPosition >= playerCharacter->yPosition && skeletonsVector[i]->yPosition <= playerCharacter->yPosition + 50.f ||
-				skeletonsVector[i]->yPosition <= playerCharacter->yPosition && skeletonsVector[i]->yPosition >= playerCharacter->yPosition - 50.f) { //same check as above but for yposition
+				skeletonsVector[i]->yPosition <= playerCharacter->yPosition && skeletonsVector[i]->yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition
 
 				window->draw(skeletonsVector[i]->rectangle);
 			}
@@ -347,14 +375,29 @@ void LevelManager::update(b2World &World)
 	//draw medusas
 	for (int i = 0; i < medusaVector.size(); i++) {
 		if (medusaVector[i]->xPosition >= playerCharacter->xPosition && medusaVector[i]->xPosition <= playerCharacter->xPosition + 50.f ||
-			medusaVector[i]->xPosition <= playerCharacter->xPosition && medusaVector[i]->xPosition >= playerCharacter->xPosition - 50.f) { //if the medusa is within the camera view
+			medusaVector[i]->xPosition <= playerCharacter->xPosition && medusaVector[i]->xPosition >= playerCharacter->xPosition - 60.f) { //if the medusa is within the camera view
 			if (medusaVector[i]->yPosition >= playerCharacter->yPosition && medusaVector[i]->yPosition <= playerCharacter->yPosition + 50.f ||
-				medusaVector[i]->yPosition <= playerCharacter->yPosition && medusaVector[i]->yPosition >= playerCharacter->yPosition - 50.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
+				medusaVector[i]->yPosition <= playerCharacter->yPosition && medusaVector[i]->yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
 
 				window->draw(medusaVector[i]->rectangle);
 			}
 		}
 	}
+	//draw the treasureChests
+	for (int i = 0; i < treasureChestVector.size(); i++) {
+		if (treasureChestVector[i].xPosition >= playerCharacter->xPosition && treasureChestVector[i].xPosition <= playerCharacter->xPosition + 50.f ||
+			treasureChestVector[i].xPosition <= playerCharacter->xPosition && treasureChestVector[i].xPosition >= playerCharacter->xPosition - 60.f) { //if the medusa is within the camera view
+			if (treasureChestVector[i].yPosition >= playerCharacter->yPosition && treasureChestVector[i].yPosition <= playerCharacter->yPosition + 50.f ||
+				treasureChestVector[i].yPosition <= playerCharacter->yPosition && treasureChestVector[i].yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
+
+				window->draw(treasureChestVector[i].rectangle); //darw the chest
+				if (treasureChestVector[i].alreadyOpened == true) { //once opened
+					window->draw(treasureChestVector[i].itemSprite); //draw the treaureChest item sprite
+				}
+			}
+		}
+	}
+
 	//for testing
 	//if L is pressed
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
@@ -388,17 +431,17 @@ void LevelManager::update(b2World &World)
 	}
 	window->draw(playerCharacter->rectangle);
 	window->draw(playerCharacter->shieldCircle);
-	//window->draw(playerCharacter->torch->torchSprite);
+	window->draw(playerCharacter->torch->torchSprite);
 	
 	//set the window to the minimap view so we can tell the minimap what to draw
-	//window->setView(gameMiniMap->minimapView);
+	window->setView(gameMiniMap->minimapView);
 
 	//draw all the minimap stuff and update it 
-	//gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
+	gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
 	
 
 	//set the window back to the normal view
-	//window->setView(playerView->cameraView);
+	window->setView(playerView->cameraView);
 
 }
 

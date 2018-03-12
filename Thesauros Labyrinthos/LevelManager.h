@@ -7,6 +7,7 @@
 #include "TextureLoader.h"
 #include "mazeGeneration.h"
 #include "MiniMap.h"
+#include "TreasureChest.h"
 
 // enum for the states of the game
 enum GameState {
@@ -35,6 +36,7 @@ public:
 
 	vector <std::shared_ptr<Skeleton>> skeletonsVector; //use sharedPtr because it handles deleting the pointers for me once they are removed from the vector
 	vector <std::shared_ptr<Medusa>> medusaVector;
+	vector <TreasureChest> treasureChestVector;
 	//below creates a mazegenerator object and then talls it to call the generatemaze function
 	MazeGeneration mazeGenerator;
 

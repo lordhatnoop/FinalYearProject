@@ -1,2 +1,4 @@
 https://opengameart.org/content/bat-sprite - 32x 32 Bat Sprite - open resource - free to use.
 fire - credit as/mention of Chromaeleon <3 - https://opengameart.org/content/2d-pixel-fire-sprite-strip
+torch - Torch Sprite by Jellytopbottom @derpbug on Jul 21, 2016 - https://www.pixilart.com/art/torch-sprite-fcf7f40a00f30c8;
+treasureChest - https://opengameart.org/content/treasure-chests-32x32-and-16x16 - Blarumyrran

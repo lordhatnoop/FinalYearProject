@@ -26,6 +26,8 @@ public:
 	sf::Texture playerTexture;
 	sf::Texture medusaTexture;
 	sf::Texture flameCloakTexture;
+	sf::Texture torchTexture;
+	sf::Texture treaureChestTexture;
 	//test for torch / spotlight
 	sf::RenderTexture testRenderTExture;
 	sf::Sprite darknessSprite;

@@ -48,7 +48,8 @@ public:
 		PLAYER = 0x0002,
 		WALL = 0x0004,
 		PLAYERPROJECTILE = 0x0005,
-		ITEM = 0x0006
+		ITEM = 0x0006,
+		TREASURECHEST = 0x0007
 	};
 
 };

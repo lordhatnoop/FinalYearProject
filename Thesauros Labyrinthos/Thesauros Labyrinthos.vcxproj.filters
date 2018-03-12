@@ -114,6 +114,9 @@
     <ClCompile Include="FlameCloakItem.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="TreasureChest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -184,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="MiniMap.h">
       <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="TreasureChest.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemHolder.h">
+      <Filter>Header Files\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

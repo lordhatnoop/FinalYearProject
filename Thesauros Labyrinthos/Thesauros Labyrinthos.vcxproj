@@ -137,6 +137,7 @@
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="TorchLight.cpp" />
+    <ClCompile Include="TreasureChest.cpp" />
     <ClCompile Include="WallCell.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +151,7 @@
     <ClInclude Include="FloorCell.h" />
     <ClInclude Include="GameCharacters.h" />
     <ClInclude Include="GameItems.h" />
+    <ClInclude Include="ItemHolder.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="mazeGeneration.h" />
     <ClInclude Include="Medusa.h" />
@@ -162,6 +164,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="TorchLight.h" />
+    <ClInclude Include="TreasureChest.h" />
     <ClInclude Include="WallCell.h" />
   </ItemGroup>
   <ItemGroup>

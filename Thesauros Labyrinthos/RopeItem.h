@@ -9,6 +9,8 @@ public:
 		coolDownTimer = 20;
 		duration = 10;
 		durationTimer = new sf::Clock;
+		itemName = "Rope";
+		itemDamage = 0;
 	}
 	//override the inherited methods
 	void update() override;

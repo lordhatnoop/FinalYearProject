@@ -45,6 +45,7 @@ void CollisionListener::BeginContact(b2Contact * contact)
 	ArrowCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for arrow collision
 	PlayerRopeCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for player and rope collision
 	FlameCloakCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for FlameCloakCollision
+	TreasureChestCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for treasureChest collision
 	/*
 	//get what objects each one is 
 	std::string nameA = ((GameCharacters*)bodyUserData)->getName();
@@ -104,11 +105,22 @@ void CollisionListener::ArrowCollision(void * userData1, void * userData2, b2Fix
 	else if (fixture1->GetFilterData().categoryBits == PLAYERPROJECTILE && fixture2->GetFilterData().categoryBits == ENEMY) {
 		static_cast<playerArrow*>(userData1)->destroyed = true; //arrow destoryed
 		static_cast<GameCharacters*>(userData2)->health--;// reduce enemy health
+		if (static_cast<GameCharacters*>(userData2)->playerLeft) {
+			static_cast<GameCharacters*>(userData2)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(1, 0), true);
+		}
+		else {
+			static_cast<GameCharacters*>(userData2)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(-1, 0), true);
+		}
 	}
 	else if (fixture1->GetFilterData().categoryBits == ENEMY && fixture2->GetFilterData().categoryBits == PLAYERPROJECTILE) {
 		static_cast<playerArrow*>(userData2)->destroyed = true; //arrow destoryed
 		static_cast<GameCharacters*>(userData1)->health--;// reduce enemy health
-		
+		if (static_cast<GameCharacters*>(userData1)->playerLeft) {
+			static_cast<GameCharacters*>(userData1)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(1, 0), true);
+		}
+		else {
+			static_cast<GameCharacters*>(userData1)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(-1, 0), true);
+		}
 	}
 }
 
@@ -169,6 +181,16 @@ void CollisionListener::FlameCloakCollision(void * userData1, void * userData2, 
 				static_cast<GameCharacters*>(userData1)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(-0.25f, 0.f), true);
 			}
 		}
+	}
+}
+
+void CollisionListener::TreasureChestCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == TREASURECHEST && fixture2->GetFilterData().categoryBits == PLAYER) { // if it's the correct type of collision
+		static_cast<TreasureChest*>(userData1)->openChest(static_cast<PlayerCharacter*>(userData2)); //if the player touches the treasure chest, open the chest
+	}
+	else if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TREASURECHEST) {
+		static_cast<TreasureChest*>(userData2)->openChest(static_cast<PlayerCharacter*>(userData1)); //if the player touches the treasure chest, open the chest
 	}
 }
 
