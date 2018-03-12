@@ -135,6 +135,7 @@
     <ClCompile Include="PlayerCharacter.cpp" />
     <ClCompile Include="RopeItem.cpp" />
     <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="TorchLight.cpp" />
     <ClCompile Include="TreasureChest.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="RopeItem.h" />
     <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="soundManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="TorchLight.h" />

@@ -41,7 +41,7 @@ public:
 	bool playerLeft = false;
 	bool playerRight = false;
 
-
+	sf::Sound sound;
 	//enum that holds the diffrent type of entities for collision filtering
 	enum entityCategory {
 		ENEMY = 0x0001,

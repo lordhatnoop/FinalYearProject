@@ -14,6 +14,7 @@ public:
 	void LookForPlayer(PlayerCharacter *player);
 
 	sf::Clock timer;
+	sf::Clock petrifyTimer;
 	bool dead = false;// is enemy dead? will be changed by the checkDead function
 
 private:

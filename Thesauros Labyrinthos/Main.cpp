@@ -3,6 +3,7 @@
 #include "PlayerCharacter.h"
 #include "Camera.h"
 #include "TextureLoader.h"
+#include "soundManager.h"
 #include "LevelManager.h"
 #include "CollisionListener.h"
 #include <iostream>
@@ -12,6 +13,7 @@ using namespace std;
 
 TextureLoader textureLoader; //make global  textureLoader object so it can be used elsewhere becasue of the extern
 //declartion in the .h file
+SoundManager soundManager; //same as above - glo0bal declaration 
 
  
 int main() {

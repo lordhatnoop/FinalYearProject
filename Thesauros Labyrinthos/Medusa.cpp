@@ -1,6 +1,6 @@
 #include "Medusa.h"
 #include "TextureLoader.h"
-
+#include "soundManager.h"
 #include <iostream>
 Medusa::~Medusa()
 {
@@ -17,6 +17,11 @@ Medusa::Medusa(int x, int y)
 
 	//call createSfml to create the sprite
 	createSFML();
+
+	timer.restart(); //start timer
+	petrifyTimer.restart();
+	//set what the sound will be by loading the appropriate buffer from the sound manager
+	//sound.setBuffer(soundManager.medusaAttack);
 }
 
 void Medusa::createSFML()
@@ -71,7 +76,7 @@ void Medusa::update(PlayerCharacter * player)
 	//look for the player (get which side they are ona nd if the enemy can see them)
 	LookForPlayer(player);
 	if (playerInAttackRange == true) {
-		if (timer.getElapsedTime().asSeconds() > 5.f) { //make sure some time has passed since the last attack 
+		if (petrifyTimer.getElapsedTime().asSeconds() > 5.f) { //make sure some time has passed since the last attack 
 			attack(player);
 		}
 		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // stop velocity so we don't keep sliding
@@ -103,9 +108,12 @@ void Medusa::LookForPlayer(PlayerCharacter * player)
 		if (player->yPosition > yPosition && player->yPosition < yPosition + visionRange || player->yPosition < yPosition && player->yPosition > yPosition - visionRange) {
 
 			std::cout << "PlayerSeen" << endl;
-			if (xPosition - player->xPosition <= 10 && xPosition - player->xPosition > 0
+			if (xPosition - player->xPosition <= 10 && xPosition - player->xPosition > 0 
 				|| xPosition - player->xPosition >= -10 && xPosition - player->xPosition < 0) { //if within 5 either way
-				playerInAttackRange = true; //in attack range
+				if (yPosition - player->yPosition <= 2 && yPosition - player->yPosition > 0 || yPosition - player->yPosition >= -2 && yPosition - player->yPosition < 0) {
+					playerInAttackRange = true; //in attack range
+				}
+				else { playerInAttackRange = false;  }
 			}
 			else { playerInAttackRange = false; } //otherwise not
 			//still check for which direction player is after these above so that we know which way to attack
@@ -293,32 +301,152 @@ void Medusa::moveLeft()
 
 void Medusa::attack(PlayerCharacter *player)
 {
-
+	/*
+	if (sound.getStatus() != sound.Playing) { //if the sound isn't already playing
+		sound.play(); //play the attack sound
+	}*/
+	if (timer.getElapsedTime().asSeconds() >= 0.2f) {
 		if (attackAnimationFrame == 0) {
-
+			if (soundManager.medusaAttack.getStatus() != soundManager.medusaAttack.Playing) {
+				soundManager.medusaAttack.play(); //start sound when we start the animation
+			}
+			//check which side so we can flip if needed
+			if (playerLeft) {
+				textureSubRect.left = 76.9;
+				textureSubRect.width = -70.1; //facing left, so flip 
+			}
+			else if (playerRight) {
+				textureSubRect.left = 6.9;
+				textureSubRect.width = 70.1; // facing right, so normal
+			}
+			textureSubRect.top = 478;
+			textureSubRect.height = 70;
 		}
 		else if (attackAnimationFrame == 1) {
 
+			//check which side so we can flip if needed
+			if (playerLeft) {
+				textureSubRect.left = 167;
+				textureSubRect.width = -70.1; //facing left, so flip 
+			}
+			else if (playerRight) {
+				textureSubRect.left = 96.9;
+				textureSubRect.width = 70.1; // facing right, so normal
+			}
+			textureSubRect.top = 478;
+			textureSubRect.height = 70;
+
 		}
 		else if (attackAnimationFrame == 2) {
-
+			//check which side so we can flip if needed
+			if (playerLeft) {
+				textureSubRect.left = 268;
+				textureSubRect.width = -70.1; //facing left, so flip 
+			}
+			else if (playerRight) {
+				textureSubRect.left = 197.9;
+				textureSubRect.width = 70.1; // facing right, so normal
+			}
+			textureSubRect.top = 478;
+			textureSubRect.height = 70;
 		}
 		else if (attackAnimationFrame == 3) {
-
+			//check which side so we can flip if needed
+			if (playerLeft) {
+				textureSubRect.left = -380.1;
+				textureSubRect.width = -70.1; //facing left, so flip 
+			}
+			else if (playerRight) {
+				textureSubRect.left = 310;
+				textureSubRect.width = 70.1; // facing right, so normal
+			}
+			textureSubRect.top = 478;
+			textureSubRect.height = 70;
 		}
 		else if (attackAnimationFrame == 4) {
-
+			//check which side so we can flip if needed
+			if (playerLeft) {
+				textureSubRect.left = -485;
+				textureSubRect.width = -70.1; //facing left, so flip 
+			}
+			else if (playerRight) {
+				textureSubRect.left = 414.9;
+				textureSubRect.width = 70.1; // facing right, so normal
+			}
+			textureSubRect.top = 478;
+			textureSubRect.height = 70;
 		}
 		else if (attackAnimationFrame == 5) {
-
+			//check which side so we can flip if needed
+			if (playerLeft) {
+				textureSubRect.left = -597;
+				textureSubRect.width = -70.1; //facing left, so flip 
+			}
+			else if (playerRight) {
+				textureSubRect.left = 526.9;
+				textureSubRect.width = 70.1; // facing right, so normal
+			}
+			textureSubRect.top = 478;
+			textureSubRect.height = 70;
 		}
 		else if (attackAnimationFrame == 6) {
+			//check which side so we can flip if needed
+			if (playerLeft) {
+				textureSubRect.left = -719;
+				textureSubRect.width = -70.1; //facing left, so flip 
+			}
+			else if (playerRight) {
+				textureSubRect.left = 648.9;
+				textureSubRect.width = 70.1; // facing right, so normal
+			}
+			textureSubRect.top = 478;
+			textureSubRect.height = 70;
+
+		}
+		else if (attackAnimationFrame == 7) {
+			//check which side so we can flip if needed
+			if (playerLeft) {
+				textureSubRect.left = -840;
+				textureSubRect.width = -70.1; //facing left, so flip 
+			}
+			else if (playerRight) {
+				textureSubRect.left = 769.9;
+				textureSubRect.width = 70.1; // facing right, so normal
+			}
+			textureSubRect.top = 478;
+			textureSubRect.height = 70;
+		}
+		else if (attackAnimationFrame == 8) {
+			//check which side so we can flip if needed
+			if (playerLeft) {
+				textureSubRect.left = -958.1;
+				textureSubRect.width = -70.1; //facing left, so flip 
+			}
+			else if (playerRight) {
+				textureSubRect.left = 888;
+				textureSubRect.width = 70.1; // facing right, so normal
+			}
+			textureSubRect.top = 478;
+			textureSubRect.height = 70;
+
+
 			//set the player to stone on  the last frame of the aniamtion so that it doesn't hgappen until aniamtion is complete
 			player->isStone = true;// set the player's bool so it knows to react
 			player->petrifiedClock->restart(); //restart the petrified clock so that we can have it count the time petrified// do here becasue it was just the easiest place to only reset when turning player to stone
-			
-			timer.restart();// restart the timer once animation is complete so that we will know have to wait some time before ther next petrify attack (becasue of timer in update)
+
+			petrifyTimer.restart();// restart the timer once animation is complete so that we will know have to wait some time before ther next petrify attack (becasue of timer in update)
+
 		}
+
+
+		
+		timer.restart();
+		attackAnimationFrame++; //move to next frame
+		if (attackAnimationFrame == 9) {
+			attackAnimationFrame = 0;
+		}
+		rectangle.setTextureRect(textureSubRect); //use the updated frame
+	}
 }
 
 

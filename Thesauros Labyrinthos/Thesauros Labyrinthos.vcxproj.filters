@@ -117,6 +117,9 @@
     <ClCompile Include="TreasureChest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="soundManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="ItemHolder.h">
       <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="soundManager.h">
+      <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

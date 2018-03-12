@@ -6,6 +6,7 @@
 #include "Skeleton.h"
 #include "RopeItem.h"
 #include "Cell.h"
+#include "soundManager.h"
 
 using namespace std;
 
@@ -98,13 +99,15 @@ void LevelManager::loadMenu()
 	gui->add(ExitButton); //add the Exit button to the gui so that it can be drawn and managed.
 	ExitButton->connect(std::string("pressed"), &LevelManager::SignalManager, this);
 
-
+	//play the main menu theme music
+	soundManager.mainMenuMusic.play();
 
 	currentState = menuIdle; // set the state to be idle so that we don't keep creating the menu over and over again.
 }
 
 void LevelManager::DeleteMainMenu()
 {
+	soundManager.mainMenuMusic.stop();
 	gui->removeAllWidgets(); // remove all the widgets so that menu doesn't get drawn anymore
 }
 
