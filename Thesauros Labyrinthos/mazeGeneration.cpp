@@ -1,6 +1,8 @@
 #include <time.h>
 #include <vector>
 #include <list>
+#include <iostream>
+#include <fstream>
 #include "mazeGeneration.h"
 
 using namespace std;
@@ -208,7 +210,28 @@ void MazeGeneration::generateMaze(b2World &world) {
 			}
 		}
 	}
-	maze[startX / 20][startY / 20] = 0; // amke sure the start is always a floor
+	//double check all floors are surronded and there is no holes in the maze since the no body check above leaves some hole 
+	//check each side of a floor tilke for open space. if there is open space - create a wall tile. surroundes the outside of the maze in walls to prevent escape
+	for (i = 1; i < maze_size_x; i++) {
+		for (j = 1; j < maze_size_y; j++) {
+			if (maze[i][j] == 0) { // if floor
+								   //if any of the sides are open space
+				if (maze[i + 1][j] >= 3) {
+					maze[i + 1][j] = 1;
+				}
+				if (maze[i - 1][j] >= 3) {
+					maze[i - 1][j] = 1;
+				}
+				if (maze[i][j + 1] >= 3) {
+					maze[i][j + 1] = 1;
+				}
+				if (maze[i][j - 1] >= 3) {
+					maze[i][j - 1] = 1;
+				}
+			}
+		}
+	}
+	maze[startX / 20][startY / 20] = 5; // amke sure the start is always a floor and the player spawn point (5)
 	maze[endX/ 20][endY / 20] = 2; // set the end to be 2 at the end of all the other generation to guarentee it's the exit
 
 		// Done, so create the wallCells from the mazecells
@@ -230,7 +253,7 @@ void MazeGeneration::generateMaze(b2World &world) {
 					cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(x * 10, y * 10)));
 				}
 				else if (maze[x][y] == 4) {
-					printf("2"); //otherwise create floorcell
+					printf("2"); 
 					//cellsVector.push_back(new ExitCell(x * 10, y * 10));
 				}
 				else if (maze[x][y] == 3) { // if 3, the cell is completely surronded by walls, so create a nonbodyWallcell
@@ -238,10 +261,26 @@ void MazeGeneration::generateMaze(b2World &world) {
 					//was going to create these non body wall cells originally to reduce the amount of lag, however, hoaving this number of images to render and draw also caused lag (but less than having them all be bodies). so instead when it's a 3 just don't draw anything at all and i will add a background. Massivly improves performance
 					//cellsVector.push_back(std::shared_ptr<NonBodyWallCell>(new NonBodyWallCell(x * 10, y * 10)));
 				}
+				else if (maze[x][y] == 5) { // mark this one as 5 even though it still creates a floor cell just sao that we can check for player start position
+					printf("."); // create floorcell
+					cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(x * 10, y * 10)));
+				}
 				
 			}
 		}
 
+
+		
+		//print the level to an external text file to save it incase we need to run back
+		string levelString = "Assets/Level" + to_string(levelCounter) + ".txt"; //create the name of the tyxt doument by taking the currentlevel number
+		ofstream arrayData(levelString); // File Creation
+		for (int i = 0; i < maze_size_x; i++)
+		{
+			for (int j = 0; j < maze_size_y; j++) { //loop through the maze array
+				arrayData << "" << maze[i][j] << " "; //Outputs array to txtFile - second set of "" with a space becasue the read needs spaces between each seperate value
+			}
+			arrayData<< endl; //end line once gone through one row
+		}
 
 	}
 

@@ -7,6 +7,8 @@
 #include "RopeItem.h"
 #include "Cell.h"
 #include "soundManager.h"
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -56,6 +58,9 @@ void LevelManager::FSM(b2World &world)
 		break;
 	case deleteUpgradeMenuState:
 		DeleteUpgradeMenu();
+		break;
+	case loadEscapeRunLevelState:
+		loadBackwardsLevel(world);
 		break;
 	}
 }
@@ -114,7 +119,7 @@ void LevelManager::DeleteMainMenu()
 void LevelManager::LoadNextLevel(b2World &world)
 {
 	levelCounter++; // start by updating the level counter
-
+	mazeGenerator.levelCounter = levelCounter;
 	if (levelCounter % 3 == 0) { // divides level counter by 3 to see if it is a multiple of 3. will be 0 if it is. so if level is multiple of 3, do contained
 		currentState = upgradeState; // set the current state to be the upgrades state every third level, to give the player a chance to spend their gold on upgrades;
 	}
@@ -221,6 +226,8 @@ void LevelManager::LoadNextLevel(b2World &world)
 	}
 }
 
+
+
 void LevelManager::DeleteCurrentLevel(b2World &world)
 {
 	world.DestroyBody(playerCharacter->dynamicBody); // destroy the player character body
@@ -253,7 +260,13 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 
 	gui->removeAllWidgets(); //remove all the gui
 
-	currentState = loadLevelState; // transition to load level state to load the next level
+	
+	if (escapeRun == false) { // if not on the escape run - do the normal load level
+		currentState = loadLevelState; // transition to load level state to load the next level
+	}
+	else if (escapeRun == true) { //otherwise
+		currentState = loadEscapeRunLevelState; //transition to the escape run load level state instead
+	}
 }
 
 void LevelManager::update(b2World &World)
@@ -350,7 +363,7 @@ void LevelManager::update(b2World &World)
 	
 
 	//set the window to use the cameraview
-	window->setView(playerView->cameraView);
+//	window->setView(playerView->cameraView);
 
 	//draw all the maze cells
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) {
@@ -412,8 +425,18 @@ void LevelManager::update(b2World &World)
 		currentState = deleteLevelState;
 	}
 	
+	//check for reaching the exit
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) { //search vector
 		if (mazeGenerator.cellsVector[i]->cellType == "Exit") { // find the exit cell
+			// if player is intersecting with exit 
+			if (playerCharacter->rectangle.getGlobalBounds().left + playerCharacter->rectangle.getGlobalBounds().width >= mazeGenerator.cellsVector[i]->rectangle.getGlobalBounds().left
+				&& playerCharacter->rectangle.getGlobalBounds().left <= mazeGenerator.cellsVector[i]->rectangle.getGlobalBounds().left + mazeGenerator.cellsVector[i]->rectangle.getGlobalBounds().width
+				&& playerCharacter->rectangle.getGlobalBounds().top + playerCharacter->rectangle.getGlobalBounds().height >= mazeGenerator.cellsVector[i]->rectangle.getGlobalBounds().top &&
+				playerCharacter->rectangle.getGlobalBounds().top <= mazeGenerator.cellsVector[i]->rectangle.getGlobalBounds().top + mazeGenerator.cellsVector[i]->rectangle.getGlobalBounds().height) {
+
+				//completed level so go to deleteLevel
+				currentState = deleteLevelState;
+			}
 			if (mazeGenerator.cellsVector[i]->ExitReached == true) { // exit is reached
 				currentState = deleteLevelState;
 				//DeleteCurrentLevel(); //delete the current Level
@@ -433,14 +456,17 @@ void LevelManager::update(b2World &World)
 		window->draw(playerCharacter->activeItem->rectangle);//draw it
 	}
 	window->draw(playerCharacter->rectangle);
+	if (playerCharacter->isStone == true) {
+		window->draw(playerCharacter->petrifyOverlay); //if we are petrified, draw the petrify overlay( translucent brown) over the top of the playersprite
+	}
 	window->draw(playerCharacter->shieldCircle);
 	window->draw(playerCharacter->torch->torchSprite);
 	
 	//set the window to the minimap view so we can tell the minimap what to draw
-	window->setView(gameMiniMap->minimapView);
+//	window->setView(gameMiniMap->minimapView);
 
 	//draw all the minimap stuff and update it 
-	gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
+//	gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
 	
 
 	//set the window back to the normal view
@@ -627,7 +653,7 @@ void LevelManager::upgradesMenu()
 	tgui::Button::Ptr BeginBackwardsRun = tgui::Button::create(); // create a button on the menu
 	BeginBackwardsRun->setPosition(900, 800); // set the position of the button
 	BeginBackwardsRun->setSize(400, 50); // set the start button size
-	BeginBackwardsRun->setText("Begin Retreat Run"); // set text
+	BeginBackwardsRun->setText("Begin Escape Run"); // set text
 	BeginBackwardsRun->setTextSize(40); // set size of the text
 
 	gui->add(BeginBackwardsRun); //add the start button to the gui so that it can be drawn and managed.
@@ -697,8 +723,152 @@ void LevelManager::DeleteUpgradeMenu()
 {
 	//delete the upgrade menu GUI
 	gui->removeAllWidgets();
-	currentState = loadLevelState; //transition to the next level
+	if (escapeRun == false) { // if not on escape run
+		currentState = loadLevelState; //transition to the next level
+	}
+	else if (escapeRun == true) {
+		currentState = loadEscapeRunLevelState;// escape run level load
+	}
 }
+
+
+//reload the saved levels for a backward run
+void LevelManager::loadBackwardsLevel(b2World & world)
+{
+	
+	escapeRun = true; //set true so we know we're on the escape run
+	levelCounter--; //go backwards in the level counter
+	if (levelCounter == 0) { // once player through all the levels
+		currentState = menuCreate; // just go back to main menu
+		escapeRun = false; // going back to the menu so no longer on the escape run and want this to be set false if the player starts another run
+	}
+	else if (levelCounter % 3 == 0) {//if it would be a upgrade menu level usually
+		levelCounter--; //reduce level counter by one more - don't want upgrade stops on the escape run 
+	}
+	else {
+		string levelString = "Assets/Level" + to_string(levelCounter) + ".txt"; //get the directory of the level to go back to using the counter
+		int line; //the current value being read
+		ifstream levelFile;
+		//counters to work out the x and y postions - need to use these becasue the normal mazegeneration increments through a maze double array and uses the position in the array for x and y positions
+		//however cause we aren't making a new maze and loading one from a file, we can't do this. so use these counters that increment as we load each value from the file instead.
+		int xCounter = 0;
+		int yCounter = 0;
+		
+		
+		//if (levelFile.is_open()) { // open the file
+		levelFile.open(levelString);
+		if (!levelFile) {
+			cerr << "Unable to open file datafile.txt";
+			//exit(1);   // call system to stop
+		}
+
+			while (levelFile >> line) //put the values from the file into the line holder
+			{
+				//if maze cell is 1 create wall
+				if (line == 1) {
+					printf("1");
+					mazeGenerator.cellsVector.push_back(std::shared_ptr<WallCell>(new WallCell(xCounter * 10, yCounter * 10, world)));
+
+				}
+				else if (line == 2) { // if 4, the cell is a fake wall created during the random extra walls.
+					printf("2");
+					mazeGenerator.cellsVector.push_back(std::shared_ptr<FakeWallCell>(new FakeWallCell(xCounter * 10, yCounter * 10, world)));
+				}
+				else if (line == 0) {
+					printf("0"); // create floorcell
+					mazeGenerator.cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(xCounter * 10, yCounter * 10)));
+					
+
+				}
+				else if (line == 4) {
+					printf("4"); //exitcell
+								 //cellsVector.push_back(new ExitCell(x * 10, y * 10));
+				}
+				else if (line == 3) { // if 4, the cell is completely surronded by walls, so create a nonbodyWallcell
+					printf("3");
+					//was going to create these non body wall cells originally to reduce the amount of lag, however, hoaving this number of images to render and draw also caused lag (but less than having them all be bodies). so instead when it's a 3 just don't draw anything at all and i will add a background. Massivly improves performance
+					//cellsVector.push_back(std::shared_ptr<NonBodyWallCell>(new NonBodyWallCell(x * 10, y * 10)));
+				}
+				else if (line == 5) { // 5 is still floor, but the p[layer's spawn position so special
+					printf("5"); // create floorcell
+					mazeGenerator.cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(xCounter * 10, yCounter * 10)));
+					
+					playerCharacter->xPosition = xCounter * 10;
+					playerCharacter->yPosition = yCounter * 10;
+				}
+
+				yCounter++; // update the position
+
+				if (yCounter >= 60) { // once we've reached the end of the line // the highest y position - needs to be the same as the maze size in mazegenertor otherwise the loaded levels will be broken
+					yCounter = 0; // reset back to 1st y position
+					xCounter++; //increment xPosition
+				}
+			}
+
+			//levelFile.close(); //close once loaded the level
+		//}
+
+
+
+		//GUI CREATION//////////////////////////////////////////
+		if (gui->getWidgets().size() <= 0) {//if the gui is empty 
+											//create the gui for the level and add it to the GUI holder. do this here instead of update becasue we don't want to keep cvreating them over and over again
+			treasureUI = tgui::TextBox::create();
+			treasureUI->setPosition(0, 0); // set the textBox to be positioned at 0,0
+			treasureUI->setSize(200, 25); // set the size
+			treasureUI->setTextSize(16); // set the font size
+			treasureUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
+			treasureUI->getRenderer()->setBorderColor(sf::Color::Black);//border colour
+
+			gui->add(treasureUI); // add the treasure UI to the gui
+
+								  ///////HEALTH UI///////////////
+			healthUI = tgui::TextBox::create();
+			healthUI->setPosition(200, 0);
+			healthUI->setSize(200, 25);
+			healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture2);
+
+			gui->add(healthUI);
+
+			///////////////////////FUEL UI////////////////////////////////////
+			//the textbox portion
+			torchFuelUI = tgui::TextBox::create();
+			torchFuelUI->setPosition(400, 0); // set the textBox to be positioned at 400,0
+			torchFuelUI->setSize(600, 25); // set the size
+			torchFuelUI->setTextSize(16); // set the font size
+			torchFuelUI->getRenderer()->setBackgroundColor(sf::Color::Transparent); // set colour
+			torchFuelUI->getRenderer()->setBorderColor(sf::Color::Green);//border colour
+
+
+																		 //two below are awakward. normal rectangles, so get drawn normally to the window, rather than to the view like the gui stuff using TGUI. have to psoition them relative to the player, and make them very small to fit the zoomed in view
+																		 //the red backgroundportion
+			torchFuelUIBackgroundRed.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
+			torchFuelUIBackgroundRed.setSize(sf::Vector2f(37.5f, 2.8f));
+			torchFuelUIBackgroundRed.setFillColor(sf::Color::Red);
+
+			//the white backgroundportion - create two background portions so that this one is left behind as the red one updates and shrinks with the current fuel
+			torchFuelUIBackgroundWhite.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
+			torchFuelUIBackgroundWhite.setSize(sf::Vector2f(37.5f, 2.8f));
+			torchFuelUIBackgroundWhite.setFillColor(sf::Color::White);
+
+			gui->add(torchFuelUI);
+
+		}
+
+		//create the minimap
+		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
+		int playerX = rand() % 1599 + 1;
+		
+		
+		playerCharacter->createCollisionBox(world);
+		currentState = inGameState;// set the current state to be ingame state so that we can start updating the game
+	}
+	
+
+
+}
+
+
 
 
 void LevelManager::SignalManager(string msg)
@@ -770,5 +940,13 @@ void LevelManager::SignalManager(string msg)
 	else if (msg == "Continue Game") {
 		currentState = deleteUpgradeMenuState; //transition to the deletion of the upgrade menu to prepare for next level
 	}
+	else if (msg == "Begin Escape Run") {
+		currentState = deleteUpgradeMenuState;//still transition to upgrade menu deletion so that we delete the menus
+		escapeRun = true; //but also set this true to change which level gets loaded
+	}
 
 }
+
+
+
+

@@ -9,8 +9,8 @@
 
 //changing the values of these defines changes the eventual outcome of the maze generation , experiment. (e.g changing radius to 1 result in more of a cave than a maze.
 //size of the map
-#define maze_size_x 80
-#define maze_size_y 45
+#define maze_size_x 100 //can be anything - 80 and 45 for y works well. if change this, need to change the loadEscapeLevel load thing too (has counters for this since it doesn't create a new maze and so doesn't access this.
+#define maze_size_y 60
 
 #define cell_Radius 2
 
@@ -32,7 +32,7 @@ public:
 	vector <ExitCell> exitCellVector;
 	*/
 	
-
+	int levelCounter;
 
 	// This saves us from making a bunch of similar conditionals for checking directions 
 	int directionList[4][2] = { { 0, -1 },{ 1, 0 },{ 0, 1 },{ -1, 0 } };

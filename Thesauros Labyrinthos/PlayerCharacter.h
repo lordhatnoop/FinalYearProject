@@ -13,7 +13,7 @@ public:
 	string getName();
 	void update(float dt, b2World &myWorld);
 	TorchLight* torch;
-
+	b2CircleShape circleShape;
 	int treasure = 0;//hold the amount of treasure
 
 	int playerHealth = 3; // player health, starts at 2 and can be upgraded
@@ -52,9 +52,10 @@ public:
 	bool updateCurrentItem;
 	sf::Clock *CurrentItemClock;
 	b2Vec2 temp;
+
 	//clock for us being petrified
 	sf::Clock *petrifiedClock;
-
+	sf::RectangleShape petrifyOverlay; //pertriefied overlay
 
 	//shield variables
 	float shieldEnergy = 100.f;

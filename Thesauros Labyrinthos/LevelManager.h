@@ -18,7 +18,8 @@ enum GameState {
 	deleteLevelState,
 	upgradeState,
 	upgradeIdleState,
-	deleteUpgradeMenuState
+	deleteUpgradeMenuState,
+	loadEscapeRunLevelState
 };
 
 class LevelManager {
@@ -27,6 +28,7 @@ public:
 	LevelManager(sf::RenderWindow *passedWindow, tgui::Gui *passedGUI);
 	
 	void LoadNextLevel(b2World &world);
+	void loadBackwardsLevel(b2World &world);
 	void DeleteCurrentLevel(b2World &world);
 	void DeleteMainMenu();
 	void DeleteUpgradeMenu();
@@ -68,6 +70,9 @@ public:
 
 private:
 	
+
+	bool escapeRun = false;
+
 	void loadMenu();
 
 	//upgrades menu stuff

@@ -27,6 +27,7 @@ public:
 	sf::RectangleShape rectangle;
 	sf::IntRect textureSubRect;
 
+	
 	b2BodyDef BodyDef; // the box2d body def. all the classes that inherit form this one are going to nneed bodies so made sense to inherit the bodydef
 	b2PolygonShape Shape; // the box2d shape def. all the classes that inherit form this one are going to nneed shapes so made sense to inherit the shape
 	b2FixtureDef FixtureDef;// the box2d fixture def. all the classes that inherit form this one are going to nneed fixtures so made sense to inherit the fixture

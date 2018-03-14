@@ -42,6 +42,12 @@ void PlayerCharacter::createSFML()
 	shieldCircle.setOrigin(6.f, 6.f); //origin = half of size to center it on player
 	shieldCircle.setRadius(6); //radius of the circle
 	shieldCircle.setScale(0.7, 1); // set the x scale a bit smaller to mold the circle slightly
+
+
+	//setup the pertrifed overlay - translucent brown overlay to make us look like stone
+	petrifyOverlay.setSize(sf::Vector2f(3.f, 6.f));
+	petrifyOverlay.setOrigin(1.5f, 3.f);
+	petrifyOverlay.setFillColor(sf::Color(139, 69, 19, 100)); //translucent brown. will only be drawn when we are stone
 }
 
 void PlayerCharacter::createCollisionBox(b2World &myWorld)
@@ -60,8 +66,19 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 		dynamicBody = myWorld.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
 
 		//box2dShape
-		Shape.SetAsBox(1.5f / scale, 3.f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+		//need to setup the vertices for the body manually becasue we want to cut the edges of the square to prevent an error with box2d where moving across multiple flat bodies can cause you to become stuck
+		b2Vec2 verticices[8];
+		verticices[7].Set(-1.2f / scale, 3.f / scale);
+		verticices[6].Set(-1.5f / scale, 2.f / scale);
+		verticices[5].Set(-1.5f / scale, -2.f / scale);
+		verticices[4].Set(-1.2f / scale, -3.f / scale);
+		verticices[3].Set(1.2f / scale, -3.f / scale);
+		verticices[2].Set(1.5f / scale, -2.f / scale);
+		verticices[1].Set(1.5f / scale, 2.f / scale);
+		verticices[0].Set(1.2f / scale, 3.f / scale);
 
+		//Shape.SetAsBox(1.5f / scale, 3.f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+		Shape.Set(verticices, 8);
 		//create the fixture
 		FixtureDef.shape = &Shape;
 		FixtureDef.density = 1.f;
@@ -73,7 +90,7 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 		//setup the sensors
 		//add three sensors so that we can detect when the play is touching the ground or clung to the side of a wall to allow jumping (for side, it's lore wise going to be wall climbing). let's us make sure can't jump when touching ceiling (contact with top of player)
 		//foot sensor
-		Shape.SetAsBox(0.75f / scale, 0.3f / scale, b2Vec2(0, 3.f /scale),0); //setup the size of the sensor and set it's center at the bottom of the player
+		Shape.SetAsBox(0.75f / scale, 0.3f / scale, b2Vec2(0, 3.375f /scale),0); //setup the size of the sensor and set it's center at the bottom of the player
 		footSensor.isSensor = true;// set as a sensor
 		footSensor.shape = &Shape;
 		footSensor.filter.categoryBits = PLAYER; // set the category to be player
@@ -147,17 +164,16 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 			dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // if no buttons are being pressed, no velocity
 		}
 
-		//check bools for varius status so that we know what we can and can't do before attempting to do it
-		if (canJump == true) { // make sure we can jump first
 		//not else if so that we can jump while moving
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-				//yPosition -= 5;
-
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+			//yPosition -= 5;
+		//check bools for varius status so that we know what we can and can't do before attempting to do it
+			if (canJump == true) { // make sure we can jump first
 				dynamicBody->ApplyLinearImpulse(b2Vec2(0, -0.25), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
-				 temp = dynamicBody->GetLinearVelocity();
+				temp = dynamicBody->GetLinearVelocity();
 			}
 		}
+
 		if (canClimb == true) { //check if can CLimb is true so we know whether we are touching a rope we can climb (set by collision listener)
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { //if we are pressing the W (up) key while can climb is true, climb the rope
 				//yPosition -= 5;
@@ -185,7 +201,7 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 	//update the rectangle position to be the new position if there is one
 	rectangle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale);
 	shieldCircle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale); //also update the circle
-
+	petrifyOverlay.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale); //and the petrify overlay
 
 
 
