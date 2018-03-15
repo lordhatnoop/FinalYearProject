@@ -54,10 +54,22 @@ void Skeleton::createCollisionBox(b2World & myWorld)
 	//BodyDef.userData = "Enemy"; // set the userdata for the bodydef so that we can check what is colliding
 	dynamicBody = myWorld.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
 
-												//box2dShape
-	Shape.SetAsBox(2.f / scale, 4.f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+	//box2dShape
+	//need to setup the vertices for the body manually becasue we want to cut the edges of the square to prevent an error with box2d where moving across multiple flat bodies can cause you to become stuck
+	b2Vec2 verticices[8];
+	verticices[7].Set(-1.8f / scale, 4.f / scale);
+	verticices[6].Set(-2.f / scale, 3.f / scale);
+	verticices[5].Set(-2.f / scale, -3.f / scale);
+	verticices[4].Set(-1.8f / scale, -4.f / scale);
+	verticices[3].Set(1.8f / scale, -4.f / scale);
+	verticices[2].Set(2.f / scale, -3.f / scale);
+	verticices[1].Set(2.f / scale, 3.f / scale);
+	verticices[0].Set(1.8f / scale, 4.f / scale);
 
-											 //create the fixture
+	//Shape.SetAsBox(2.f / scale, 4.f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+	Shape.Set(verticices, 8); //set shape to use our vertices
+
+	//create the fixture
 	FixtureDef.shape = &Shape;
 	FixtureDef.density = 1.f;
 	FixtureDef.friction = 0.0f;

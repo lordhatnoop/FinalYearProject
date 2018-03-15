@@ -234,36 +234,57 @@ void MazeGeneration::generateMaze(b2World &world) {
 	maze[startX / 20][startY / 20] = 5; // amke sure the start is always a floor and the player spawn point (5)
 	maze[endX/ 20][endY / 20] = 2; // set the end to be 2 at the end of all the other generation to guarentee it's the exit
 
+	setAdjacencySize();
 		// Done, so create the wallCells from the mazecells
 		for (size_t x = 0; x < maze_size_x; x++) {
 			for (size_t y = 0; y < maze_size_y; y++)
 			{
+				int position;
+				position = maze_size_x * y + x;
 				//if maze cell is 1 create wall
 				if (maze[x][y] == 1) {
 					printf("#");
 					cellsVector.push_back(std::shared_ptr<WallCell>(new WallCell(x * 10, y * 10, world)));
+					//set adjacency blocked
+					//adjacency[x][y] = 1;
 					
 				}
 				else if (maze[x][y] == 2) { // if 4, the cell is a fake wall created during the random extra walls.
 					printf("2");
 					cellsVector.push_back(std::shared_ptr<FakeWallCell>(new FakeWallCell(x * 10, y * 10, world)));
+
+					//adjacency[x][y] = 1;
+					
 				}
 				else if (maze[x][y] == 0 ){
 					printf("."); // create floorcell
 					cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(x * 10, y * 10)));
+
+					//adjacency[x][y] = 0;//set unblocked
+					createAdjacency(y, x, position); //sets the surrounding positions in the adjacnecny matrix to have a 1 for this position so that they can path here
 				}
 				else if (maze[x][y] == 4) {
 					printf("2"); 
 					//cellsVector.push_back(new ExitCell(x * 10, y * 10));
+
+					//adjacency[x][y] = 0;
+					createAdjacency(y, x, position);
+				
 				}
 				else if (maze[x][y] == 3) { // if 3, the cell is completely surronded by walls, so create a nonbodyWallcell
 					printf("3");
 					//was going to create these non body wall cells originally to reduce the amount of lag, however, hoaving this number of images to render and draw also caused lag (but less than having them all be bodies). so instead when it's a 3 just don't draw anything at all and i will add a background. Massivly improves performance
 					//cellsVector.push_back(std::shared_ptr<NonBodyWallCell>(new NonBodyWallCell(x * 10, y * 10)));
+				
+					//adjacency[x][y] = 1;
+					
 				}
 				else if (maze[x][y] == 5) { // mark this one as 5 even though it still creates a floor cell just sao that we can check for player start position
 					printf("."); // create floorcell
 					cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(x * 10, y * 10)));
+
+					createAdjacency(y, x, position);
+					//adjacency[x][y] = 0;
 				}
 				
 			}
@@ -351,5 +372,49 @@ void MazeGeneration::addRooms(int x, int y, bool posORNeg )
 	}
 	
 }
+
+void MazeGeneration::setAdjacencySize()
+{
+	adjacency.resize(maze_size_x * maze_size_y);
+	for (int i = 0; i < adjacency.size(); i++) {
+		adjacency[i].resize(maze_size_x * maze_size_y);
+	}
+}
+
+void MazeGeneration::createAdjacency(int j, int i, int position)
+{
+	if (j > 0) { // there is a square to the left
+
+		// Mark path in adjacency matrix
+		adjacency[position][position - 1] = 1;
+
+	}
+
+	// Check if the square to the right is traversable
+	if (j < maze_size_x - 1 && position < 5999) { // there is a square to the right
+
+										   // Mark path in adjacency matrix
+		adjacency[position][position + 1] = 1;
+
+	}
+
+	// Check if the square above is traversable
+	if (position > maze_size_x) { // there is a square above
+
+										   // Mark path in adjacency matrix
+		adjacency[position][position - maze_size_x] = 1;
+
+	}
+
+	// Check if the square below is traversable
+	if (position < maze_size_x * maze_size_y - maze_size_x) { // there is a square below
+
+										   // Mark path in adjacency matrix
+		adjacency[position][position + maze_size_x] = 1;
+
+	}
+}
+
+
 
 

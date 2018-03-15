@@ -54,8 +54,20 @@ void Medusa::createCollisionBox(b2World & myWorld)
 
 	dynamicBody = myWorld.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
 
-												//box2dShape
-	Shape.SetAsBox(3.f / scale, 4.5f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+	//box2dShape
+	//need to setup the vertices for the body manually becasue we want to cut the edges of the square to prevent an error with box2d where moving across multiple flat bodies can cause you to become stuck
+	b2Vec2 verticices[8];
+	verticices[7].Set(-2.7f / scale, 4.5f / scale);
+	verticices[6].Set(-3.f / scale, 3.5f / scale);
+	verticices[5].Set(-3.f / scale, -3.5f / scale);
+	verticices[4].Set(-2.7f / scale, -4.5f / scale);
+	verticices[3].Set(2.7f / scale, -4.5f / scale);
+	verticices[2].Set(3.f / scale, -3.5f / scale);
+	verticices[1].Set(3.f / scale, 3.5f / scale);
+	verticices[0].Set(2.7f / scale, 4.5f / scale);
+
+	//Shape.SetAsBox(3.f / scale, 4.5f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+	Shape.Set(verticices, 8); //set shape to use the verticices we defined 
 
 	//create the fixture
 	FixtureDef.shape = &Shape;
@@ -105,7 +117,7 @@ void Medusa::update(PlayerCharacter * player)
 void Medusa::LookForPlayer(PlayerCharacter * player)
 {
 	if (player->xPosition > xPosition && player->xPosition < xPosition + visionRange || player->xPosition < xPosition && player->xPosition > xPosition - visionRange) {
-		if (player->yPosition > yPosition && player->yPosition < yPosition + visionRange || player->yPosition < yPosition && player->yPosition > yPosition - visionRange) {
+		if (player->yPosition > yPosition && player->yPosition < yPosition + 5.f || player->yPosition < yPosition && player->yPosition > yPosition - 5.f) {
 
 			std::cout << "PlayerSeen" << endl;
 			if (xPosition - player->xPosition <= 10 && xPosition - player->xPosition > 0 

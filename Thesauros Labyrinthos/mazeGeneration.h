@@ -21,9 +21,11 @@
 
 class MazeGeneration {
 public:
+	
 	MazeGeneration();
 	void generateMaze(b2World &world);
 	vector <std::shared_ptr<Cell>> cellsVector;
+	vector < vector<int>> adjacency;
 	/*
 	vector <WallCell> wallCellVector;
 	vector <FakeWallCell> fakeWallCellVector;
@@ -58,4 +60,6 @@ private:
 	void digWall(int x0, int y0, int x1, int y1);
 	void fillCells();
 	void addRooms(int x, int y, bool posORNeg);
+	void setAdjacencySize();
+	void createAdjacency(int j, int i,int position);
 };

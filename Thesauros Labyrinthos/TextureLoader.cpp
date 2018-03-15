@@ -10,11 +10,16 @@ TextureLoader::TextureLoader()
 void TextureLoader::loadTextures()
 {
 	//load in all of the Textures here so that we can use them everywhere else and don't have to keep reloading them
+	//MazeTextures
 	wallTexture.loadFromFile("Assets/Sprites/mazeWalls.png");
 	fakeWallTexture.loadFromFile("Assets/Sprites/DarkerWall.png");
 	floorTexture.loadFromFile("Assets/Sprites/mazeFloors.png");
 	//menuBackgroundTexture.loadFromFile("Assets/Sprites/")
+
+	//Title For Main Menu
 	titleTexture.loadFromFile("Assets/Sprites/Menu/title.png");
+
+	//healthBar Textures
 	healthBarTexture9.loadFromFile("Assets/Sprites/UI/heart9.png");
 	healthBarTexture8.loadFromFile("Assets/Sprites/UI/heart8.png");
 	healthBarTexture7.loadFromFile("Assets/Sprites/UI/heart7.png");
@@ -24,13 +29,23 @@ void TextureLoader::loadTextures()
 	healthBarTexture3.loadFromFile("Assets/Sprites/UI/heart3.png");
 	healthBarTexture2.loadFromFile("Assets/Sprites/UI/heart2.png");
 	healthBarTexture1.loadFromFile("Assets/Sprites/UI/heart.png");
-	skeletonTexture.loadFromFile("Assets/Sprites/Enemies/Skeleton/Skeleton.png");
+	
+	//PlayerTexture
 	playerTexture.loadFromFile("Assets/Sprites/Player/Archer.png");
-	medusaTexture.loadFromFile("Assets/Sprites/Enemies/Medusa/Medusa.png");
+	
+	//Item Related Textures
 	flameCloakTexture.loadFromFile("Assets/Sprites/FireSprite.png");
-	backgroundTexture.loadFromFile("Assets/Sprites/background.png");
 	torchTexture.loadFromFile("Assets/Sprites/torchSprite.png");
 	treaureChestTexture.loadFromFile("Assets/Sprites/treasureChest.png");
+
+	//background
+	backgroundTexture.loadFromFile("Assets/Sprites/background.png");
+	
+	//enemy Textures
+	griffinTexture.loadFromFile("Assets/Sprites/Enemies/Griffin.png");
+	skeletonTexture.loadFromFile("Assets/Sprites/Enemies/Skeleton/Skeleton.png");
+	medusaTexture.loadFromFile("Assets/Sprites/Enemies/Medusa/Medusa.png");
+
 	//WIP - works, needs tweaking
 	/*testRenderTExture.create(800, 450);
 	testRenderTExture.clear(sf::Color(0, 0, 0, 200));

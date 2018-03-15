@@ -28,6 +28,7 @@ public:
 	sf::Texture flameCloakTexture;
 	sf::Texture torchTexture;
 	sf::Texture treaureChestTexture;
+	sf::Texture griffinTexture;
 	//test for torch / spotlight
 	sf::RenderTexture testRenderTExture;
 	sf::Sprite darknessSprite;

@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="b2GLDraw.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Griffin.cpp" />
     <ClCompile Include="CollisionListener.cpp" />
     <ClCompile Include="ExitCell.cpp" />
     <ClCompile Include="FakeWallCell.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="b2GLDraw.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="Griffin.h" />
     <ClInclude Include="CollisionListener.h" />
     <ClInclude Include="ExitCell.h" />
     <ClInclude Include="FakeWallCell.h" />

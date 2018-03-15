@@ -120,6 +120,9 @@
     <ClCompile Include="soundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Griffin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="soundManager.h">
       <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Griffin.h">
+      <Filter>Header Files\GameCharcters\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
