@@ -60,7 +60,7 @@ void Griffin::createCollisionBox(b2World & myWorld)
 	FixtureDef.density = 1.f;
 	FixtureDef.friction = 0.0f;
 	FixtureDef.filter.categoryBits = ENEMY; //category
-	FixtureDef.filter.maskBits = PLAYER | WALL | PLAYERPROJECTILE; //won't collide with other enemies, but will with player's, projectiles and walls.
+	FixtureDef.filter.maskBits = PLAYER | WALL | PLAYERPROJECTILE | ITEM; //won't collide with other enemies, but will with player's, projectiles and walls.
 	dynamicBody->CreateFixture(&FixtureDef);
 }
 
@@ -127,6 +127,7 @@ void Griffin::update(PlayerCharacter * player)
 		timer.restart();// restart the timer so we can use it for the check again
 	}
 	
+	checkDead(); //check if dead
 }
 
 
@@ -209,5 +210,12 @@ void Griffin::Wander()
 		}
 
 		
+	}
+}
+
+void Griffin::checkDead()
+{
+	if (health <= 0) { // if ran out of health
+		dead = true;
 	}
 }

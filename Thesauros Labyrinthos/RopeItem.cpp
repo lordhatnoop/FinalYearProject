@@ -41,7 +41,7 @@ void RopeItem::createBox2D(b2World &myWorld)
 	ItemWorldFixture.density = 1.f;
 	ItemWorldFixture.friction = 0.0f;
 	ItemWorldFixture.filter.categoryBits = ITEM; // set the category to be ITEM
-	ItemWorldFixture.filter.maskBits = ENEMY | WALL; //set to collide with walls and enemies
+	ItemWorldFixture.filter.maskBits =  WALL; //set to collide with walls and enemies
 	Box2DBody->CreateFixture(&ItemWorldFixture);
 
 	//create the second sensor fixture for detecting player but still allowing them to walk through

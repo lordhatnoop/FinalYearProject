@@ -10,7 +10,8 @@ public:
 		WALL = 0x0004,
 		PLAYERPROJECTILE = 0x0005,
 		ITEM = 0x0006,
-		TREASURECHEST = 0x0007
+		TREASURECHEST = 0x0007,
+		TREASURE = 0x0008
 	};
 	
 	//want the items to have two fixtures, one for colliding with walls, etc and proper collision so that the items don't fall through the world

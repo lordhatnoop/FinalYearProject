@@ -72,7 +72,7 @@ void WallCell::createBox2D(b2World &world)
 	objectFixtureDef.density = 1.f;
 	objectFixtureDef.friction = 0.0f;
 	objectFixtureDef.filter.categoryBits = WALL; // set category to be wall
-	objectFixtureDef.filter.maskBits = PLAYER | ENEMY | PLAYERPROJECTILE; //set walls to collide with player's, projectiles anbd enemieis, won't collide with each other
+	objectFixtureDef.filter.maskBits = PLAYER | ENEMY | PLAYERPROJECTILE | ITEM | TREASURE; //set walls to collide with player's, projectiles anbd enemieis, won't collide with each other
 	cellBody->CreateFixture(&objectFixtureDef);
 }
 

@@ -84,7 +84,7 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 		FixtureDef.density = 1.f;
 		FixtureDef.friction = 0.0f;
 		FixtureDef.filter.categoryBits = PLAYER; // set the category to be player
-		FixtureDef.filter.maskBits = ENEMY | WALL; //set to collide with walls and enemies
+		FixtureDef.filter.maskBits = ENEMY | WALL| TREASURE; //set to collide with walls and enemies
 		dynamicBody->CreateFixture(&FixtureDef);
 
 		//setup the sensors

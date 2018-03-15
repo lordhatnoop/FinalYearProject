@@ -74,7 +74,7 @@ void Skeleton::createCollisionBox(b2World & myWorld)
 	FixtureDef.density = 1.f;
 	FixtureDef.friction = 0.0f;
 	FixtureDef.filter.categoryBits = ENEMY; //categoiry
-	FixtureDef.filter.maskBits = PLAYER | WALL | PLAYERPROJECTILE; //won't collide with other enemies, but will with player's, projectiles and walls.
+	FixtureDef.filter.maskBits = PLAYER | WALL | PLAYERPROJECTILE | ITEM; //won't collide with other enemies, but will with player's, projectiles and walls.
 	dynamicBody->CreateFixture(&FixtureDef);
 }
 

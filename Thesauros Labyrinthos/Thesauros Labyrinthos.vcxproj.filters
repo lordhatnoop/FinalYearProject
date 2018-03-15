@@ -114,14 +114,20 @@
     <ClCompile Include="FlameCloakItem.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
-    <ClCompile Include="TreasureChest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="soundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Treasure.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="TreasureChest.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
     <ClCompile Include="Griffin.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameCharcters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="DespawnManager.cpp">
+      <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +211,12 @@
     </ClInclude>
     <ClInclude Include="Griffin.h">
       <Filter>Header Files\GameCharcters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Treasure.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="DespawnManager.h">
+      <Filter>Source Files\GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

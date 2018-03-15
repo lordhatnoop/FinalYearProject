@@ -8,6 +8,8 @@
 #include "mazeGeneration.h"
 #include "MiniMap.h"
 #include "TreasureChest.h"
+#include "Treasure.h"
+#include "DespawnManager.h"
 
 // enum for the states of the game
 enum GameState {
@@ -39,6 +41,7 @@ public:
 	vector <std::shared_ptr<Skeleton>> skeletonsVector; //use sharedPtr because it handles deleting the pointers for me once they are removed from the vector
 	vector <std::shared_ptr<Medusa>> medusaVector;
 	vector <TreasureChest> treasureChestVector;
+	vector <Treasure> treasureVector;
 	//below creates a mazegenerator object and then talls it to call the generatemaze function
 	MazeGeneration mazeGenerator;
 
@@ -70,6 +73,7 @@ public:
 
 private:
 	
+	DespawnManager despawnManger; //manages despawning objeccts
 
 	bool escapeRun = false;
 

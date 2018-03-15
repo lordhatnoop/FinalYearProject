@@ -17,6 +17,8 @@ public:
 	void Charge();
 	void Wander();
 
+	void checkDead();
+
 	sf::Vector2f ChargeStartPosition;
 	sf::Vector2f wanderStartPosition;
 	bool chargeStart = false;
@@ -26,4 +28,6 @@ public:
 	int animationCounter = 0;
 	sf::Clock timer;
 	int leftORRight;
+
+	bool dead = false;
 };

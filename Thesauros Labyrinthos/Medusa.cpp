@@ -74,7 +74,7 @@ void Medusa::createCollisionBox(b2World & myWorld)
 	FixtureDef.density = 1.f;
 	FixtureDef.friction = 0.0f;
 	FixtureDef.filter.categoryBits = ENEMY; //category
-	FixtureDef.filter.maskBits = PLAYER | WALL | PLAYERPROJECTILE; //won't collide with other enemies, but will with player's, projectiles and walls.
+	FixtureDef.filter.maskBits = PLAYER | WALL | PLAYERPROJECTILE | ITEM; //won't collide with other enemies, but will with player's, projectiles and walls.
 	dynamicBody->CreateFixture(&FixtureDef);
 }
 
@@ -111,6 +111,9 @@ void Medusa::update(PlayerCharacter * player)
 	yPosition = dynamicBody->GetPosition().y * scale;
 
 	rectangle.setPosition(xPosition, yPosition);
+
+
+	checkDead(); //check if dead
 }
 
 //look for the player in a certain distance and if spotted, check whether left or right and update appropriate bool, else set both bools false
@@ -226,6 +229,7 @@ void Medusa::moveRight()
 		
 		rectangle.setTextureRect(textureSubRect); //update the rectangle to use the new texturesubrect info
 	}
+
 }
 
 //same as right but negative values for width to flip the image and the velocity to walk left
@@ -462,3 +466,9 @@ void Medusa::attack(PlayerCharacter *player)
 }
 
 
+void Medusa::checkDead()
+{
+	if (health <= 0) { // if ran out of health
+		dead = true;
+	}
+}

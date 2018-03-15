@@ -46,6 +46,7 @@ void CollisionListener::BeginContact(b2Contact * contact)
 	PlayerRopeCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for player and rope collision
 	FlameCloakCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for FlameCloakCollision
 	TreasureChestCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for treasureChest collision
+	TreasurePickUP(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for treasurePickUp
 	/*
 	//get what objects each one is 
 	std::string nameA = ((GameCharacters*)bodyUserData)->getName();
@@ -193,4 +194,19 @@ void CollisionListener::TreasureChestCollision(void * userData1, void * userData
 		static_cast<TreasureChest*>(userData2)->openChest(static_cast<PlayerCharacter*>(userData1)); //if the player touches the treasure chest, open the chest
 	}
 }
+
+void CollisionListener::TreasurePickUP(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == TREASURE && fixture2->GetFilterData().categoryBits == PLAYER) {
+		//add the value to the player's treasure and set the treasure collected
+		static_cast<PlayerCharacter*>(userData2)->treasure = static_cast<PlayerCharacter*>(userData2)->treasure + static_cast<Treasure*>(userData1)->value;
+		static_cast<Treasure*>(userData1)->collected = true;
+	}
+	else if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TREASURE) {
+		static_cast<PlayerCharacter*>(userData1)->treasure = static_cast<PlayerCharacter*>(userData1)->treasure + static_cast<Treasure*>(userData2)->value;
+		static_cast<Treasure*>(userData2)->collected = true;
+	}
+}
+
+
 

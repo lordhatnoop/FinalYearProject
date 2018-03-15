@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 
+
 using namespace std;
 
 LevelManager::LevelManager(sf::RenderWindow *passedWindow, tgui::Gui *passedGUI)
@@ -152,7 +153,10 @@ void LevelManager::LoadNextLevel(b2World &world)
 		std::shared_ptr<Medusa> testEnemy = std::shared_ptr<Medusa>(new Medusa(mazeGenerator.startX - 10, mazeGenerator.startY));
 		testEnemy->createCollisionBox(world);
 		medusaVector.push_back(testEnemy);
-		
+		std::shared_ptr<Medusa> testEnemy2 = std::shared_ptr<Medusa>(new Medusa(2000, 2000));
+		testEnemy2->createCollisionBox(world);
+		medusaVector.push_back(testEnemy2);
+
 		//GUI CREATION//////////////////////////////////////////
 		if (gui->getWidgets().size() <= 0) {//if the gui is empty 
 		//create the gui for the level and add it to the GUI holder. do this here instead of update becasue we don't want to keep cvreating them over and over again
@@ -217,6 +221,11 @@ void LevelManager::LoadNextLevel(b2World &world)
 		}
 		treasureChestVector.push_back(TreasureChest(playerCharacter->xPosition + 5 , playerCharacter->yPosition +5 )); //for testing, push a single chest to the back
 		treasureChestVector.back().createBody(world); //create the body
+
+		Treasure treasure(playerCharacter->xPosition, playerCharacter->yPosition);
+		treasure.CreateBody(world);
+		treasureVector.push_back(treasure);
+
 
 		//create the minimap
 		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
@@ -290,6 +299,7 @@ void LevelManager::update(b2World &World)
 			arrowIterator++;
 		}
 	}
+
 	//update the camera and pass the playerposition so camera can follow.
 	playerView->update(playerCharacter->dynamicBody->GetPosition().x * 30.f, playerCharacter->dynamicBody->GetPosition().y * 30.f);
 
@@ -359,6 +369,14 @@ void LevelManager::update(b2World &World)
 		healthUI->setSize(200, 25); // change the size of the bar so that the hearts don't get sacled up
 	}
 	
+
+	//DESPAWN / DESTROY SECTION
+	//use the despawn Manger to check if we need to remove anything and do so if needed
+	despawnManger.despawnTreasure(treasureVector, World);
+	despawnManger.despawnMedusa(medusaVector, World);
+	despawnManger.despawnSkeleton(skeletonsVector, World);
+
+
 	/////////////////////////DRAW///////////////////////////////////////////////////
 	
 
