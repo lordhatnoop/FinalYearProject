@@ -47,7 +47,7 @@ void TextureLoader::loadTextures()
 	griffinTexture.loadFromFile("Assets/Sprites/Enemies/Griffin.png");
 	skeletonTexture.loadFromFile("Assets/Sprites/Enemies/Skeleton/Skeleton.png");
 	medusaTexture.loadFromFile("Assets/Sprites/Enemies/Medusa/Medusa.png");
-
+	ghostTexture.loadFromFile("Assets/Sprites/Enemies/Ghost.png");
 	//WIP - works, needs tweaking
 	/*testRenderTExture.create(800, 450);
 	testRenderTExture.clear(sf::Color(0, 0, 0, 200));

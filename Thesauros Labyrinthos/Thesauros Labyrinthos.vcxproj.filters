@@ -129,6 +129,9 @@
     <ClCompile Include="DespawnManager.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Ghost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="DespawnManager.h">
       <Filter>Source Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Ghost.h">
+      <Filter>Header Files\GameCharcters\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
