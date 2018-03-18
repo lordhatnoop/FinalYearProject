@@ -38,10 +38,12 @@ public:
 
 	GameState getCurrentState() { return currentState; }
 
+	//vectors
 	vector <std::shared_ptr<Skeleton>> skeletonsVector; //use sharedPtr because it handles deleting the pointers for me once they are removed from the vector
 	vector <std::shared_ptr<Medusa>> medusaVector;
 	vector <TreasureChest> treasureChestVector;
 	vector <Treasure> treasureVector;
+
 	//below creates a mazegenerator object and then talls it to call the generatemaze function
 	MazeGeneration mazeGenerator;
 
@@ -59,6 +61,16 @@ public:
 	void FSM(b2World &world); // Finite state machine
 
 
+	 //ingame gui 
+	tgui::TextBox::Ptr treasureUI; // textbox UI
+	tgui::TextBox::Ptr healthUI; // healthUI
+	tgui::TextBox::Ptr currentItemUI; //
+
+	//shield GUI///////
+	tgui::TextBox::Ptr ShieldUI; // shield energy UI
+	sf::RectangleShape shieldUIBackgroundBlue; // the background for the fuel ui
+	sf::RectangleShape shieldUIBackgroundWhite; // the background for the fuel ui
+	sf::RectangleShape shieldUIImage; // the image by the side of the torch fuel UI
 	 //TorchGUI//////////
 	tgui::TextBox::Ptr torchFuelUI; // fuel UI for now
 	sf::RectangleShape torchFuelUIBackgroundRed; // the background for the fuel ui
@@ -99,8 +111,9 @@ private:
 	
 	//GUI//////
 	tgui::Gui* gui; // pointer to the gui we will pass
-	tgui::TextBox::Ptr treasureUI; // textbox UI
-	tgui::TextBox::Ptr healthUI; // healthUI
+
+
+	
 
 	//upgrades menu GUI extras
 	tgui::TextBox::Ptr ItemDamageCostUI;

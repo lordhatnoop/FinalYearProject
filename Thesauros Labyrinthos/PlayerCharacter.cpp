@@ -155,13 +155,13 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 			//yPosition += 5;
 		}
-
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) { //attack
-			arrowVector.push_back(std::shared_ptr<playerArrow>(new playerArrow(xPosition, yPosition, facingLeftORRight))); //push an arrow to the back of the vector.
-			arrowVector.back()->createHitBox(myWorld);
-		}
 		else {
 			dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // if no buttons are being pressed, no velocity
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) { //attack
+			arrowVector.push_back(std::shared_ptr<playerArrow>(new playerArrow(xPosition, yPosition, facingLeftORRight))); //push an arrow to the back of the vector.
+			arrowVector.back()->createHitBox(myWorld);
 		}
 
 		//not else if so that we can jump while moving

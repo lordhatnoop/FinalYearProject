@@ -30,11 +30,13 @@ void TextureLoader::loadTextures()
 	healthBarTexture2.loadFromFile("Assets/Sprites/UI/heart2.png");
 	healthBarTexture1.loadFromFile("Assets/Sprites/UI/heart.png");
 	
+
 	//PlayerTexture
 	playerTexture.loadFromFile("Assets/Sprites/Player/Archer.png");
 	
 	//Item Related Textures
 	flameCloakTexture.loadFromFile("Assets/Sprites/FireSprite.png");
+	flameCloakGUITexture.loadFromFile("Assets/Sprites/UI/FlameCloakUI.png");
 	torchTexture.loadFromFile("Assets/Sprites/torchSprite.png");
 	treaureChestTexture.loadFromFile("Assets/Sprites/treasureChest.png");
 

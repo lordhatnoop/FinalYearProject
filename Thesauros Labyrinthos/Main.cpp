@@ -137,10 +137,13 @@ int main() {
 
 		
 		world.DrawDebugData(); //debug draw for boxz2d - displays bodies,etc
-		if (levelManager.getCurrentState() == inGameState) {
+		if (levelManager.getCurrentState() == inGameState) { // if we're in game draw this stuff
 			
 			gameWindow.draw(levelManager.torchFuelUIBackgroundWhite);
 			gameWindow.draw(levelManager.torchFuelUIBackgroundRed);
+
+			gameWindow.draw(levelManager.shieldUIBackgroundWhite);
+			gameWindow.draw(levelManager.shieldUIBackgroundBlue);
 		}
 		
 		gui.draw();// tell the gui to draw. draw after everything else becasue we want it to sit at the top

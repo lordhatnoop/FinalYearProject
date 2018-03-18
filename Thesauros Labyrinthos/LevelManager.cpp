@@ -165,7 +165,7 @@ void LevelManager::LoadNextLevel(b2World &world)
 			treasureUI->setSize(200, 25); // set the size
 			treasureUI->setTextSize(16); // set the font size
 			treasureUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
-			treasureUI->getRenderer()->setBorderColor(sf::Color::Black);//border colour
+			treasureUI->getRenderer()->setBorderColor(sf::Color::Blue);//border colour
 
 			gui->add(treasureUI); // add the treasure UI to the gui
 			
@@ -181,8 +181,8 @@ void LevelManager::LoadNextLevel(b2World &world)
 			//the textbox portion
 			torchFuelUI = tgui::TextBox::create();
 			torchFuelUI->setPosition(400, 0); // set the textBox to be positioned at 400,0
-			torchFuelUI->setSize(600, 25); // set the size
-			torchFuelUI->setTextSize(16); // set the font size
+			torchFuelUI->setSize(600, 12.5); // set the size
+			torchFuelUI->setTextSize(8); // set the font size
 			torchFuelUI->getRenderer()->setBackgroundColor(sf::Color::Transparent); // set colour
 			torchFuelUI->getRenderer()->setBorderColor(sf::Color::Green);//border colour
 
@@ -190,16 +190,45 @@ void LevelManager::LoadNextLevel(b2World &world)
 			//two below are awakward. normal rectangles, so get drawn normally to the window, rather than to the view like the gui stuff using TGUI. have to psoition them relative to the player, and make them very small to fit the zoomed in view
 			//the red backgroundportion
 			torchFuelUIBackgroundRed.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
-			torchFuelUIBackgroundRed.setSize(sf::Vector2f(37.5f,2.8f));
+			torchFuelUIBackgroundRed.setSize(sf::Vector2f(37.5f,1.4f));
 			torchFuelUIBackgroundRed.setFillColor(sf::Color::Red);
 
 			//the white backgroundportion - create two background portions so that this one is left behind as the red one updates and shrinks with the current fuel
 			torchFuelUIBackgroundWhite.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
-			torchFuelUIBackgroundWhite.setSize(sf::Vector2f(37.5f, 2.8f));
+			torchFuelUIBackgroundWhite.setSize(sf::Vector2f(37.5f, 1.4f));
 			torchFuelUIBackgroundWhite.setFillColor(sf::Color::White);
 
 			gui->add(torchFuelUI);
 
+			//SHIELD UI
+			ShieldUI = tgui::TextBox::create();
+			ShieldUI->setPosition(400, 12.5); // set the textBox to be positioned at 400,0
+			ShieldUI->setSize(600, 12.5); // set the size
+			ShieldUI->setTextSize(8); // set the font size
+			ShieldUI->getRenderer()->setBackgroundColor(sf::Color::Transparent); // set colour
+			ShieldUI->getRenderer()->setBorderColor(sf::Color::Blue);//border colour
+
+			gui->add(ShieldUI);
+
+			//the blue backgroundportion
+			shieldUIBackgroundBlue.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 48.6f);
+			shieldUIBackgroundBlue.setSize(sf::Vector2f(37.5f, 1.4f));
+			shieldUIBackgroundBlue.setFillColor(sf::Color::Cyan);
+
+			//the white backgroundportion - create two background portions so that this one is left behind as the red one updates and shrinks with the current fuel
+			shieldUIBackgroundWhite.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 48.6f);
+			shieldUIBackgroundWhite.setSize(sf::Vector2f(37.5f, 1.4f));
+			shieldUIBackgroundWhite.setFillColor(sf::Color::White);
+
+			//currentitem Ui Creation
+			currentItemUI = tgui::TextBox::create();
+			currentItemUI->setPosition(1000, 0); // set the textBox to be positioned at 400,0
+			currentItemUI->setSize(50, 25); // set the size
+			currentItemUI->setTextSize(8); // set the font size
+			currentItemUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
+			currentItemUI->getRenderer()->setBorderColor(sf::Color::Blue);//border colour
+
+			gui->add(currentItemUI);
 		}
 
 		std::shared_ptr<ExitCell> exit;
@@ -325,10 +354,19 @@ void LevelManager::update(b2World &World)
 	torchFuelUI->setText("Fuel Remaining: " + to_string(playerCharacter->currentTorchFuel) + " / " + to_string(playerCharacter->maxTorchFuel)); //set the text for the fuel UI to display the current and max fuel. 
 	float redBarSize = (playerCharacter->currentTorchFuel / playerCharacter->maxTorchFuel) * 37.5f; // work out the new size of the red portion of the UI background by getting the fraction and multiplying it by the max width
 	
-	torchFuelUIBackgroundRed.setSize(sf::Vector2f(redBarSize, 2.9f));
+	torchFuelUIBackgroundRed.setSize(sf::Vector2f(redBarSize, 1.4f));
 	//have to keep updating the position based on the player's position becasue opf how the view follows the player, and these are just normal rectnagles, so don't get drawn staright to the view
 	torchFuelUIBackgroundRed.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
 	torchFuelUIBackgroundWhite.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
+
+	//same as torchUI update but for the shield
+	ShieldUI->setText("Energy Remaining: " + to_string(playerCharacter->shieldEnergy) + " / " + to_string(playerCharacter->shieldEnergyMax)); //set the text for the Shield UI to display the current and max energy. 
+	float blueBarSize = (playerCharacter->shieldEnergy / playerCharacter->shieldEnergyMax) * 37.5f; // work out the new size of the Blue portion of the UI background by getting the fraction and multiplying it by the max width
+
+	shieldUIBackgroundBlue.setSize(sf::Vector2f(blueBarSize, 1.4f));
+	//have to keep updating the position based on the player's position becasue opf how the view follows the player, and these are just normal rectnagles, so don't get drawn staright to the view
+	shieldUIBackgroundBlue.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 48.6f);
+	shieldUIBackgroundWhite.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 48.6f);
 
 	//PLayerHealth UI
 	//check the player's health and update the UI based on that
@@ -368,6 +406,25 @@ void LevelManager::update(b2World &World)
 		healthUI->getRenderer()->setTextureBackground(textureLoader.healthBarTexture9);
 		healthUI->setSize(200, 25); // change the size of the bar so that the hearts don't get sacled up
 	}
+	
+
+	//update the current item GUI
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) { 
+		if (playerCharacter->itemsOnCooldown == false) { // check for the same button press and condition as player so it only changes when the player changes the current item
+			string item = playerCharacter->AquiredItems[playerCharacter->currentItem]->itemName; //get the name of the item
+			//set the background texture based on item name
+			if (item == "Rope") {
+
+			}
+			else if (item == "FlameCloak") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.flameCloakGUITexture); //set the background texture
+			}
+		}
+	}
+	if (playerCharacter->itemsOnCooldown == true) { //if items on cooldown, draw the text to be the cooldown timer
+		currentItemUI->setText(to_string(playerCharacter->AquiredItems[playerCharacter->currentItem]->coolDownTimer - playerCharacter->CurrentItemClock->getElapsedTime().asSeconds())); //get the reaminging cooldown time by get the cooldown duration form the item and minusing the elapsed time from the player's cooldown timer
+	}
+	else (currentItemUI->setText("")); //set blank text if not on cooldown
 	
 
 	//DESPAWN / DESTROY SECTION
