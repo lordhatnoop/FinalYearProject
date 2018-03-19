@@ -84,7 +84,8 @@ private:
 	int walkAnimationCounter = 1;
 	void walkRight();
 	void walkLeft();
-	
+	sf::Clock animationTimer;
+
 	//action to take when petrified (by medusa setting (is stone) to true)
 	void Petrified();
 	

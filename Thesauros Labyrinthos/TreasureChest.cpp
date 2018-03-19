@@ -62,54 +62,60 @@ void TreasureChest::createBody(b2World & world)
 void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 {
 	if (alreadyOpened == false) { // if chest hasn't been opened
+		for (int i = 0; i < 1;) { //for loop that goes to 1. only update to 1 once given an appropraite item (e.g, one that hasn't been aquired)
 		//select what item the player is going to get upon opening
  		selectedItem = rand() % 1000 + 1; // slecct a random number
 		bool ItemAlreadyAquired = false;
 		//base item on generated number
-		if (selectedItem <= 100) { // if one to 10
-			//health item
-			printf("healthItem \n");
-			if (playerCharacter->playerHealth < playerCharacter->playerMaxHealth) { // so long as not already full health
-				playerCharacter->playerHealth++; //recover some player health
-				alreadyOpened = true;
-				itemSprite.setTexture(&textureLoader.healthBarTexture1); //display a heart texture
+		
+			if (selectedItem <= 100) { // if one to 10
+				//health item
+				printf("healthItem \n");
+				if (playerCharacter->playerHealth < playerCharacter->playerMaxHealth) { // so long as not already full health
+					playerCharacter->playerHealth++; //recover some player health
+					alreadyOpened = true;
+					itemSprite.setTexture(&textureLoader.healthBarTexture1); //display a heart texture
+				}
+				i++;
 			}
-		}
-		else if (selectedItem > 100 && selectedItem <= 200) {
-			//torch Fuel
-			printf("torchFuel \n");
-			playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //max out torch fuel
+			else if (selectedItem > 100 && selectedItem <= 200) {
+				//torch Fuel
+				printf("torchFuel \n");
+				playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //max out torch fuel
 
-			alreadyOpened = true;
-			itemSprite.setTexture(&textureLoader.torchTexture);
-			//itemSprite.setFillColor(sf::Color(0, 0, 0, 255));
-			
-			
-		}
-		else if (selectedItem > 200 && selectedItem <= 300) {
-			//shield fuel
-			printf("shieldFuel \n");
-			playerCharacter->shieldEnergy = playerCharacter->shieldEnergyMax; //max out shield energy
-			alreadyOpened = true;
-		}
-		else if (selectedItem > 300 && selectedItem <= 400) {
-			//Flamecloak
-			printf("flameCloak \n");
-			for (int i = 0; i < playerCharacter->AquiredItems.size(); i++) {
-				if (playerCharacter->AquiredItems[i]->itemName == "FlameCloak") {
-					ItemAlreadyAquired = true; //item al;ready aquired 
+				alreadyOpened = true;
+				itemSprite.setTexture(&textureLoader.torchTexture);
+				//itemSprite.setFillColor(sf::Color(0, 0, 0, 255));
+
+				i++;
+			}
+			else if (selectedItem > 200 && selectedItem <= 300) {
+				//shield fuel
+				printf("shieldFuel \n");
+				playerCharacter->shieldEnergy = playerCharacter->shieldEnergyMax; //max out shield energy
+				alreadyOpened = true;
+				i++;
+			}
+			else if (selectedItem > 300 && selectedItem <= 400) {
+				//Flamecloak
+				printf("flameCloak \n");
+				for (int i = 0; i < playerCharacter->AquiredItems.size(); i++) {
+					if (playerCharacter->AquiredItems[i]->itemName == "FlameCloak") {
+						ItemAlreadyAquired = true; //item al;ready aquired 
+					}
+				}
+				if (ItemAlreadyAquired == false) { // if item isn't aquired yet
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem())); //add the flame cloak item
+					alreadyOpened = true;
+					itemSprite.setTexture(&textureLoader.flameCloakTexture);
+					i++;
 				}
 			}
-			if (ItemAlreadyAquired == false) { // if item isn't aquired yet
-				playerCharacter->AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem())); //add the flame cloak item
-				alreadyOpened = true;
-				itemSprite.setTexture(&textureLoader.flameCloakTexture);
+			else {
+				printf("item = %i \n", selectedItem);
+
 			}
 		}
-		else {
-			printf("item = %i \n", selectedItem);
-		}
-
 		if (alreadyOpened == true) { //if chest is opened swap sprite
 			textureSubrect.left = 0;
 			textureSubrect.top = 34;

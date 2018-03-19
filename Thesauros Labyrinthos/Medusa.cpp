@@ -153,7 +153,7 @@ void Medusa::LookForPlayer(PlayerCharacter * player)
 
 void Medusa::moveRight()
 {
-	dynamicBody->SetLinearVelocity(b2Vec2(3, 0));
+	dynamicBody->SetLinearVelocity(b2Vec2(2, 0));
 	if (timer.getElapsedTime().asSeconds() > 0.5f) { //make sure some time has passed
 	//check which frame of the aniamtion we are on and change animation to match
 	 //distances between each sprite on sheet are different, so have to manually set each position
@@ -236,7 +236,7 @@ void Medusa::moveRight()
 //uses the same walk animation counter as right so that if it turns around, it carries on the animation smoothly
 void Medusa::moveLeft()
 {
-	dynamicBody->SetLinearVelocity(b2Vec2(-3, 0));
+	dynamicBody->SetLinearVelocity(b2Vec2(-2, 0));
 	//if (timer.getElapsedTime().asSeconds() > 0.5f) { //make sure some time has passed
 													 //check which frame of the aniamtion we are on and change animation to match
 													 //distances between each sprite on sheet are different, so have to manually set each position

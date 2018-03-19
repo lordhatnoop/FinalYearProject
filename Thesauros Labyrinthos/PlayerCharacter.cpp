@@ -9,11 +9,13 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	createSFML();
 	//createCollisionBox(myWorld);
 	torch = new TorchLight(xPosition,yPosition);
+
 	//start the clocks
 	updateclock = new sf::Clock;
 	invincibilityClock = new sf::Clock;
 	petrifiedClock = new sf::Clock;
 	CurrentItemClock = new sf::Clock;
+	animationTimer.restart(); 
 
 	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
 	AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
@@ -312,166 +314,173 @@ void PlayerCharacter::InvincibleTimer()
 
 void PlayerCharacter::walkRight()
 {
-	dynamicBody->SetLinearVelocity(b2Vec2(5  , -1 ));
+	dynamicBody->SetLinearVelocity(b2Vec2(4 , -1 ));
 	
 	//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
 	//sprite sheet has inconsistenet sizes for each frame. just use the largest avlue for the width and height to add a few blank frames to the smaller ones so that the sprite doesn't keep visibly chanign shape.
-	if (walkAnimationCounter == 1) {
-		textureSubRect.left = 12.7f;
-		textureSubRect.width = 41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
+	if (animationTimer.getElapsedTime().asSeconds() > 0.025) {
+		if (walkAnimationCounter == 1) {
+			textureSubRect.left = 12.7f;
+			textureSubRect.width = 41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
 
-		walkAnimationCounter = 2;
+			walkAnimationCounter = 2;
+		}
+		else if (walkAnimationCounter == 2) {
+			textureSubRect.left = 322.f;
+			textureSubRect.width = 41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 3;
+		}
+		else if (walkAnimationCounter == 3) {
+			textureSubRect.left = 401.f;
+			textureSubRect.width = 41.f;
+			textureSubRect.top = 13.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 4;
+		}
+		else if (walkAnimationCounter == 4) {
+			textureSubRect.left = 480.f;
+			textureSubRect.width = 41.f;
+			textureSubRect.top = 13.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 5;
+		}
+		else if (walkAnimationCounter == 5) {
+			textureSubRect.left = 570.f;
+			textureSubRect.width = 41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 6;
+		}
+		else if (walkAnimationCounter == 6) {
+			textureSubRect.left = 650.f;
+			textureSubRect.width = 41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 7;
+		}
+		else if (walkAnimationCounter == 7) {
+			textureSubRect.left = 730.f;
+			textureSubRect.width = 41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 8;
+		}
+		else if (walkAnimationCounter == 8) {
+			textureSubRect.left = 816.f;
+			textureSubRect.width = 41.f;
+			textureSubRect.top = 13.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 9;
+		}
+		else if (walkAnimationCounter == 9) {
+			textureSubRect.left = 899.f;
+			textureSubRect.width = 41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 2;
+		}
+
+		rectangle.setTextureRect(textureSubRect); // set to use the new texture rect positions
+		animationTimer.restart();// reset so we can check again
 	}
-	else if (walkAnimationCounter == 2) {
-		textureSubRect.left = 322.f;
-		textureSubRect.width = 41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 3;
-	}
-	else if (walkAnimationCounter == 3) {
-		textureSubRect.left = 401.f;
-		textureSubRect.width = 41.f;
-		textureSubRect.top = 13.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 4;
-	}
-	else if (walkAnimationCounter == 4) {
-		textureSubRect.left = 480.f;
-		textureSubRect.width = 41.f;
-		textureSubRect.top = 13.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 5;
-	}
-	else if (walkAnimationCounter == 5) {
-		textureSubRect.left = 570.f;
-		textureSubRect.width = 41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 6;
-	}
-	else if (walkAnimationCounter == 6) {
-		textureSubRect.left = 650.f;
-		textureSubRect.width = 41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 7;
-	}
-	else if (walkAnimationCounter == 7) {
-		textureSubRect.left = 730.f;
-		textureSubRect.width = 41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 8;
-	}
-	else if (walkAnimationCounter == 8) {
-		textureSubRect.left = 816.f;
-		textureSubRect.width = 41.f;
-		textureSubRect.top = 13.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 9;
-	}
-	else if (walkAnimationCounter == 9) {
-		textureSubRect.left = 899.f;
-		textureSubRect.width = 41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 2;
-	}
-
-	rectangle.setTextureRect(textureSubRect); // set to use the new texture rect positions
-	facingLeftORRight = true; // set true for facing right
+		facingLeftORRight = true; // set true for facing right
+	
 }
 
 //same as walk right, but inversed velocity and and texture rect positins start from the right and minus the width to flip the image
 void PlayerCharacter::walkLeft()
 {
-	dynamicBody->SetLinearVelocity(b2Vec2(-5, -1));
-	//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
-	if (walkAnimationCounter == 1) {
-		textureSubRect.left = 44.7f;
-		textureSubRect.width = -41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
+	dynamicBody->SetLinearVelocity(b2Vec2(-4, -1));
+	if (animationTimer.getElapsedTime().asSeconds() > 0.025) {
+		//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
+		if (walkAnimationCounter == 1) {
+			textureSubRect.left = 44.7f;
+			textureSubRect.width = -41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 2;
+		}
+		else if (walkAnimationCounter == 2) {
+			textureSubRect.left = 354.f;
+			textureSubRect.width = -41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 3;
+		}
+		else if (walkAnimationCounter == 3) {
+			textureSubRect.left = 433.f;
+			textureSubRect.width = -41.f;
+			textureSubRect.top = 13.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 4;
+		}
+		else if (walkAnimationCounter == 4) {
+			textureSubRect.left = 521.f;
+			textureSubRect.width = -41.f;
+			textureSubRect.top = 13.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 5;
+		}
+		else if (walkAnimationCounter == 5) {
+			textureSubRect.left = 601.f;
+			textureSubRect.width = -41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 6;
+		}
+		else if (walkAnimationCounter == 6) {
+			textureSubRect.left = 682.f;
+			textureSubRect.width = -41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 7;
+		}
+		else if (walkAnimationCounter == 7) {
+			textureSubRect.left = 765.f;
+			textureSubRect.width = -41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 8;
+		}
+		else if (walkAnimationCounter == 8) {
+			textureSubRect.left = 851.f;
+			textureSubRect.width = -41.f;
+			textureSubRect.top = 13.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 9;
+		}
+		else if (walkAnimationCounter == 9) {
+			textureSubRect.left = 933.f;
+			textureSubRect.width = -41.f;
+			textureSubRect.top = 12.f;
+			textureSubRect.height = 64.f;
+
+			walkAnimationCounter = 2;
+		}
 		
-		walkAnimationCounter = 2;
+		rectangle.setTextureRect(textureSubRect); // set to use the new texture rect positions
+		animationTimer.restart();
 	}
-	else if (walkAnimationCounter == 2) {
-		textureSubRect.left = 354.f;
-		textureSubRect.width = -41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 3;
-	}
-	else if (walkAnimationCounter == 3) {
-		textureSubRect.left = 433.f;
-		textureSubRect.width = -41.f;
-		textureSubRect.top = 13.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 4;
-	}
-	else if (walkAnimationCounter == 4) {
-		textureSubRect.left = 521.f;
-		textureSubRect.width = -41.f;
-		textureSubRect.top = 13.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 5;
-	}
-	else if (walkAnimationCounter == 5) {
-		textureSubRect.left = 601.f;
-		textureSubRect.width = -41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 6;
-	}
-	else if (walkAnimationCounter == 6) {
-		textureSubRect.left = 682.f;
-		textureSubRect.width = -41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 7;
-	}
-	else if (walkAnimationCounter == 7) {
-		textureSubRect.left = 765.f;
-		textureSubRect.width = -41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 8;
-	}
-	else if (walkAnimationCounter == 8) {
-		textureSubRect.left = 851.f;
-		textureSubRect.width = -41.f;
-		textureSubRect.top = 13.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 9;
-	}
-	else if (walkAnimationCounter == 9) {
-		textureSubRect.left = 933.f;
-		textureSubRect.width = -41.f;
-		textureSubRect.top = 12.f;
-		textureSubRect.height = 64.f;
-
-		walkAnimationCounter = 2;
-	}
-
-	rectangle.setTextureRect(textureSubRect); // set to use the new texture rect positions
 	facingLeftORRight = false; //set false for facing left
 }
 

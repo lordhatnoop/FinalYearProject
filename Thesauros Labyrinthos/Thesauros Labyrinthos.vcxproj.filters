@@ -130,7 +130,7 @@
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
     <ClCompile Include="Ghost.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameCharcters\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

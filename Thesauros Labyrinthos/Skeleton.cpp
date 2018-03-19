@@ -233,7 +233,7 @@ void Skeleton::rise()
 void Skeleton::moveRight()
 {
 	//xPosition = xPosition + 1.f; // update the position
-	dynamicBody->SetLinearVelocity(b2Vec2(3, 0));
+	dynamicBody->SetLinearVelocity(b2Vec2(2, 0));
 	if (timer.getElapsedTime().asSeconds() > 0.5f) { //make sure some time has passed
 		
 		//check which frame of the aniamtion we are on and change animation to match
@@ -343,7 +343,7 @@ void Skeleton::moveRight()
 void Skeleton::moveLeft()
 {
 	//xPosition = xPosition - 1.f; // update the position
-	dynamicBody->SetLinearVelocity(b2Vec2(-3, 0));
+	dynamicBody->SetLinearVelocity(b2Vec2(-2, 0));
 
 	if (timer.getElapsedTime().asSeconds() > 0.5f) { //make sure some time has passed
 

@@ -36,10 +36,21 @@ void FakeWallCell::createBox2D(b2World & world)
 	BodyDef.fixedRotation = true; //set fixed rotation so that it doesn't rotate when moving
 	cellBody = world.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
 
-											 //box2dShape
-	cellBox2DPolygonShape.SetAsBox(5.f / scale, 4.5f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+	//box2dShape
+	//create custom shape for the wall using vertices points. corners cut off top 
+	b2Vec2 verticices[8];
+	verticices[7].Set(-5.f / scale, 4.5f / scale);
+	verticices[6].Set(-5.f / scale, 4.f / scale);
+	verticices[5].Set(-5.f / scale, -4.f / scale);
+	verticices[4].Set(-4.7f / scale, -4.5f / scale);
+	verticices[3].Set(4.7f / scale, -4.5f / scale);
+	verticices[2].Set(5.f / scale, -4.f / scale);
+	verticices[1].Set(5.f / scale, 4.f / scale);
+	verticices[0].Set(5.f / scale, 4.5f / scale);
+	//cellBox2DPolygonShape.SetAsBox(5.f / scale, 4.5f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
+	cellBox2DPolygonShape.Set(verticices, 8); //set shape to use the vertices we created
 
-															  //create the fixture
+	//create the fixture
 	objectFixtureDef.shape = &cellBox2DPolygonShape;
 	objectFixtureDef.density = 1.f;
 	objectFixtureDef.friction = 0.0f;
