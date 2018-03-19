@@ -5,7 +5,7 @@
 #include <iostream>
 
 class Ghost : public GameCharacters {
-
+public:
 	Ghost(int x, int y);
 	void createSFML();
 	void createCollisionBox(b2World &myWorld);
@@ -16,4 +16,5 @@ class Ghost : public GameCharacters {
 	sf::Clock animationTimer;
 	int animationCounter = 0;
 	sf::Vector2f pathGoal;
+	bool dead = false;
 };

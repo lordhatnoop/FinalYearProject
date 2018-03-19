@@ -43,7 +43,7 @@ void DespawnManager::despawnMedusa(vector<std::shared_ptr<Medusa>> &medusaVector
 	}
 }
 
-void DespawnManager::desapwnGriffin(vector<std::shared_ptr<Griffin>> &griffinVector, b2World & World)
+void DespawnManager::despawnGriffin(vector<std::shared_ptr<Griffin>> &griffinVector, b2World & World)
 {
 	for (GriffinIterator = griffinVector.begin(); GriffinIterator != griffinVector.end();) {
 		if ((*GriffinIterator)->dead == true) { //if griffin destroyed
@@ -52,6 +52,19 @@ void DespawnManager::desapwnGriffin(vector<std::shared_ptr<Griffin>> &griffinVec
 		}
 		else {
 			GriffinIterator++;
+		}
+	}
+}
+
+void DespawnManager::despawnGhost(vector<std::shared_ptr<Ghost>> &ghostVector, b2World & World)
+{
+	for (GhostIterator = ghostVector.begin(); GhostIterator != ghostVector.end();) {
+		if ((*GhostIterator)->dead == true) { //if griffin destroyed
+			World.DestroyBody((*GhostIterator)->dynamicBody); //destroy the body
+			GhostIterator = ghostVector.erase(GhostIterator); // remove from  vector
+		}
+		else {
+			GhostIterator++;
 		}
 	}
 }

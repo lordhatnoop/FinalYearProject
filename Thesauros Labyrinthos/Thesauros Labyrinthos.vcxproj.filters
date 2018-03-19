@@ -108,14 +108,8 @@
     <ClCompile Include="CollisionListener.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="MiniMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FlameCloakItem.cpp">
       <Filter>Source Files\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="soundManager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Treasure.cpp">
       <Filter>Source Files\Items</Filter>
@@ -131,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="Ghost.cpp">
       <Filter>Source Files\GameCharcters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniMap.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="soundManager.cpp">
+      <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,11 +218,11 @@
     <ClInclude Include="Treasure.h">
       <Filter>Header Files\Items</Filter>
     </ClInclude>
-    <ClInclude Include="DespawnManager.h">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClInclude>
     <ClInclude Include="Ghost.h">
       <Filter>Header Files\GameCharcters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="DespawnManager.h">
+      <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

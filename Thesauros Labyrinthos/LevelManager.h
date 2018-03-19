@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "skeleton.h"
 #include "Medusa.h"
+#include "Griffin.h"
+#include "Ghost.h"
 #include "PlayerCharacter.h"
 #include "Camera.h"
 #include "TextureLoader.h"
@@ -41,6 +43,8 @@ public:
 	//vectors
 	vector <std::shared_ptr<Skeleton>> skeletonsVector; //use sharedPtr because it handles deleting the pointers for me once they are removed from the vector
 	vector <std::shared_ptr<Medusa>> medusaVector;
+	vector <std::shared_ptr<Griffin>> griffinVector;
+	vector <std::shared_ptr<Ghost>> ghostVector;
 	vector <TreasureChest> treasureChestVector;
 	vector <Treasure> treasureVector;
 

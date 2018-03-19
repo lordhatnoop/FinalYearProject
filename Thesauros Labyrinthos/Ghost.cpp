@@ -154,4 +154,8 @@ void Ghost::update()
 	if (sf::Vector2f(xPosition, yPosition) == pathGoal) { // if reached goal point
 		decidePath();
 	}
+
+	if (health <= 0) {
+		dead = true;
+	}
 }
