@@ -3,3 +3,4 @@
 #include "GameItems.h"
 #include "RopeItem.h"
 #include "FlameCloakItem.h"
+#include "BombItem.h"

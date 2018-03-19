@@ -247,6 +247,20 @@ void LevelManager::LoadNextLevel(b2World &world)
 			currentItemUI->getRenderer()->setBorderColor(sf::Color::Blue);//border colour
 
 			gui->add(currentItemUI);
+
+			//set the inital icon
+			string item = playerCharacter->AquiredItems[playerCharacter->currentItem]->itemName; //get the name of the item
+																								 //set the background texture based on item name
+			if (item == "Rope") {
+
+			}
+			else if (item == "FlameCloak") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.flameCloakGUITexture); //set the background texture
+			}
+			else if (item == "BombItem") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.bombGUITexture); //set the background texture
+			}
+
 		}
 
 		std::shared_ptr<ExitCell> exit;
@@ -269,10 +283,10 @@ void LevelManager::LoadNextLevel(b2World &world)
 		treasureChestVector.push_back(TreasureChest(playerCharacter->xPosition + 5 , playerCharacter->yPosition +5 )); //for testing, push a single chest to the back
 		treasureChestVector.back().createBody(world); //create the body
 
-		Treasure treasure(playerCharacter->xPosition, playerCharacter->yPosition);
-		treasure.CreateBody(world);
-		treasureVector.push_back(treasure);
-
+		
+		
+		treasureVector.push_back(Treasure (playerCharacter->xPosition + 10.f, playerCharacter->yPosition));
+		treasureVector.back().CreateBody(world);
 
 		//create the minimap
 		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
@@ -290,6 +304,7 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	//playerCharacter->dynamicBody = nullptr; // set body null
 	//playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //reset the amount of fuel the player has for the torch
 
+	//clear the vectors
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) {
 		if (mazeGenerator.cellsVector[i]->cellBody != nullptr) {
 			world.DestroyBody(mazeGenerator.cellsVector[i]->cellBody); //destroy all the cell bodies
@@ -307,6 +322,20 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	}
 	medusaVector.clear();//clear the medusa vector
 
+	for (int i = 0; i < griffinVector.size(); i++) {
+		world.DestroyBody(griffinVector[i]->dynamicBody); //destroy all the griffin bodies
+	}
+	griffinVector.clear();//clear the griffin vector
+
+	for (int i = 0; i < ghostVector.size(); i++) {
+		world.DestroyBody(ghostVector[i]->dynamicBody); //destroy all the ghjost bodies
+	}
+	ghostVector.clear();//clear the griffin vector
+
+	for (int i = 0; i < treasureVector.size(); i++) {
+		world.DestroyBody(treasureVector[i].Body); //destroy all the griffin bodies
+	}
+	treasureVector.clear();//clear the griffin vector
 
 	for (int i = 0; i < treasureChestVector.size(); i++) {
 		world.DestroyBody(treasureChestVector[i].chestBody); //destroy all the treasureChest bodies
@@ -437,6 +466,9 @@ void LevelManager::update(b2World &World)
 			else if (item == "FlameCloak") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.flameCloakGUITexture); //set the background texture
 			}
+			else if (item == "BombItem") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.bombGUITexture); //set the background texture
+			}
 		}
 	}
 	if (playerCharacter->itemsOnCooldown == true) { //if items on cooldown, draw the text to be the cooldown timer
@@ -447,7 +479,7 @@ void LevelManager::update(b2World &World)
 
 	//DESPAWN / DESTROY SECTION
 	//use the despawn Manger to check if we need to remove anything and do so if needed
-	despawnManger.despawnTreasure(treasureVector, World);
+	despawnManger.despawnTreasure(&treasureVector, World);
 	despawnManger.despawnMedusa(medusaVector, World);
 	despawnManger.despawnSkeleton(skeletonsVector, World);
 
@@ -492,6 +524,18 @@ void LevelManager::update(b2World &World)
 			}
 		}
 	}
+	//darw all the treasure
+	for (int i = 0; i < treasureVector.size(); i++) {
+		if (treasureVector[i].position.x >= playerCharacter->xPosition && treasureVector[i].position.x <= playerCharacter->xPosition + 50.f ||
+			treasureVector[i].position.x <= playerCharacter->xPosition && treasureVector[i].position.x >= playerCharacter->xPosition - 60.f) { //if the treasure is within the camera view
+			if (treasureVector[i].position.y >= playerCharacter->yPosition && treasureVector[i].position.y <= playerCharacter->yPosition + 50.f ||
+				treasureVector[i].position.y <= playerCharacter->yPosition && treasureVector[i].position.y >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
+
+				window->draw(treasureVector[i].rectangle);
+			}
+		}
+	}
+
 	//draw the treasureChests
 	for (int i = 0; i < treasureChestVector.size(); i++) {
 		if (treasureChestVector[i].xPosition >= playerCharacter->xPosition && treasureChestVector[i].xPosition <= playerCharacter->xPosition + 50.f ||

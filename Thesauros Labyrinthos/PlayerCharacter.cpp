@@ -1,9 +1,10 @@
 #include "PlayerCharacter.h"
 #include "textureLoader.h"
 #include "FlameCloakItem.h"
+#include "BombItem.h"
 PlayerCharacter::PlayerCharacter(int x, int y)
 {
-	treasure = 200000;
+	treasure = 0;
 	xPosition = x;
 	yPosition = y;
 	createSFML();
@@ -17,8 +18,9 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	CurrentItemClock = new sf::Clock;
 	animationTimer.restart(); 
 
-	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
-	AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
+	AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
+//	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
+	//AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
 }
 
 void PlayerCharacter::createSFML()
@@ -490,7 +492,7 @@ void PlayerCharacter::Petrified()
 	int petrifiedTime = petrifiedClock->getElapsedTime().asSeconds();
 	if (petrifiedTime >= 2) {
 		isStone = false; //no longer stone
-
+		playerHealth--; //take damage
 	}
 }
 

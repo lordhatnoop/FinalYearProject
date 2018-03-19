@@ -199,12 +199,13 @@ void CollisionListener::TreasurePickUP(void * userData1, void * userData2, b2Fix
 {
 	if (fixture1->GetFilterData().categoryBits == TREASURE && fixture2->GetFilterData().categoryBits == PLAYER) {
 		//add the value to the player's treasure and set the treasure collected
+		static_cast<Treasure*>(userData1)->collect();
 		static_cast<PlayerCharacter*>(userData2)->treasure = static_cast<PlayerCharacter*>(userData2)->treasure + static_cast<Treasure*>(userData1)->value;
-		static_cast<Treasure*>(userData1)->collected = true;
+		
 	}
 	else if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TREASURE) {
 		static_cast<PlayerCharacter*>(userData1)->treasure = static_cast<PlayerCharacter*>(userData1)->treasure + static_cast<Treasure*>(userData2)->value;
-		static_cast<Treasure*>(userData2)->collected = true;
+		static_cast<Treasure*>(userData2)->collect();
 	}
 }
 

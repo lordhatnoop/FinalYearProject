@@ -44,6 +44,9 @@ public:
 	sf::Texture flameCloakTexture;
 	sf::Texture flameCloakGUITexture;
 	sf::Texture treaureChestTexture;
+	sf::Texture bombTexture;
+	sf::Texture bombGUITexture;
+
 
 	//test for torch / spotlight
 	sf::RenderTexture testRenderTExture;

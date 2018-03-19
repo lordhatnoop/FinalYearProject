@@ -4,12 +4,12 @@ DespawnManager::DespawnManager()
 {
 }
 
-void DespawnManager::despawnTreasure(vector<Treasure> &treasureVector, b2World & World)
+void DespawnManager::despawnTreasure(vector<Treasure> *treasureVector, b2World & World)
 {
-	for (treasureIterator = treasureVector.begin(); treasureIterator != treasureVector.end();) {
+	for (treasureIterator = treasureVector->begin(); treasureIterator != treasureVector->end();) {
 		if (treasureIterator->collected == true) { //if treasure collected
 			World.DestroyBody(treasureIterator->Body); //destroy the body
-			treasureIterator = treasureVector.erase(treasureIterator); // remove from treasure vector
+			treasureIterator = treasureVector->erase(treasureIterator); // remove from treasure vector
 		}
 		else {
 			treasureIterator++;

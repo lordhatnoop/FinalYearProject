@@ -445,13 +445,13 @@ void Medusa::attack(PlayerCharacter *player)
 			textureSubRect.top = 478;
 			textureSubRect.height = 70;
 
+			if (player->playerInvincible == false) {
+				//set the player to stone on  the last frame of the aniamtion so that it doesn't hgappen until aniamtion is complete
+				player->isStone = true;// set the player's bool so it knows to react
+				player->petrifiedClock->restart(); //restart the petrified clock so that we can have it count the time petrified// do here becasue it was just the easiest place to only reset when turning player to stone
 
-			//set the player to stone on  the last frame of the aniamtion so that it doesn't hgappen until aniamtion is complete
-			player->isStone = true;// set the player's bool so it knows to react
-			player->petrifiedClock->restart(); //restart the petrified clock so that we can have it count the time petrified// do here becasue it was just the easiest place to only reset when turning player to stone
-
-			petrifyTimer.restart();// restart the timer once animation is complete so that we will know have to wait some time before ther next petrify attack (becasue of timer in update)
-
+				petrifyTimer.restart();// restart the timer once animation is complete so that we will know have to wait some time before ther next petrify attack (becasue of timer in update)
+			}
 		}
 
 

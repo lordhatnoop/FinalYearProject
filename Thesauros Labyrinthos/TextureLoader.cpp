@@ -38,9 +38,13 @@ void TextureLoader::loadTextures()
 	//Item Related Textures
 	flameCloakTexture.loadFromFile("Assets/Sprites/FireSprite.png");
 	flameCloakGUITexture.loadFromFile("Assets/Sprites/UI/FlameCloakUI.png");
+
 	torchTexture.loadFromFile("Assets/Sprites/torchSprite.png");
+
 	treaureChestTexture.loadFromFile("Assets/Sprites/treasureChest.png");
 
+	bombTexture.loadFromFile("Assets/Sprites/bomb_party_v4.png");
+	bombGUITexture.loadFromFile("Assets/Sprites/bombIcon.png");
 	//background
 	backgroundTexture.loadFromFile("Assets/Sprites/background.png");
 	

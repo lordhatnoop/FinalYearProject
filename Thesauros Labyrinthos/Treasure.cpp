@@ -69,6 +69,11 @@ void Treasure::CreateBody(b2World & myWorld)
 
 }
 
+void Treasure::collect()
+{
+	collected = true;
+}
+
 void Treasure::decideValue()
 {
 	value = rand() % 100 + 1; //generate a random value between 1 and 100

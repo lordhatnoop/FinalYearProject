@@ -119,6 +119,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="b2GLDraw.cpp" />
+    <ClCompile Include="BombItem.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DespawnManager.cpp" />
     <ClCompile Include="Ghost.cpp" />
@@ -147,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="b2GLDraw.h" />
+    <ClInclude Include="BombItem.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="DespawnManager.h" />

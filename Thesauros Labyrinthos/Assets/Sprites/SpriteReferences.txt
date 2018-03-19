@@ -2,3 +2,5 @@ https://opengameart.org/content/bat-sprite - 32x 32 Bat Sprite - open resource -
 fire - credit as/mention of Chromaeleon <3 - https://opengameart.org/content/2d-pixel-fire-sprite-strip
 torch - Torch Sprite by Jellytopbottom @derpbug on Jul 21, 2016 - https://www.pixilart.com/art/torch-sprite-fcf7f40a00f30c8;
 treasureChest - https://opengameart.org/content/treasure-chests-32x32-and-16x16 - Blarumyrran
+shieldIcon - http://www.freepngimg.com/png/6940-old-shield-png-image-picture-download
+bomb - Original Bomb Party sprite sheet by Matt Hackett of Lost Decade Games, expanded by Cem Kalyoncu and /usr/share. - https://opengameart.org/content/bomb-party-the-complete-set

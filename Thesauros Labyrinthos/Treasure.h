@@ -7,7 +7,7 @@ public:
 
 	void CreateSFML();
 	void CreateBody(b2World &world);
-
+	void collect();
 	void decideValue();
 	int value;
 	bool collected = false;
