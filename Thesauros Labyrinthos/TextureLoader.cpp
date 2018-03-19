@@ -30,6 +30,7 @@ void TextureLoader::loadTextures()
 	healthBarTexture2.loadFromFile("Assets/Sprites/UI/heart2.png");
 	healthBarTexture1.loadFromFile("Assets/Sprites/UI/heart.png");
 	
+	shieldIcon.loadFromFile("Assets/Sprites/Shield.png");
 
 	//PlayerTexture
 	playerTexture.loadFromFile("Assets/Sprites/Player/Archer.png");

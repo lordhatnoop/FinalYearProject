@@ -75,12 +75,13 @@ public:
 	sf::RectangleShape shieldUIBackgroundBlue; // the background for the fuel ui
 	sf::RectangleShape shieldUIBackgroundWhite; // the background for the fuel ui
 	sf::RectangleShape shieldUIImage; // the image by the side of the torch fuel UI
+	tgui::Picture::Ptr shieldImage;
 	 //TorchGUI//////////
 	tgui::TextBox::Ptr torchFuelUI; // fuel UI for now
 	sf::RectangleShape torchFuelUIBackgroundRed; // the background for the fuel ui
 	sf::RectangleShape torchFuelUIBackgroundWhite; // the background for the fuel ui
 	sf::RectangleShape torchFuelUIImage; // the image by the side of the torch fuel UI
-
+	tgui::Picture::Ptr torchImage;
 
 	//background
 	//create a background image

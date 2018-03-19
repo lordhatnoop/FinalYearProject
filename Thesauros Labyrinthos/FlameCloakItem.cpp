@@ -6,10 +6,10 @@ void FlameCloakItem::update()
 		
 		//update the f;lame cloak position by checking for the same button presses as the player and moving the same distance - do this becasue i can't pass the player to get their posiiton without overwriting the defualt update - which would  stop me from using the GAmeitems* update call to update any kind of item.
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-			Box2DBody->SetLinearVelocity(b2Vec2(-5, 0));
+			Box2DBody->SetLinearVelocity(b2Vec2(-4, 0));
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			Box2DBody->SetLinearVelocity(b2Vec2(5, 0));
+			Box2DBody->SetLinearVelocity(b2Vec2(4, 0));
 		}
 		else {
 			Box2DBody->SetLinearVelocity(b2Vec2(0, 0)); //stop velocity if no button presses

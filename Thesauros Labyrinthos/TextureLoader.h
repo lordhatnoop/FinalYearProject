@@ -19,7 +19,7 @@ public:
 	sf::Texture titleTexture;
 	sf::Texture backgroundTexture;
 
-	//Health bar textures
+	//GUI bar textures
 	sf::Texture healthBarTexture9;
 	sf::Texture healthBarTexture8;
 	sf::Texture healthBarTexture7;
@@ -29,7 +29,8 @@ public:
 	sf::Texture healthBarTexture3;
 	sf::Texture healthBarTexture2;
 	sf::Texture healthBarTexture1;
-
+	
+	sf::Texture shieldIcon;
 	//enemy textures
 	sf::Texture medusaTexture;
 	sf::Texture skeletonTexture;

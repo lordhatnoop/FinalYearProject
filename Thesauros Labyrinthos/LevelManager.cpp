@@ -180,7 +180,7 @@ void LevelManager::LoadNextLevel(b2World &world)
 			///////////////////////FUEL UI////////////////////////////////////
 			//the textbox portion
 			torchFuelUI = tgui::TextBox::create();
-			torchFuelUI->setPosition(400, 0); // set the textBox to be positioned at 400,0
+			torchFuelUI->setPosition(425, 0); // set the textBox to be positioned at 400,0
 			torchFuelUI->setSize(600, 12.5); // set the size
 			torchFuelUI->setTextSize(8); // set the font size
 			torchFuelUI->getRenderer()->setBackgroundColor(sf::Color::Transparent); // set colour
@@ -200,9 +200,17 @@ void LevelManager::LoadNextLevel(b2World &world)
 
 			gui->add(torchFuelUI);
 
+			//torch image
+			torchImage = tgui::Picture::create(textureLoader.torchTexture);
+
+			torchImage->setPosition(400, 0); // set the textBox to be positioned at 400,0
+			torchImage->setSize(25, 12.5); // set the size
+
+			gui->add(torchImage);
+
 			//SHIELD UI
 			ShieldUI = tgui::TextBox::create();
-			ShieldUI->setPosition(400, 12.5); // set the textBox to be positioned at 400,0
+			ShieldUI->setPosition(425, 12.5); // set the textBox to be positioned at 400,0
 			ShieldUI->setSize(600, 12.5); // set the size
 			ShieldUI->setTextSize(8); // set the font size
 			ShieldUI->getRenderer()->setBackgroundColor(sf::Color::Transparent); // set colour
@@ -220,9 +228,19 @@ void LevelManager::LoadNextLevel(b2World &world)
 			shieldUIBackgroundWhite.setSize(sf::Vector2f(37.5f, 1.4f));
 			shieldUIBackgroundWhite.setFillColor(sf::Color::White);
 
+			//shield image
+			shieldImage = tgui::Picture::create(textureLoader.shieldIcon);
+			
+			shieldImage->setPosition(400, 12.5); // set the textBox to be positioned at 400,0
+			shieldImage->setSize(25, 12.5); // set the size
+			
+			gui->add(shieldImage);
+			
+
+			
 			//currentitem Ui Creation
 			currentItemUI = tgui::TextBox::create();
-			currentItemUI->setPosition(1000, 0); // set the textBox to be positioned at 400,0
+			currentItemUI->setPosition(1025, 0); // set the textBox to be positioned at 400,0
 			currentItemUI->setSize(50, 25); // set the size
 			currentItemUI->setTextSize(8); // set the font size
 			currentItemUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
@@ -356,8 +374,8 @@ void LevelManager::update(b2World &World)
 	
 	torchFuelUIBackgroundRed.setSize(sf::Vector2f(redBarSize, 1.4f));
 	//have to keep updating the position based on the player's position becasue opf how the view follows the player, and these are just normal rectnagles, so don't get drawn staright to the view
-	torchFuelUIBackgroundRed.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
-	torchFuelUIBackgroundWhite.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 50);
+	torchFuelUIBackgroundRed.setPosition(playerCharacter->xPosition - 23.4, playerCharacter->yPosition - 50);
+	torchFuelUIBackgroundWhite.setPosition(playerCharacter->xPosition - 23.4, playerCharacter->yPosition - 50);
 
 	//same as torchUI update but for the shield
 	ShieldUI->setText("Energy Remaining: " + to_string(playerCharacter->shieldEnergy) + " / " + to_string(playerCharacter->shieldEnergyMax)); //set the text for the Shield UI to display the current and max energy. 
@@ -365,8 +383,8 @@ void LevelManager::update(b2World &World)
 
 	shieldUIBackgroundBlue.setSize(sf::Vector2f(blueBarSize, 1.4f));
 	//have to keep updating the position based on the player's position becasue opf how the view follows the player, and these are just normal rectnagles, so don't get drawn staright to the view
-	shieldUIBackgroundBlue.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 48.6f);
-	shieldUIBackgroundWhite.setPosition(playerCharacter->xPosition - 25, playerCharacter->yPosition - 48.6f);
+	shieldUIBackgroundBlue.setPosition(playerCharacter->xPosition - 23.4, playerCharacter->yPosition - 48.6f);
+	shieldUIBackgroundWhite.setPosition(playerCharacter->xPosition - 23.4, playerCharacter->yPosition - 48.6f);
 
 	//PLayerHealth UI
 	//check the player's health and update the UI based on that

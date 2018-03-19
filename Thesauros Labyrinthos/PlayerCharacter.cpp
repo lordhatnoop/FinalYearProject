@@ -227,10 +227,10 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) { // if pressed q
 		if (itemsOnCooldown == false) { // only allow swapping when items aren't on cooldown( just to prevent issues)
 			currentItem++; //update the current item
-			if (currentItem > AquiredItems.size() - 1) { // check current item isn't too large
-				currentItem = 0; //if it is reset it back to 0
-			}
 		}
+	}
+	if (currentItem > AquiredItems.size() - 1) { // check current item isn't too large
+		currentItem = 0; //if it is reset it back to 0
 	}
 }
 
