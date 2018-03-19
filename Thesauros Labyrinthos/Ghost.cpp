@@ -63,7 +63,7 @@ void Ghost::createCollisionBox(b2World & myWorld)
 
 void Ghost::Animate()
 {
-	if (animationTimer.getElapsedTime().asSeconds > 0.3) { // every third of a second 
+	if (animationTimer.getElapsedTime().asSeconds() > 0.3) { // every third of a second 
 		//if else if for left and right movement so we know whether to invert sprite or not.
 		if (xPosition < pathGoal.x) { // moving right
 			textureSubRect.width = 39; // width
