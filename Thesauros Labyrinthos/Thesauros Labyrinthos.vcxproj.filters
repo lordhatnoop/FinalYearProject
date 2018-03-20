@@ -133,7 +133,7 @@
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
     <ClCompile Include="BombItem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Items</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,18 +4,32 @@ DespawnManager::DespawnManager()
 {
 }
 
-void DespawnManager::despawnTreasure(vector<Treasure> *treasureVector, b2World & World)
+void DespawnManager::despawnWalls(vector<std::shared_ptr<Cell>>& cellVector, b2World & World)
 {
-	for (treasureIterator = treasureVector->begin(); treasureIterator != treasureVector->end();) {
-		if (treasureIterator->collected == true) { //if treasure collected
-			World.DestroyBody(treasureIterator->Body); //destroy the body
-			treasureIterator = treasureVector->erase(treasureIterator); // remove from treasure vector
+	for (cellIterator = cellVector.begin(); cellIterator != cellVector.end();) {
+		if ((*cellIterator)->destroyed == true) { //if cell destroyed
+			World.DestroyBody((*cellIterator)->cellBody); //destroy the body
+			cellIterator = cellVector.erase(cellIterator); // remove from cell vector
+		}
+		else {
+			cellIterator++;
+		}
+	}
+}
+
+void DespawnManager::despawnTreasurevector(vector<std::shared_ptr<Treasure>>& treasureVector, b2World & World)
+{
+	for (treasureIterator = treasureVector.begin(); treasureIterator != treasureVector.end();) {
+		if ((*treasureIterator)->collected == true) { //if treasure collected
+			World.DestroyBody((*treasureIterator)->Body); //destroy the body
+			treasureIterator = treasureVector.erase(treasureIterator); // remove from treasure vector
 		}
 		else {
 			treasureIterator++;
 		}
 	}
 }
+
 
 void DespawnManager::despawnSkeleton(vector<std::shared_ptr<Skeleton>> &skeletonVector, b2World & World)
 {

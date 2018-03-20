@@ -62,7 +62,7 @@ void TreasureChest::createBody(b2World & world)
 void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 {
 	if (alreadyOpened == false) { // if chest hasn't been opened
-		for (int i = 0; i < 1;) { //for loop that goes to 1. only update to 1 once given an appropraite item (e.g, one that hasn't been aquired)
+		
 		//select what item the player is going to get upon opening
  		selectedItem = rand() % 1000 + 1; // slecct a random number
 		bool ItemAlreadyAquired = false;
@@ -76,7 +76,7 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 					alreadyOpened = true;
 					itemSprite.setTexture(&textureLoader.healthBarTexture1); //display a heart texture
 				}
-				i++;
+			
 			}
 			else if (selectedItem > 100 && selectedItem <= 200) {
 				//torch Fuel
@@ -87,14 +87,15 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 				itemSprite.setTexture(&textureLoader.torchTexture);
 				//itemSprite.setFillColor(sf::Color(0, 0, 0, 255));
 
-				i++;
+			
 			}
 			else if (selectedItem > 200 && selectedItem <= 300) {
 				//shield fuel
 				printf("shieldFuel \n");
 				playerCharacter->shieldEnergy = playerCharacter->shieldEnergyMax; //max out shield energy
+				itemSprite.setTexture(&textureLoader.shieldIcon);
 				alreadyOpened = true;
-				i++;
+				
 			}
 			else if (selectedItem > 300 && selectedItem <= 400) {
 				//Flamecloak
@@ -108,21 +109,21 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 					playerCharacter->AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem())); //add the flame cloak item
 					alreadyOpened = true;
 					itemSprite.setTexture(&textureLoader.flameCloakTexture);
-					i++;
+					
 				}
 			}
 			else {
 				printf("item = %i \n", selectedItem);
 
 			}
-		}
-		if (alreadyOpened == true) { //if chest is opened swap sprite
-			textureSubrect.left = 0;
-			textureSubrect.top = 34;
-			textureSubrect.height = 29;
-			textureSubrect.width = 32;
+			if (alreadyOpened == true) { //if chest is opened swap sprite
+				textureSubrect.left = 0;
+				textureSubrect.top = 34;
+				textureSubrect.height = 29;
+				textureSubrect.width = 32;
+				
+			}
 			rectangle.setTextureRect(textureSubrect);
-		}
 	}
 }
 

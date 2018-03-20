@@ -3,6 +3,7 @@
 #include "GameCharacters.h"
 #include "TreasureChest.h"
 #include "Treasure.h"
+
 class CollisionListener : public b2ContactListener {
 
 public:
@@ -14,7 +15,7 @@ public:
 	void FlameCloakCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void TreasureChestCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void TreasurePickUP(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
-
+	void BombExplosion(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	//enum that holds the diffrent type of entities for collision filtering
 	enum entityCategory {
 		ENEMY = 0x0001,

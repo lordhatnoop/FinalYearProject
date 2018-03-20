@@ -274,19 +274,19 @@ void LevelManager::LoadNextLevel(b2World &world)
 			int chestY = rand() % 899 + 1; //create X and Y postitons in the range of positions they can be 
 
 			if (mazeGenerator.maze[chestX / 10][chestY / 10] == 0) {// check the randomised position against the maze to see if it's a floor (don't want  them to spawn in walls) (divide by 10 to change from screenposition to array position)
-				treasureChestVector.push_back(TreasureChest(chestX, chestY)); //for testing, push a single chest to the back
-				treasureChestVector.back().createBody(world); //create the body
+				treasureChestVector.push_back(std::shared_ptr<TreasureChest>(new TreasureChest(playerCharacter->xPosition + 10 + (i *2), playerCharacter->yPosition + 5))); //for testing, push a single chest to the back
+				treasureChestVector.back()->createBody(world); //create the body
 				i++; // progress i. progress i here so that we're guarenteed 3 chests
 			}
 
 		}
-		treasureChestVector.push_back(TreasureChest(playerCharacter->xPosition + 5 , playerCharacter->yPosition +5 )); //for testing, push a single chest to the back
-		treasureChestVector.back().createBody(world); //create the body
+		treasureChestVector.push_back(std::shared_ptr<TreasureChest>( new TreasureChest(playerCharacter->xPosition + 5 , playerCharacter->yPosition +5 ))); //for testing, push a single chest to the back
+		treasureChestVector.back()->createBody(world); //create the body
 
 		
 		
-		treasureVector.push_back(Treasure (playerCharacter->xPosition + 10.f, playerCharacter->yPosition));
-		treasureVector.back().CreateBody(world);
+		treasureVector.push_back(std::shared_ptr<Treasure>(new Treasure(playerCharacter->xPosition + 10.f, playerCharacter->yPosition)));
+		treasureVector.back()->CreateBody(world);
 
 		//create the minimap
 		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
@@ -333,12 +333,12 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	ghostVector.clear();//clear the griffin vector
 
 	for (int i = 0; i < treasureVector.size(); i++) {
-		world.DestroyBody(treasureVector[i].Body); //destroy all the griffin bodies
+		world.DestroyBody(treasureVector[i]->Body); //destroy all the griffin bodies
 	}
 	treasureVector.clear();//clear the griffin vector
 
 	for (int i = 0; i < treasureChestVector.size(); i++) {
-		world.DestroyBody(treasureChestVector[i].chestBody); //destroy all the treasureChest bodies
+		world.DestroyBody(treasureChestVector[i]->chestBody); //destroy all the treasureChest bodies
 	}
 	treasureChestVector.clear();
 
@@ -390,7 +390,7 @@ void LevelManager::update(b2World &World)
 
 	//update any treasure chests
 	for (int i = 0; i < treasureChestVector.size(); i++) {
-		treasureChestVector[i].update();
+		treasureChestVector[i]->update();
 	}
 	//////////////////////GUI UPDATE//////////////////////////////////////////////////////////////////
 
@@ -479,10 +479,12 @@ void LevelManager::update(b2World &World)
 
 	//DESPAWN / DESTROY SECTION
 	//use the despawn Manger to check if we need to remove anything and do so if needed
-	despawnManger.despawnTreasure(&treasureVector, World);
+	despawnManger.despawnTreasurevector(treasureVector, World);
 	despawnManger.despawnMedusa(medusaVector, World);
 	despawnManger.despawnSkeleton(skeletonsVector, World);
-
+	despawnManger.despawnGhost(ghostVector, World);
+	despawnManger.despawnGriffin(griffinVector, World);
+	despawnManger.despawnWalls(mazeGenerator.cellsVector, World);
 
 	/////////////////////////DRAW///////////////////////////////////////////////////
 	
@@ -526,26 +528,26 @@ void LevelManager::update(b2World &World)
 	}
 	//darw all the treasure
 	for (int i = 0; i < treasureVector.size(); i++) {
-		if (treasureVector[i].position.x >= playerCharacter->xPosition && treasureVector[i].position.x <= playerCharacter->xPosition + 50.f ||
-			treasureVector[i].position.x <= playerCharacter->xPosition && treasureVector[i].position.x >= playerCharacter->xPosition - 60.f) { //if the treasure is within the camera view
-			if (treasureVector[i].position.y >= playerCharacter->yPosition && treasureVector[i].position.y <= playerCharacter->yPosition + 50.f ||
-				treasureVector[i].position.y <= playerCharacter->yPosition && treasureVector[i].position.y >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
+		if (treasureVector[i]->position.x >= playerCharacter->xPosition && treasureVector[i]->position.x <= playerCharacter->xPosition + 50.f ||
+			treasureVector[i]->position.x <= playerCharacter->xPosition && treasureVector[i]->position.x >= playerCharacter->xPosition - 60.f) { //if the treasure is within the camera view
+			if (treasureVector[i]->position.y >= playerCharacter->yPosition && treasureVector[i]->position.y <= playerCharacter->yPosition + 50.f ||
+				treasureVector[i]->position.y <= playerCharacter->yPosition && treasureVector[i]->position.y >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
 
-				window->draw(treasureVector[i].rectangle);
+				window->draw(treasureVector[i]->rectangle);
 			}
 		}
 	}
 
 	//draw the treasureChests
 	for (int i = 0; i < treasureChestVector.size(); i++) {
-		if (treasureChestVector[i].xPosition >= playerCharacter->xPosition && treasureChestVector[i].xPosition <= playerCharacter->xPosition + 50.f ||
-			treasureChestVector[i].xPosition <= playerCharacter->xPosition && treasureChestVector[i].xPosition >= playerCharacter->xPosition - 60.f) { //if the medusa is within the camera view
-			if (treasureChestVector[i].yPosition >= playerCharacter->yPosition && treasureChestVector[i].yPosition <= playerCharacter->yPosition + 50.f ||
-				treasureChestVector[i].yPosition <= playerCharacter->yPosition && treasureChestVector[i].yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
+		if (treasureChestVector[i]->xPosition >= playerCharacter->xPosition && treasureChestVector[i]->xPosition <= playerCharacter->xPosition + 50.f ||
+			treasureChestVector[i]->xPosition <= playerCharacter->xPosition && treasureChestVector[i]->xPosition >= playerCharacter->xPosition - 60.f) { //if the medusa is within the camera view
+			if (treasureChestVector[i]->yPosition >= playerCharacter->yPosition && treasureChestVector[i]->yPosition <= playerCharacter->yPosition + 50.f ||
+				treasureChestVector[i]->yPosition <= playerCharacter->yPosition && treasureChestVector[i]->yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
 
-				window->draw(treasureChestVector[i].rectangle); //darw the chest
-				if (treasureChestVector[i].alreadyOpened == true) { //once opened
-					window->draw(treasureChestVector[i].itemSprite); //draw the treaureChest item sprite
+				window->draw(treasureChestVector[i]->rectangle); //darw the chest
+				if (treasureChestVector[i]->alreadyOpened == true) { //once opened
+					window->draw(treasureChestVector[i]->itemSprite); //draw the treaureChest item sprite
 				}
 			}
 		}

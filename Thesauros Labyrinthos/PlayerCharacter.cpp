@@ -75,8 +75,8 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 		verticices[7].Set(-1.2f / scale, 3.f / scale);
 		verticices[6].Set(-1.5f / scale, 2.f / scale);
 		verticices[5].Set(-1.5f / scale, -2.f / scale);
-		verticices[4].Set(-1.2f / scale, -3.f / scale);
-		verticices[3].Set(1.2f / scale, -3.f / scale);
+		verticices[4].Set(-1.5f / scale, -3.f / scale);
+		verticices[3].Set(1.5f / scale, -3.f / scale);
 		verticices[2].Set(1.5f / scale, -2.f / scale);
 		verticices[1].Set(1.5f / scale, 2.f / scale);
 		verticices[0].Set(1.2f / scale, 3.f / scale);

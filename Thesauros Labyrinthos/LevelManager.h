@@ -45,8 +45,8 @@ public:
 	vector <std::shared_ptr<Medusa>> medusaVector;
 	vector <std::shared_ptr<Griffin>> griffinVector;
 	vector <std::shared_ptr<Ghost>> ghostVector;
-	vector <TreasureChest> treasureChestVector;
-	vector <Treasure> treasureVector;
+	vector <std::shared_ptr<TreasureChest>> treasureChestVector;
+	vector <std::shared_ptr<Treasure>> treasureVector;
 
 	//below creates a mazegenerator object and then talls it to call the generatemaze function
 	MazeGeneration mazeGenerator;

@@ -3,6 +3,8 @@
 #include "Skeleton.h"
 #include "PlayerCharacter.h"
 #include "GameCharacters.h"
+#include "Cell.h"
+
 
 void CollisionListener::BeginContact(b2Contact * contact)
 {
@@ -47,6 +49,7 @@ void CollisionListener::BeginContact(b2Contact * contact)
 	FlameCloakCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for FlameCloakCollision
 	TreasureChestCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for treasureChest collision
 	TreasurePickUP(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for treasurePickUp
+	BombExplosion(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for bomb explosion hitting walls
 	/*
 	//get what objects each one is 
 	std::string nameA = ((GameCharacters*)bodyUserData)->getName();
@@ -206,6 +209,37 @@ void CollisionListener::TreasurePickUP(void * userData1, void * userData2, b2Fix
 	else if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TREASURE) {
 		static_cast<PlayerCharacter*>(userData1)->treasure = static_cast<PlayerCharacter*>(userData1)->treasure + static_cast<Treasure*>(userData2)->value;
 		static_cast<Treasure*>(userData2)->collect();
+	}
+}
+
+void CollisionListener::BombExplosion(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if(fixture1->GetFilterData().categoryBits == ITEM && fixture2->GetFilterData().categoryBits == WALL) {
+		//check if bomb and fake wall, then destroy if it is
+		if (userData1 == "BombItem") { // make sure it was a bomb
+			if (static_cast<Cell*>(userData2)->cellType == "Fake wall cell") { // make sure it was fake wall cell
+				static_cast<Cell*>(userData2)->destroyed = true; //set to be destroyed
+			}
+			
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == WALL && fixture2->GetFilterData().categoryBits == ITEM) {
+		if (userData2 == "BombItem") { // make sure it was a bomb
+			if (static_cast<Cell*>(userData1)->cellType == "Fake wall cell") { // make sure it was fake wall cell
+				static_cast<Cell*>(userData1)->destroyed = true; //set to be destroyed
+			}
+		}
+	}
+	 // now check for enemies
+	else if (fixture1->GetFilterData().categoryBits == ENEMY && fixture2->GetFilterData().categoryBits == ITEM) {
+		if (userData2 == "BombItem") { //check if bomb hit enemies and minus the damage if they did
+			static_cast<GameCharacters*>(userData1)->health = static_cast<GameCharacters*>(userData1)->health - static_cast<GameItems*>(userData2)->itemDamage;
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == ITEM && fixture2->GetFilterData().categoryBits == ENEMY) {
+		if (userData1 == "BombItem") { //check if bomb hit enemies and minus the damage if they did
+			static_cast<GameCharacters*>(userData2)->health = static_cast<GameCharacters*>(userData2)->health - static_cast<GameItems*>(userData1)->itemDamage;
+		}
 	}
 }
 
