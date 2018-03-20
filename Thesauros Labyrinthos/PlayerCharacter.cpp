@@ -18,8 +18,8 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	animationTimer.restart(); 
 
 	//testing items - push them to aquired so we can use them
-	AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm()));
-	//AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
+	//AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm()));
+	AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
 	//AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
 //	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
 	//AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
@@ -214,7 +214,9 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 	rectangle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale);
 	shieldCircle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale); //also update the circle
 	petrifyOverlay.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale); //and the petrify overlay
+
 	itemStatuses.position = sf::Vector2f(xPosition, yPosition); //keep the item position up to date if needed for the items
+	itemStatuses.playerFacingLeftORRight = facingLeftORRight; //set the facing left or right bool.
 
 
 	//limit how frequently the torch fuel will countdown based on time 

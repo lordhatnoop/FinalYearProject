@@ -612,16 +612,16 @@ void LevelManager::update(b2World &World)
 
 	//draw stuff
 	//playerDraw stuff - done here so that we don't have to pass player the window
-	if (playerCharacter->activeItem != nullptr) { // so loong as active item isn't null
-		window->draw(playerCharacter->activeItem->rectangle);//draw it
-	}
+	
 	window->draw(playerCharacter->rectangle);
 	if (playerCharacter->isStone == true) {
 		window->draw(playerCharacter->petrifyOverlay); //if we are petrified, draw the petrify overlay( translucent brown) over the top of the playersprite
 	}
 	window->draw(playerCharacter->shieldCircle);
 	window->draw(playerCharacter->torch->torchSprite);
-	
+	if (playerCharacter->activeItem != nullptr) { // so loong as active item isn't null
+		window->draw(playerCharacter->activeItem->rectangle);//draw it
+	}
 	//set the window to the minimap view so we can tell the minimap what to draw
 //	window->setView(gameMiniMap->minimapView);
 
