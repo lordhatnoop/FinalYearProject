@@ -138,6 +138,9 @@
     <ClCompile Include="HermesBoots.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="HermesHelm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="PlayerItemStatuses.h">
       <Filter>Header Files\GameCharcters\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="HermesHelm.h">
+      <Filter>Header Files\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

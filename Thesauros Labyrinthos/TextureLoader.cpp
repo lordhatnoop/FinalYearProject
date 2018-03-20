@@ -48,6 +48,9 @@ void TextureLoader::loadTextures()
 
 	hermesBootGUITexture.loadFromFile("Assets/Sprites/HermesBootsIcon.png");
 	hermesBootTexture.loadFromFile("Assets/Sprites/HermesBoots.png");
+
+	hermesHelmTexture.loadFromFile("Assets/Sprites/HermesHelmet.png");
+	hermesHelmIcon.loadFromFile("Assets/Sprites/HermesHelmetIcon.png");
 	//background
 	backgroundTexture.loadFromFile("Assets/Sprites/background.png");
 	

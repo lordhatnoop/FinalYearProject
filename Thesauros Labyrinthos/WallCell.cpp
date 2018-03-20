@@ -16,6 +16,7 @@ WallCell::WallCell(int x, int y, b2World &world) {
 void WallCell::createSFML()
 {
 	rectangle.setSize(cellSize); 
+
 	//rectangle.setFillColor(sf::Color::Yellow); // sets the colour of the rectangle to be green // placeholder until texture
 	rectangle.setPosition(cellPosition); // set the postion of the rectangle to be the position passed
 	

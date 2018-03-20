@@ -20,6 +20,7 @@ void TreasureChest::createSFML()
 	textureSubrect.width = 31;
 	rectangle.setTextureRect(textureSubrect);
 
+	//little rectangle that floats above the chest. will be sued to display the item from the chest by setting the texture when the item is decided.
 	itemSprite.setPosition(sf::Vector2f(xPosition, yPosition - 1));
 	itemSprite.setSize(sf::Vector2f(1.5f, 1.5f));
 	itemSprite.setOrigin(sf::Vector2f(0.75f, 0.75f));
@@ -133,6 +134,20 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 					playerCharacter->AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots())); //add the flame cloak item
 					alreadyOpened = true;
 					itemSprite.setTexture(&textureLoader.hermesBootTexture);
+				}
+			}
+			else if (selectedItem > 500 && selectedItem <= 600) {
+				//Hermes Helm
+				for (int i = 0; i < playerCharacter->AquiredItems.size(); i++) {
+					if (playerCharacter->AquiredItems[i]->itemName == "HermesHelm") {
+						ItemAlreadyAquired = true; //item al;ready aquired 
+					}
+				}
+				if (ItemAlreadyAquired == false) { // if item isn't aquired yet
+					printf("Hermes Helm \n");
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm())); //add the flame cloak item
+					alreadyOpened = true;
+					itemSprite.setTexture(&textureLoader.hermesHelmTexture);
 				}
 			}
 			

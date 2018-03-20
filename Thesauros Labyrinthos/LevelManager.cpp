@@ -182,9 +182,9 @@ void LevelManager::LoadNextLevel(b2World &world)
 			torchFuelUI = tgui::TextBox::create();
 			torchFuelUI->setPosition(425, 0); // set the textBox to be positioned at 400,0
 			torchFuelUI->setSize(600, 12.5); // set the size
-			torchFuelUI->setTextSize(8); // set the font size
+			torchFuelUI->setTextSize(10); // set the font size
 			torchFuelUI->getRenderer()->setBackgroundColor(sf::Color::Transparent); // set colour
-			torchFuelUI->getRenderer()->setBorderColor(sf::Color::Green);//border colour
+			torchFuelUI->getRenderer()->setBorderColor(sf::Color::Blue);//border colour
 
 			
 			//two below are awakward. normal rectangles, so get drawn normally to the window, rather than to the view like the gui stuff using TGUI. have to psoition them relative to the player, and make them very small to fit the zoomed in view
@@ -212,7 +212,7 @@ void LevelManager::LoadNextLevel(b2World &world)
 			ShieldUI = tgui::TextBox::create();
 			ShieldUI->setPosition(425, 12.5); // set the textBox to be positioned at 400,0
 			ShieldUI->setSize(600, 12.5); // set the size
-			ShieldUI->setTextSize(8); // set the font size
+			ShieldUI->setTextSize(10); // set the font size
 			ShieldUI->getRenderer()->setBackgroundColor(sf::Color::Transparent); // set colour
 			ShieldUI->getRenderer()->setBorderColor(sf::Color::Blue);//border colour
 
@@ -242,7 +242,7 @@ void LevelManager::LoadNextLevel(b2World &world)
 			currentItemUI = tgui::TextBox::create();
 			currentItemUI->setPosition(1025, 0); // set the textBox to be positioned at 400,0
 			currentItemUI->setSize(50, 25); // set the size
-			currentItemUI->setTextSize(8); // set the font size
+			currentItemUI->setTextSize(16); // set the font size
 			currentItemUI->getRenderer()->setBackgroundColor(sf::Color::White); // set colour
 			currentItemUI->getRenderer()->setBorderColor(sf::Color::Blue);//border colour
 
@@ -262,6 +262,9 @@ void LevelManager::LoadNextLevel(b2World &world)
 			}
 			else if (item == "HermesBoots") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.hermesBootGUITexture); //set the background texture
+			}
+			else if (item == "HermesHelm") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.hermesHelmIcon); //set the background texture
 			}
 
 		}
@@ -401,7 +404,11 @@ void LevelManager::update(b2World &World)
 	treasureUI->setText("Treasure: " + to_string(playerCharacter->treasure));//set the treasure ui string to be the amount of treasure the player has
 
 	//TorchFuel UI
-	torchFuelUI->setText("Fuel Remaining: " + to_string(playerCharacter->currentTorchFuel) + " / " + to_string(playerCharacter->maxTorchFuel)); //set the text for the fuel UI to display the current and max fuel. 
+	//get the two values and store them in an int to remove the extra .0000000's from the end of the number for the text
+	//still use the float value for the bar calculation for accuracy
+	int fuel = playerCharacter->currentTorchFuel;
+	int maxFuel = playerCharacter->maxTorchFuel;
+	torchFuelUI->setText("Fuel Remaining: " + to_string(fuel) + " / " + to_string(maxFuel)); //set the text for the fuel UI to display the current and max fuel. 
 	float redBarSize = (playerCharacter->currentTorchFuel / playerCharacter->maxTorchFuel) * 37.5f; // work out the new size of the red portion of the UI background by getting the fraction and multiplying it by the max width
 	
 	torchFuelUIBackgroundRed.setSize(sf::Vector2f(redBarSize, 1.4f));
@@ -410,7 +417,11 @@ void LevelManager::update(b2World &World)
 	torchFuelUIBackgroundWhite.setPosition(playerCharacter->xPosition - 23.4, playerCharacter->yPosition - 50);
 
 	//same as torchUI update but for the shield
-	ShieldUI->setText("Energy Remaining: " + to_string(playerCharacter->shieldEnergy) + " / " + to_string(playerCharacter->shieldEnergyMax)); //set the text for the Shield UI to display the current and max energy. 
+	//get the two values and store them in an int to remove the extra .0000000's from the end of the number for the text
+	//still use the float value for the bar calculation for accuracy
+	int energy = playerCharacter->shieldEnergy;
+	int maxEnergy = playerCharacter->shieldEnergyMax;
+	ShieldUI->setText("Energy Remaining: " + to_string(energy) + " / " + to_string(maxEnergy)); //set the text for the Shield UI to display the current and max energy. 
 	float blueBarSize = (playerCharacter->shieldEnergy / playerCharacter->shieldEnergyMax) * 37.5f; // work out the new size of the Blue portion of the UI background by getting the fraction and multiplying it by the max width
 
 	shieldUIBackgroundBlue.setSize(sf::Vector2f(blueBarSize, 1.4f));
@@ -475,10 +486,14 @@ void LevelManager::update(b2World &World)
 			else if (item == "HermesBoots") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.hermesBootGUITexture); //set the background texture
 			}
+			else if (item == "HermesHelm") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.hermesHelmIcon); //set the background texture
+			}
 		}
 	}
 	if (playerCharacter->itemsOnCooldown == true) { //if items on cooldown, draw the text to be the cooldown timer
-		currentItemUI->setText(to_string(playerCharacter->AquiredItems[playerCharacter->currentItem]->coolDownTimer - playerCharacter->CurrentItemClock->getElapsedTime().asSeconds())); //get the reaminging cooldown time by get the cooldown duration form the item and minusing the elapsed time from the player's cooldown timer
+		int cooldownTimer = playerCharacter->AquiredItems[playerCharacter->currentItem]->coolDownTimer - playerCharacter->CurrentItemClock->getElapsedTime().asSeconds();
+		currentItemUI->setText(to_string(cooldownTimer)); //get the reaminging cooldown time by get the cooldown duration form the item and minusing the elapsed time from the player's cooldown timer
 	}
 	else (currentItemUI->setText("")); //set blank text if not on cooldown
 	

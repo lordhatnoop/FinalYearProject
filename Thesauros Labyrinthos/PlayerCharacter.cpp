@@ -1,8 +1,6 @@
 #include "PlayerCharacter.h"
 #include "textureLoader.h"
-#include "FlameCloakItem.h"
-#include "BombItem.h"
-#include "HermesBoots.h"
+#include "ItemHolder.h"
 PlayerCharacter::PlayerCharacter(int x, int y)
 {
 	treasure = 0;
@@ -19,8 +17,9 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	CurrentItemClock = new sf::Clock;
 	animationTimer.restart(); 
 
-	//testing items - push them to aquired so we can use them 
-	AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
+	//testing items - push them to aquired so we can use them
+	AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm()));
+	//AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
 	//AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
 //	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
 	//AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
@@ -175,7 +174,13 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
 			//yPosition -= 5;
 		//check bools for varius status so that we know what we can and can't do before attempting to do it
-			if (canJump == true) { // make sure we can jump first
+			if (itemStatuses.hermesHelmActive == true) { // if hermes helm is active - allow for flight. check for this first as priority over jumping
+				//use velocity for flight not impulse cause we want it to be smoother than a jump
+				b2Vec2 v = dynamicBody->GetLinearVelocity(); //get the current velocity so that we don't cancle out movement velocity
+				v.y = -10.f; //set the y component to fly
+				dynamicBody->SetLinearVelocity(v); //apply the velocity, x should be unchanged, allowing for nomrla movement while flying
+			}
+			else if (canJump == true) { // else check if we can jump and jump if we can
 				dynamicBody->ApplyLinearImpulse(b2Vec2(0, -0.25), b2Vec2(0, 0), true); // apply an impulse to propel player upard as a jump
 				temp = dynamicBody->GetLinearVelocity();
 			}
@@ -209,7 +214,7 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 	rectangle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale);
 	shieldCircle.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale); //also update the circle
 	petrifyOverlay.setPosition(dynamicBody->GetPosition().x * scale, dynamicBody->GetPosition().y * scale); //and the petrify overlay
-
+	itemStatuses.position = sf::Vector2f(xPosition, yPosition); //keep the item position up to date if needed for the items
 
 
 	//limit how frequently the torch fuel will countdown based on time 

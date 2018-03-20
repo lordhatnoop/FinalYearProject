@@ -5,3 +5,4 @@
 #include "FlameCloakItem.h"
 #include "BombItem.h"
 #include "HermesBoots.h"
+#include "HermesHelm.h"

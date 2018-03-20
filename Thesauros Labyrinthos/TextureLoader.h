@@ -44,10 +44,15 @@ public:
 	sf::Texture flameCloakTexture;
 	sf::Texture flameCloakGUITexture;
 	sf::Texture treaureChestTexture;
+
 	sf::Texture bombTexture;
 	sf::Texture bombGUITexture;
+
 	sf::Texture hermesBootTexture;
 	sf::Texture hermesBootGUITexture;
+
+	sf::Texture hermesHelmTexture;
+	sf::Texture hermesHelmIcon;
 
 	//test for torch / spotlight
 	sf::RenderTexture testRenderTExture;
