@@ -1,6 +1,6 @@
 #include "BombItem.h"
 #include "TextureLoader.h"
-void BombItem::update()
+void BombItem::update(PlayerItemStatuses *playerStatus)
 {
 	if (durationTimer->getElapsedTime().asSeconds() < duration) { //so long as item hasn't used it's duration
 		//change the animation as time goes along

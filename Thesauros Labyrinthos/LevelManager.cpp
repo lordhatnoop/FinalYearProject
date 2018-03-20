@@ -260,6 +260,9 @@ void LevelManager::LoadNextLevel(b2World &world)
 			else if (item == "BombItem") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.bombGUITexture); //set the background texture
 			}
+			else if (item == "HermesBoots") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.hermesBootGUITexture); //set the background texture
+			}
 
 		}
 
@@ -468,6 +471,9 @@ void LevelManager::update(b2World &World)
 			}
 			else if (item == "BombItem") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.bombGUITexture); //set the background texture
+			}
+			else if (item == "HermesBoots") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.hermesBootGUITexture); //set the background texture
 			}
 		}
 	}

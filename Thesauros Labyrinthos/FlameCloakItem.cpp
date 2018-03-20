@@ -1,6 +1,6 @@
 #include "FlameCloakItem.h"
 #include "TextureLoader.h"
-void FlameCloakItem::update()
+void FlameCloakItem::update(PlayerItemStatuses *playerStatus)
 {
 	if (durationTimer->getElapsedTime().asSeconds() < duration) { //so long as item hasn't used it's duration
 		

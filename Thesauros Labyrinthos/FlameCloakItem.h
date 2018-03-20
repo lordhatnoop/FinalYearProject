@@ -14,7 +14,7 @@ public:
 		itemName = "FlameCloak";
 	}
 	//override the inherited methods
-	void update() override;
+	void update(PlayerItemStatuses *playerStatus) override;
 	void createSfml() override;
 	void createBox2D(b2World &myWorld) override;
 	void destroy(b2World & myWorld) override;

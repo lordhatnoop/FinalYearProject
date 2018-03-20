@@ -129,6 +129,7 @@
     <ClCompile Include="FakeWallCell.cpp" />
     <ClCompile Include="FlameCloakItem.cpp" />
     <ClCompile Include="FloorCell.cpp" />
+    <ClCompile Include="HermesBoots.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="mazeGeneration.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="FloorCell.h" />
     <ClInclude Include="GameCharacters.h" />
     <ClInclude Include="GameItems.h" />
+    <ClInclude Include="HermesBoots.h" />
     <ClInclude Include="ItemHolder.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="mazeGeneration.h" />
@@ -169,6 +171,7 @@
     <ClInclude Include="NonBodyWallCell.h" />
     <ClInclude Include="playerArrow.h" />
     <ClInclude Include="PlayerCharacter.h" />
+    <ClInclude Include="PlayerItemStatuses.h" />
     <ClInclude Include="RopeItem.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="soundManager.h" />

@@ -46,7 +46,8 @@ public:
 	sf::Texture treaureChestTexture;
 	sf::Texture bombTexture;
 	sf::Texture bombGUITexture;
-
+	sf::Texture hermesBootTexture;
+	sf::Texture hermesBootGUITexture;
 
 	//test for torch / spotlight
 	sf::RenderTexture testRenderTExture;

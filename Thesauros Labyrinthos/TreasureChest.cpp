@@ -112,6 +112,30 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 					
 				}
 			}
+			else if (selectedItem > 400 && selectedItem <= 500) {
+				//Aegis shield. don't push this one to the aquired items vector, becasue this one works a bit different
+				if (playerCharacter->itemStatuses.aegisShieldAquired == false) {
+					printf("Aegis Shield \n");
+					playerCharacter->itemStatuses.aegisShieldAquired = true; //set to true so player can use the shield
+					alreadyOpened = true;
+					itemSprite.setTexture(&textureLoader.shieldIcon);
+				}
+			}
+			else if (selectedItem > 500 && selectedItem <= 600) {
+			//Hermes Boots
+				for (int i = 0; i < playerCharacter->AquiredItems.size(); i++) {
+					if (playerCharacter->AquiredItems[i]->itemName == "HermesBoots") {
+						ItemAlreadyAquired = true; //item al;ready aquired 
+					}
+				}
+				if (ItemAlreadyAquired == false) { // if item isn't aquired yet
+					printf("Hermes Boots \n");
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots())); //add the flame cloak item
+					alreadyOpened = true;
+					itemSprite.setTexture(&textureLoader.hermesBootTexture);
+				}
+			}
+			
 			else {
 				printf("item = %i \n", selectedItem);
 

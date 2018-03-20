@@ -4,3 +4,4 @@ torch - Torch Sprite by Jellytopbottom @derpbug on Jul 21, 2016 - https://www.pi
 treasureChest - https://opengameart.org/content/treasure-chests-32x32-and-16x16 - Blarumyrran
 shieldIcon - http://www.freepngimg.com/png/6940-old-shield-png-image-picture-download
 bomb - Original Bomb Party sprite sheet by Matt Hackett of Lost Decade Games, expanded by Cem Kalyoncu and /usr/share. - https://opengameart.org/content/bomb-party-the-complete-set
+Hermes Boots - mural depiction of mythological sandals. from http://speakslovak.info/greek-god-with-winged-shoes/the-twelve-olympians-on-emaze-greek-god-with-winged-shoes/

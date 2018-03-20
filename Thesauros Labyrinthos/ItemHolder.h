@@ -4,3 +4,4 @@
 #include "RopeItem.h"
 #include "FlameCloakItem.h"
 #include "BombItem.h"
+#include "HermesBoots.h"

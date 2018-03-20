@@ -36,6 +36,8 @@ public:
 
 	bool canClimb = false; //bool used to control when the player can use the W key to climb. will be activated when touching a rope. do this so that player can only climb when touching the sensor body of the rope
 
+	PlayerItemStatuses itemStatuses; //used to hold , bools,etc related to items for convenience
+
 	//three sensors used for jumping and wall climbing
 	b2FixtureDef footSensor;
 	b2FixtureDef leftSensor;

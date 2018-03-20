@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "PlayerItemStatuses.h"
 
 class GameItems {
 public:
@@ -35,7 +36,8 @@ public:
 	int scale = 30;
 	float itemDamage;
 	string itemName;
-	virtual void update() {};
+	bool sprintActive = false;
+	virtual void update(PlayerItemStatuses *playerStatus) {};
 	virtual void createSfml() {};
 	virtual void createBox2D(b2World &myWorld) {};
 	virtual void destroy(b2World & myWorld) {};

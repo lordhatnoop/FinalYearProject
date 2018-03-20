@@ -135,6 +135,9 @@
     <ClCompile Include="BombItem.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="HermesBoots.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -229,6 +232,12 @@
     </ClInclude>
     <ClInclude Include="BombItem.h">
       <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="HermesBoots.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerItemStatuses.h">
+      <Filter>Header Files\GameCharcters\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

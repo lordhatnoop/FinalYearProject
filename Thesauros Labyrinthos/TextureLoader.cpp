@@ -45,6 +45,9 @@ void TextureLoader::loadTextures()
 
 	bombTexture.loadFromFile("Assets/Sprites/bomb_party_v4.png");
 	bombGUITexture.loadFromFile("Assets/Sprites/bombIcon.png");
+
+	hermesBootGUITexture.loadFromFile("Assets/Sprites/HermesBootsIcon.png");
+	hermesBootTexture.loadFromFile("Assets/Sprites/HermesBoots.png");
 	//background
 	backgroundTexture.loadFromFile("Assets/Sprites/background.png");
 	

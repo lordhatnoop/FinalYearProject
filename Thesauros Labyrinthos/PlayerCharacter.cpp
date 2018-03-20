@@ -2,6 +2,7 @@
 #include "textureLoader.h"
 #include "FlameCloakItem.h"
 #include "BombItem.h"
+#include "HermesBoots.h"
 PlayerCharacter::PlayerCharacter(int x, int y)
 {
 	treasure = 0;
@@ -18,7 +19,9 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	CurrentItemClock = new sf::Clock;
 	animationTimer.restart(); 
 
-	AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
+	//testing items - push them to aquired so we can use them 
+	AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
+	//AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
 //	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
 	//AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
 }
@@ -219,7 +222,7 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 
 	//ITEMS VECTOR UPDATE
 	if(activeItem != nullptr) { //so long as active item isn't null
-		activeItem->update(); //update it.
+		activeItem->update(&itemStatuses); //update it.
 		if (activeItem->active == false) {
 			activeItem->destroy(myWorld); //destroy the item // call here to pass world
 			activeItem = nullptr; //once active item has been detsoryed and isn't active anymore, it can become nullptr again so we stop updating it
@@ -316,8 +319,13 @@ void PlayerCharacter::InvincibleTimer()
 
 void PlayerCharacter::walkRight()
 {
-	dynamicBody->SetLinearVelocity(b2Vec2(4 , -1 ));
-	
+	if (itemStatuses.hermesBootsActive == true) { // if the sprint item is active
+		dynamicBody->SetLinearVelocity(b2Vec2(8, -1)); //double speed
+	}
+	else {
+		dynamicBody->SetLinearVelocity(b2Vec2(4, -1)); //else normal speed
+	}
+
 	//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
 	//sprite sheet has inconsistenet sizes for each frame. just use the largest avlue for the width and height to add a few blank frames to the smaller ones so that the sprite doesn't keep visibly chanign shape.
 	if (animationTimer.getElapsedTime().asSeconds() > 0.025) {
@@ -404,7 +412,13 @@ void PlayerCharacter::walkRight()
 //same as walk right, but inversed velocity and and texture rect positins start from the right and minus the width to flip the image
 void PlayerCharacter::walkLeft()
 {
-	dynamicBody->SetLinearVelocity(b2Vec2(-4, -1));
+	if (itemStatuses.hermesBootsActive == true) { // if the sprint item is active
+		dynamicBody->SetLinearVelocity(b2Vec2(-8, -1)); //double speed
+	}
+	else {
+		dynamicBody->SetLinearVelocity(b2Vec2(-4, -1)); //else normal speed
+	}
+
 	if (animationTimer.getElapsedTime().asSeconds() > 0.025) {
 		//check the counter for current frame, set the position on sprite sheet, then update counter and recatangle
 		if (walkAnimationCounter == 1) {
@@ -530,13 +544,15 @@ void PlayerCharacter::ItemUse(b2World &myWorld)
 void PlayerCharacter::playerShield()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) { //if left shift is pressed
-		if (shieldEnergy > 0) {
-			//turn both shielding and playerinvincible to true so that we get the invincible effect but not the timer for the invincibility 
-			shielding = true;
-			playerInvincible = true;
-			shieldCircle.setFillColor(sf::Color(175, 238, 238, 180)); // set the shield circle colour to be  light blue with a low aplha so it's somewhat see through
-			//remove some shield energy
-			shieldEnergy = shieldEnergy - 0.5f;
+		if(itemStatuses.aegisShieldAquired == true){ // allow shielding if the player has the aegis shield
+			if (shieldEnergy > 0) {
+				//turn both shielding and playerinvincible to true so that we get the invincible effect but not the timer for the invincibility 
+				shielding = true;
+				playerInvincible = true;
+				shieldCircle.setFillColor(sf::Color(175, 238, 238, 180)); // set the shield circle colour to be  light blue with a low aplha so it's somewhat see through
+				//remove some shield energy
+				shieldEnergy = shieldEnergy - 0.5f;
+			}
 		}
 	}
 	else if (playerHit == false) { //make sure player hit is false before changing invincibility. this is to make sure we don't remove the player hit invincibility

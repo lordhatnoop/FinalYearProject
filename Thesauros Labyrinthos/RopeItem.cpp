@@ -1,6 +1,6 @@
 #include "RopeItem.h"
 
-void RopeItem::update()
+void RopeItem::update(PlayerItemStatuses *playerStatus)
 {
 	if (durationTimer->getElapsedTime().asSeconds() < duration) { //so long as item hasn't used it's duration
 		//Box2DBody->SetLinearVelocity(b2Vec2(0, 1.1)); //just keep moving the rope up so it hits the ceiling . have to use linear velocity and not force, since force doesn't affect kinematic bodies
