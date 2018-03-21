@@ -54,6 +54,16 @@ public:
 	sf::Texture hermesHelmTexture;
 	sf::Texture hermesHelmIcon;
 
+	sf::Texture goldenFleece;
+
+	sf::Texture medusaHead;
+	sf::Texture medusaHeadIcon;
+
+		
+	//traps
+	sf::Texture spikeTexture;
+
+
 	//test for torch / spotlight
 	sf::RenderTexture testRenderTExture;
 	sf::Sprite darknessSprite;

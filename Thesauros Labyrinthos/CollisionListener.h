@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "GameCharacters.h"
+#include "GameTraps.h"
 #include "TreasureChest.h"
 #include "Treasure.h"
 
@@ -16,6 +17,8 @@ public:
 	void TreasureChestCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void TreasurePickUP(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void BombExplosion(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
+	void MedusaHeadPetrify(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
+	void SpikeTrapCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	//enum that holds the diffrent type of entities for collision filtering
 	enum entityCategory {
 		ENEMY = 0x0001,
@@ -24,7 +27,8 @@ public:
 		PLAYERPROJECTILE = 0x0005,
 		ITEM = 0x0006,
 		TREASURECHEST = 0x0007,
-		TREASURE = 0x0008
+		TREASURE = 0x0008,
+		TRAPS = 0x0009
 	};
 
 private:

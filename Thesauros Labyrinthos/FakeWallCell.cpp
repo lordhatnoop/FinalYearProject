@@ -29,7 +29,7 @@ void FakeWallCell::createBox2D(b2World & world)
 	//using dynamic bodies that reacted to gravity caused severe lag
 	//BodyDef.type = b2_dynamicBody; //we want this type of wall to be affected by gravity and colliison so use dynamic instead of the other walls static
 	BodyDef.type = b2_kinematicBody; //allow for forces but no gravity or collision to prevent lag
-	BodyDef.position.Set(cellPosition.x / scale + 0.169, cellPosition.y / scale + 0.169); //add 0.169 to get the body into the correct position. would usually set the sfml rect origin to be size to sync the sfml and box2d, but in this case, i don't want the sfml to move to the bodyin the update and instead want the body to be created where the sfml rect is
+	BodyDef.position.Set((cellPosition.x + 5.f)/ scale , (cellPosition.y +5.f) / scale); //add 0.169 to get the body into the correct position. would usually set the sfml rect origin to be size to sync the sfml and box2d, but in this case, i don't want the sfml to move to the bodyin the update and instead want the body to be created where the sfml rect is
 	BodyDef.angle = 0;
 	
 	BodyDef.userData = this; //set userdata for collision checks
@@ -47,6 +47,7 @@ void FakeWallCell::createBox2D(b2World & world)
 	verticices[2].Set(5.f / scale, -4.f / scale);
 	verticices[1].Set(5.f / scale, 4.f / scale);
 	verticices[0].Set(5.f / scale, 4.5f / scale);
+
 	//cellBox2DPolygonShape.SetAsBox(5.f / scale, 4.5f / scale);// create the box2d shape - the box- and set it's size. size is half of the sfml size becasue it uses half extents, and have to divide by scale to go from box2d's real world measurements to pixels
 	cellBox2DPolygonShape.Set(verticices, 8); //set shape to use the vertices we created
 

@@ -123,6 +123,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DespawnManager.cpp" />
     <ClCompile Include="Ghost.cpp" />
+    <ClCompile Include="GoldenFleece.cpp" />
     <ClCompile Include="Griffin.cpp" />
     <ClCompile Include="CollisionListener.cpp" />
     <ClCompile Include="ExitCell.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="mazeGeneration.cpp" />
     <ClCompile Include="Medusa.cpp" />
+    <ClCompile Include="MedusaHead.cpp" />
     <ClCompile Include="MiniMap.cpp" />
     <ClCompile Include="NonBodyWallCell.cpp" />
     <ClCompile Include="playerArrow.cpp" />
@@ -142,6 +144,7 @@
     <ClCompile Include="RopeItem.cpp" />
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="SpikeTrap.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="TorchLight.cpp" />
     <ClCompile Include="Treasure.cpp" />
@@ -154,7 +157,9 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="DespawnManager.h" />
+    <ClInclude Include="GameTraps.h" />
     <ClInclude Include="Ghost.h" />
+    <ClInclude Include="GoldenFleece.h" />
     <ClInclude Include="Griffin.h" />
     <ClInclude Include="CollisionListener.h" />
     <ClInclude Include="ExitCell.h" />
@@ -169,6 +174,7 @@
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="mazeGeneration.h" />
     <ClInclude Include="Medusa.h" />
+    <ClInclude Include="MedusaHead.h" />
     <ClInclude Include="MiniMap.h" />
     <ClInclude Include="NonBodyWallCell.h" />
     <ClInclude Include="playerArrow.h" />
@@ -177,6 +183,7 @@
     <ClInclude Include="RopeItem.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="SpikeTrap.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="TorchLight.h" />

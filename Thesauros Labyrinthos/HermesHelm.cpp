@@ -25,6 +25,7 @@ void HermesHelm::update(PlayerItemStatuses * playerStatus)
 		}
 	}
 	else {
+		
 		active = false;
 		playerStatus->hermesHelmActive = false; //set back false so no longer sprinting
 	}

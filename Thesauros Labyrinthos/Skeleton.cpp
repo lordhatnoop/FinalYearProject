@@ -85,20 +85,25 @@ string Skeleton::getName()
 
 void Skeleton::update(PlayerCharacter *player)
 {
-	LookForPlayer(player);
-	//if trigger rise is ture and the skeelton hasn't already risen, rise
-	if (triggerRise == true && risen == false) {
-		rise();
+	if (isStone == false) { //update actions if not stone
+		LookForPlayer(player);
+		//if trigger rise is ture and the skeelton hasn't already risen, rise
+		if (triggerRise == true && risen == false) {
+			rise();
+		}
+		else if (playerLeft == true) {
+			//xPosition = xPosition - 1.f;
+			moveLeft();
+		}
+		else if (playerRight == true) {
+			//xPosition = xPosition + 1.f;
+			moveRight();
+		}
+		else {
+			dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // set idle
+		}
 	}
-	else if (playerLeft == true) {
-		//xPosition = xPosition - 1.f;
-		moveLeft();
-	}
-	else if (playerRight == true) {
-		//xPosition = xPosition + 1.f;
-		moveRight();
-	}
-	else {
+	else { //else stop moving (stone)
 		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // set idle
 	}
 	//rectangle.setPosition(xPosition, yPosition);

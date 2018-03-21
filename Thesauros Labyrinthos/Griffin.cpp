@@ -66,66 +66,73 @@ void Griffin::createCollisionBox(b2World & myWorld)
 
 void Griffin::update(PlayerCharacter * player)
 {
-	if (chargeStart == false) { //stop looking for player when we charge. - just want it to keep charging until the end of the charge
-		LookForPlayer(player); //look for the player
-	}
+	if (isStone == false) {
+		if (chargeStart == false) { //stop looking for player when we charge. - just want it to keep charging until the end of the charge
+			LookForPlayer(player); //look for the player
+		}
 
-	if (playerLeft == true || playerRight == true) {
-		Charge(); //if the player is seen on either side, charge at them
-	}
-	else {
-		Wander(); //will only do wander behaviour if we aren't charging
-	}
+		if (playerLeft == true || playerRight == true) {
+			Charge(); //if the player is seen on either side, charge at them
+		}
+		else {
+			Wander(); //will only do wander behaviour if we aren't charging
+		}
 
+
+		//deal with the animation
+		if (timer.getElapsedTime().asSeconds() > 0.2f) {
+			//check direction by checking velocity positiove = right, negative = left
+			if (dynamicBody->GetLinearVelocity().x > 0) { //heading right
+				if (animationCounter == 0) {
+					textureSubRect.left = 371;
+					textureSubRect.width = 107;
+					textureSubRect.top = 208;
+					textureSubRect.height = 76;
+
+					animationCounter++;
+				}
+				else if (animationCounter == 1) {
+					textureSubRect.left = 556;
+					textureSubRect.width = 107;
+					textureSubRect.top = 218;
+					textureSubRect.height = 76;
+
+					animationCounter--;
+				}
+			}
+			else if (dynamicBody->GetLinearVelocity().x < 0) { //heading left
+				if (animationCounter == 0) {
+					textureSubRect.left = 478;
+					textureSubRect.width = -107; //left so flip animations
+					textureSubRect.top = 208;
+					textureSubRect.height = 76;
+
+					animationCounter++;
+				}
+				else if (animationCounter == 1) {
+					textureSubRect.left = 663;
+					textureSubRect.width = -107;//left so flip animations
+					textureSubRect.top = 218;
+					textureSubRect.height = 76;
+
+					animationCounter--;
+				}
+			}
+
+			rectangle.setTextureRect(textureSubRect); // use the newly set texture frame
+			timer.restart();// restart the timer so we can use it for the check again
+		}
+	}
+	else { //else stop moving (stone)
+		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // set idle
+	}
 	//keep updating the position to match the box2d
 	xPosition = dynamicBody->GetPosition().x * scale;
 	yPosition = dynamicBody->GetPosition().y * scale;
 
 	rectangle.setPosition(xPosition, yPosition);
 
-	//deal with the animation
-	if (timer.getElapsedTime().asSeconds() > 0.2f) {
-		//check direction by checking velocity positiove = right, negative = left
-		if (dynamicBody->GetLinearVelocity().x > 0) { //heading right
-			if (animationCounter == 0) {
-				textureSubRect.left = 371;
-				textureSubRect.width = 107;
-				textureSubRect.top = 208;
-				textureSubRect.height = 76;
-
-				animationCounter++;
-			}
-			else if (animationCounter == 1) {
-				textureSubRect.left = 556;
-				textureSubRect.width = 107;
-				textureSubRect.top = 218;
-				textureSubRect.height = 76;
-
-				animationCounter--;
-			}
-		}
-		else if (dynamicBody->GetLinearVelocity().x < 0){ //heading left
-			if (animationCounter == 0) {
-				textureSubRect.left = 478;
-				textureSubRect.width = -107; //left so flip animations
-				textureSubRect.top = 208;
-				textureSubRect.height = 76;
-
-				animationCounter++;
-			}
-			else if (animationCounter == 1) {
-				textureSubRect.left = 663;
-				textureSubRect.width = -107;//left so flip animations
-				textureSubRect.top = 218;
-				textureSubRect.height = 76;
-
-				animationCounter--;
-			}
-		}
-
-		rectangle.setTextureRect(textureSubRect); // use the newly set texture frame
-		timer.restart();// restart the timer so we can use it for the check again
-	}
+	
 	
 	checkDead(); //check if dead
 }

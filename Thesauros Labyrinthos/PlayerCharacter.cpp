@@ -17,9 +17,13 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	CurrentItemClock = new sf::Clock;
 	animationTimer.restart(); 
 
+	
+
 	//testing items - push them to aquired so we can use them
+	AquiredItems.push_back(std::shared_ptr<MedusaHead>(new MedusaHead()));
+	//AquiredItems.push_back(std::shared_ptr<GoldenFleece>(new GoldenFleece()));
 	//AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm()));
-	AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
+	//AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
 	//AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
 //	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
 	//AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
@@ -100,7 +104,8 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 		footSensor.isSensor = true;// set as a sensor
 		footSensor.shape = &Shape;
 		footSensor.filter.categoryBits = PLAYER; // set the category to be player
-		footSensor.filter.maskBits = WALL; //set to collide with walls only since that's what we want it to detect as a sensor
+		footSensor.filter.maskBits = WALL | TRAPS; //set to collide with walls only since that's what we want it to detect as a sensor
+		footSensor.userData = "FootSensor"; //set this so we can check for the sensors
 		dynamicBody->CreateFixture(&footSensor); //add the sensor to the body
 
 		//left sensor
@@ -218,7 +223,15 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 	itemStatuses.position = sf::Vector2f(xPosition, yPosition); //keep the item position up to date if needed for the items
 	itemStatuses.playerFacingLeftORRight = facingLeftORRight; //set the facing left or right bool.
 
-
+	if (itemStatuses.GoldenFleeceActive == true) { // if goldenfleece is active
+		if (playerHealth < playerMaxHealth) { // if missing some health
+			playerHealth++; //heal
+		}
+		itemStatuses.GoldenFleeceActive = false; //set back to false
+	}
+	
+	
+	
 	//limit how frequently the torch fuel will countdown based on time 
 	if (updateclock->getElapsedTime().asSeconds() > 1) {
 		torchCountdown(); // call the torch countdown to remove some fuel from the player

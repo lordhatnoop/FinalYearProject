@@ -124,37 +124,42 @@ void Ghost::decidePath()
 
 void Ghost::update()
 {
-	//move
-	b2Vec2 temp; //b2vec 2 which we will set the values for below
-	if (floor(xPosition) < pathGoal.x) {
-		temp.x = 3; // if need to go right, positive 3 to b2vec2 x component
+	if (isStone == false) {
+		//move
+		b2Vec2 temp; //b2vec 2 which we will set the values for below
+		if (floor(xPosition) < pathGoal.x) {
+			temp.x = 3; // if need to go right, positive 3 to b2vec2 x component
+		}
+		else if (floor(xPosition) > pathGoal.x) {
+			temp.x = -3; //opposite
+		}
+		//y check
+		if (floor(yPosition) < pathGoal.y) {
+			temp.y = 3; // if need to go down, positive 3 to b2vec2 x component
+		}
+		else if (floor(yPosition) > pathGoal.y) {
+			temp.y = -3; //opposite
+		}
+
+		//now that we have the value, do the actual movement
+		dynamicBody->SetLinearVelocity(temp);//set velkocity to be above decided values
+
+		//update the sfml
+		xPosition = dynamicBody->GetPosition().x * scale;
+		yPosition = dynamicBody->GetPosition().y * scale;
+
+		rectangle.setPosition(xPosition, yPosition);
+
+		Animate();// ghost animate function - do after position update so that we have up to date readings
+
+		if (sf::Vector2f(xPosition, yPosition) == pathGoal) { // if reached goal point
+			decidePath();
+		}
+
 	}
-	else if (floor(xPosition) > pathGoal.x) {
-		temp.x = -3; //opposite
+	else { //else stop moving (stone)
+		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // set idle
 	}
-	//y check
-	if (floor(yPosition) < pathGoal.y) {
-		temp.y = 3; // if need to go down, positive 3 to b2vec2 x component
-	}
-	else if (floor(yPosition) > pathGoal.y) {
-		temp.y = -3; //opposite
-	}
-
-	//now that we have the value, do the actual movement
-	dynamicBody->SetLinearVelocity(temp);//set velkocity to be above decided values
-
-	//update the sfml
-	xPosition = dynamicBody->GetPosition().x * scale;
-	yPosition = dynamicBody->GetPosition().y * scale;
-
-	rectangle.setPosition(xPosition, yPosition);
-
-	Animate();// ghost animate function - do after position update so that we have up to date readings
-
-	if (sf::Vector2f(xPosition, yPosition) == pathGoal) { // if reached goal point
-		decidePath();
-	}
-
 	if (health <= 0) {
 		dead = true;
 	}

@@ -21,7 +21,7 @@ void TreasureChest::createSFML()
 	rectangle.setTextureRect(textureSubrect);
 
 	//little rectangle that floats above the chest. will be sued to display the item from the chest by setting the texture when the item is decided.
-	itemSprite.setPosition(sf::Vector2f(xPosition, yPosition - 1));
+	itemSprite.setPosition(sf::Vector2f(xPosition - 2.f, yPosition - 1.f));
 	itemSprite.setSize(sf::Vector2f(1.5f, 1.5f));
 	itemSprite.setOrigin(sf::Vector2f(0.75f, 0.75f));
 	//itemSprite.setFillColor(sf::Color(0, 0, 0, 0)); //set transparent until item is decided
@@ -131,7 +131,7 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 				}
 				if (ItemAlreadyAquired == false) { // if item isn't aquired yet
 					printf("Hermes Boots \n");
-					playerCharacter->AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots())); //add the flame cloak item
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots())); //add the Hermes Boots item
 					alreadyOpened = true;
 					itemSprite.setTexture(&textureLoader.hermesBootTexture);
 				}
@@ -145,11 +145,46 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 				}
 				if (ItemAlreadyAquired == false) { // if item isn't aquired yet
 					printf("Hermes Helm \n");
-					playerCharacter->AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm())); //add the flame cloak item
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm())); //add the hermes helm
 					alreadyOpened = true;
 					itemSprite.setTexture(&textureLoader.hermesHelmTexture);
 				}
 			}
+			else if (selectedItem > 600 && selectedItem <= 700) {
+				//Golden Fleece 
+				for (int i = 0; i < playerCharacter->AquiredItems.size(); i++) {
+					if (playerCharacter->AquiredItems[i]->itemName == "GoldenFleece") {
+						ItemAlreadyAquired = true; //item al;ready aquired 
+					}
+				}
+				if (ItemAlreadyAquired == false) { // if item isn't aquired yet
+					printf("Golden Fleece \n");
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<GoldenFleece>(new GoldenFleece())); //add the Golden Fleece item
+					alreadyOpened = true;
+					itemSprite.setTexture(&textureLoader.goldenFleece);
+				}
+			}
+			else if (selectedItem > 700 && selectedItem <= 800) {
+				//Golden Fleece 
+				for (int i = 0; i < playerCharacter->AquiredItems.size(); i++) {
+					if (playerCharacter->AquiredItems[i]->itemName == "MedusaHead") {
+						ItemAlreadyAquired = true; //item al;ready aquired 
+					}
+				}
+				if (ItemAlreadyAquired == false) { // if item isn't aquired yet
+					printf("Medusa Head \n");
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<MedusaHead>(new MedusaHead())); //add the Medusa Head Item
+					alreadyOpened = true;
+					itemSprite.setTexture(&textureLoader.medusaHead);
+					//set portion of the medusaHead sprite sheet to use
+					textureSubrect.left = 2;
+					textureSubrect.width = 30;
+					textureSubrect.height = 20;
+					textureSubrect.top = 0;
+					itemSprite.setTextureRect(textureSubrect);
+				}
+			}
+			
 			
 			else {
 				printf("item = %i \n", selectedItem);
@@ -172,5 +207,5 @@ void TreasureChest::update()
 	xPosition = chestBody->GetPosition().x * scale;
 	yPosition = chestBody->GetPosition().y * scale;
 	rectangle.setPosition(sf::Vector2f(xPosition, yPosition));
-	itemSprite.setPosition(sf::Vector2f(xPosition + 0.75, yPosition - 2));
+	itemSprite.setPosition(sf::Vector2f(xPosition, yPosition - 2.f));
 }

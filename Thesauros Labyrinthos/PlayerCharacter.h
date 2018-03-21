@@ -32,7 +32,7 @@ public:
 
 	bool facingLeftORRight = true; // true = right, false = left;
 
-	bool isStone = false; //bool used to check if we have been turned to stone by a medusa enemy
+	//bool isStone = false; //bool used to check if we have been turned to stone by a medusa enemy
 
 	bool canClimb = false; //bool used to control when the player can use the W key to climb. will be activated when touching a rope. do this so that player can only climb when touching the sensor body of the rope
 

@@ -6,3 +6,5 @@
 #include "BombItem.h"
 #include "HermesBoots.h"
 #include "HermesHelm.h"
+#include "GoldenFleece.h"
+#include "MedusaHead.h"

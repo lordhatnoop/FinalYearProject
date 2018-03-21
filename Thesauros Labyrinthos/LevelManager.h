@@ -12,6 +12,8 @@
 #include "TreasureChest.h"
 #include "Treasure.h"
 #include "DespawnManager.h"
+#include "GameTraps.h"
+#include "SpikeTrap.h"
 
 // enum for the states of the game
 enum GameState {
@@ -47,7 +49,7 @@ public:
 	vector <std::shared_ptr<Ghost>> ghostVector;
 	vector <std::shared_ptr<TreasureChest>> treasureChestVector;
 	vector <std::shared_ptr<Treasure>> treasureVector;
-
+	vector <std::shared_ptr<GameTraps>> trapVector;
 	//below creates a mazegenerator object and then talls it to call the generatemaze function
 	MazeGeneration mazeGenerator;
 

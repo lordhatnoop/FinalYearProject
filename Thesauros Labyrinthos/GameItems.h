@@ -12,7 +12,8 @@ public:
 		PLAYERPROJECTILE = 0x0005,
 		ITEM = 0x0006,
 		TREASURECHEST = 0x0007,
-		TREASURE = 0x0008
+		TREASURE = 0x0008,
+		TRAPS = 0x0009
 	};
 	
 	//want the items to have two fixtures, one for colliding with walls, etc and proper collision so that the items don't fall through the world
@@ -36,7 +37,7 @@ public:
 	int scale = 30;
 	float itemDamage;
 	string itemName;
-	bool sprintActive = false;
+	
 	virtual void update(PlayerItemStatuses *playerStatus) {};
 	virtual void createSfml() {};
 	virtual void createBox2D(b2World &myWorld) {};

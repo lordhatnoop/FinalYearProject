@@ -52,6 +52,12 @@
     <Filter Include="Source Files\Items">
       <UniqueIdentifier>{0369f093-8470-4a58-9bef-efa3fa683f75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Traps">
+      <UniqueIdentifier>{01fecbef-abf0-46ab-9cc2-f1955589172d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Traps">
+      <UniqueIdentifier>{022f86ba-603e-402f-87b7-f1a0333987dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -138,8 +144,17 @@
     <ClCompile Include="HermesBoots.cpp">
       <Filter>Source Files\Items</Filter>
     </ClCompile>
+    <ClCompile Include="GoldenFleece.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
     <ClCompile Include="HermesHelm.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="MedusaHead.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="SpikeTrap.cpp">
+      <Filter>Source Files\Traps</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +259,18 @@
     </ClInclude>
     <ClInclude Include="HermesHelm.h">
       <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="GoldenFleece.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="MedusaHead.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTraps.h">
+      <Filter>Header Files\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="SpikeTrap.h">
+      <Filter>Header Files\Traps</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

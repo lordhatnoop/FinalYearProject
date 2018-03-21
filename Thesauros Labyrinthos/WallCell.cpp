@@ -16,7 +16,7 @@ WallCell::WallCell(int x, int y, b2World &world) {
 void WallCell::createSFML()
 {
 	rectangle.setSize(cellSize); 
-
+	
 	//rectangle.setFillColor(sf::Color::Yellow); // sets the colour of the rectangle to be green // placeholder until texture
 	rectangle.setPosition(cellPosition); // set the postion of the rectangle to be the position passed
 	
@@ -60,7 +60,7 @@ void WallCell::update()
 void WallCell::createBox2D(b2World &world)
 {
 	BodyDef.type = b2_staticBody; //set the wall to have a staticbody becasue we don't want them to be affected by gravity or be moved byt the player
-	BodyDef.position.Set(cellPosition.x / scale + 0.169, cellPosition.y / scale + 0.169);
+	BodyDef.position.Set((cellPosition.x + 5.f) / scale , (cellPosition.y + 5.f)/ scale );
 	BodyDef.angle = 0;
 	BodyDef.userData = this; //set userdata for collision checks
 	cellBody = world.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above

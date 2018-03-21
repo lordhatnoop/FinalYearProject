@@ -51,7 +51,16 @@ void TextureLoader::loadTextures()
 
 	hermesHelmTexture.loadFromFile("Assets/Sprites/HermesHelmet.png");
 	hermesHelmIcon.loadFromFile("Assets/Sprites/HermesHelmetIcon.png");
-	//background
+
+	goldenFleece.loadFromFile("Assets/Sprites/GoldenFleece.png");
+
+	medusaHead.loadFromFile("Assets/Sprites/MedusaHead.png");
+	medusaHeadIcon.loadFromFile("Assets/Sprites/MedusaHeadIcon.png");
+
+	//traps
+	spikeTexture.loadFromFile("Assets/Sprites/Traps/Spikes.png");
+
+		//background
 	backgroundTexture.loadFromFile("Assets/Sprites/background.png");
 	
 	//enemy Textures

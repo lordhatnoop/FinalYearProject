@@ -85,33 +85,37 @@ string Medusa::getName()
 
 void Medusa::update(PlayerCharacter * player)
 {
-	//look for the player (get which side they are ona nd if the enemy can see them)
-	LookForPlayer(player);
-	if (playerInAttackRange == true) {
-		if (petrifyTimer.getElapsedTime().asSeconds() > 5.f) { //make sure some time has passed since the last attack 
-			attack(player);
+	if (isStone == false) { //only update actions when not stone
+		//look for the player (get which side they are ona nd if the enemy can see them)
+		LookForPlayer(player);
+		if (playerInAttackRange == true) {
+			if (petrifyTimer.getElapsedTime().asSeconds() > 5.f) { //make sure some time has passed since the last attack 
+				attack(player);
+			}
+			dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // stop velocity so we don't keep sliding
 		}
-		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // stop velocity so we don't keep sliding
+		//if player left or right are true (player is seen on either of those sides) do the one of the below
+		else if (playerLeft == true) {
+			//xPosition = xPosition - 1.f;
+			moveLeft();
+		}
+		else if (playerRight == true) {
+
+			moveRight();
+		}
+		else { //else idle
+			dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // set idle
+		}
 	}
-	//if player left or right are true (player is seen on either of those sides) do the one of the below
-	else if (playerLeft == true) {
-		//xPosition = xPosition - 1.f;
-		moveLeft();
-	}
-	else if (playerRight == true) {
-		
-		moveRight();
-	}
-	else { //else idle
+	else { //else stop moving (stone)
 		dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); // set idle
 	}
-
-	//update the sfml
+		//update the sfml
 	xPosition = dynamicBody->GetPosition().x * scale;
 	yPosition = dynamicBody->GetPosition().y * scale;
 
 	rectangle.setPosition(xPosition, yPosition);
-
+	
 
 	checkDead(); //check if dead
 }

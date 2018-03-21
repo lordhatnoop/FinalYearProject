@@ -50,6 +50,8 @@ void CollisionListener::BeginContact(b2Contact * contact)
 	TreasureChestCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for treasureChest collision
 	TreasurePickUP(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for treasurePickUp
 	BombExplosion(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for bomb explosion hitting walls
+	MedusaHeadPetrify(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for MedusaHEad body collision and turn enemies to stone
+	SpikeTrapCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for player hitting spikes
 	/*
 	//get what objects each one is 
 	std::string nameA = ((GameCharacters*)bodyUserData)->getName();
@@ -239,6 +241,48 @@ void CollisionListener::BombExplosion(void * userData1, void * userData2, b2Fixt
 	else if (fixture1->GetFilterData().categoryBits == ITEM && fixture2->GetFilterData().categoryBits == ENEMY) {
 		if (userData1 == "BombItem") { //check if bomb hit enemies and minus the damage if they did
 			static_cast<GameCharacters*>(userData2)->health = static_cast<GameCharacters*>(userData2)->health - static_cast<GameItems*>(userData1)->itemDamage;
+		}
+	}
+}
+
+
+//check for collision between the enemies and the medusa head item
+void CollisionListener::MedusaHeadPetrify(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == ITEM && fixture2->GetFilterData().categoryBits == ENEMY) {
+		//check if actually medusaHead and turn to stone
+		if (userData1 == "MedusaHead") { // make sure it was the medusaHead body
+			
+				static_cast<GameCharacters*>(userData2)->isStone = true; //set to be stone
+			
+
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == ENEMY && fixture2->GetFilterData().categoryBits == ITEM) {
+		if (userData2 == "MedusaHead") { // make sure it was a the medusaHead
+		
+				static_cast<GameCharacters*>(userData1)->isStone = true; //set to be Stone
+			
+		}
+	}
+}
+
+void CollisionListener::SpikeTrapCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TRAPS) {
+		//check if actually spiketrap and kill if so
+		if (userData2 == "SpikeTrap") { // make sure it was the spiketrap
+			if (fixture1->GetUserData() == "FootSensor") { //make sure it was the foot sensor colliding
+				static_cast<PlayerCharacter*>(userData1)->playerHealth = 0; //set to be dead
+			}
+
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == TRAPS && fixture2->GetFilterData().categoryBits == PLAYER) {
+ 		if (userData1 == "SpikeTrap") { // make sure it was a the spike trap
+			if (fixture2->GetUserData() == "FootSensor") { //make sure it was the foot sensor colliding
+				static_cast<PlayerCharacter*>(userData2)->playerHealth = 0; //set to be dead 
+			}
 		}
 	}
 }

@@ -20,10 +20,11 @@ void HermesBoots::update(PlayerItemStatuses *playerStatus)
 			textureSubRect.left = 0;
 			textureSubRect.width = 334;
 			rectangle.setTextureRect(textureSubRect);
-			rectangle.setPosition(playerStatus->position.x, playerStatus->position.y + 3.f); //keep updating the position
+			rectangle.setPosition(playerStatus->position.x + 1.f, playerStatus->position.y + 4.f); //keep updating the position
 		}
 	}
 	else {
+		
 		active = false;
 		playerStatus->hermesBootsActive = false; //set back false so no longer sprinting
 	}

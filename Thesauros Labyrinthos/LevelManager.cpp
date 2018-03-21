@@ -11,6 +11,7 @@
 #include <iostream>
 
 
+
 using namespace std;
 
 LevelManager::LevelManager(sf::RenderWindow *passedWindow, tgui::Gui *passedGUI)
@@ -153,9 +154,14 @@ void LevelManager::LoadNextLevel(b2World &world)
 		std::shared_ptr<Medusa> testEnemy = std::shared_ptr<Medusa>(new Medusa(mazeGenerator.startX - 10, mazeGenerator.startY));
 		testEnemy->createCollisionBox(world);
 		medusaVector.push_back(testEnemy);
-		std::shared_ptr<Medusa> testEnemy2 = std::shared_ptr<Medusa>(new Medusa(2000, 2000));
-		testEnemy2->createCollisionBox(world);
-		medusaVector.push_back(testEnemy2);
+	//	std::shared_ptr<Medusa> testEnemy2 = std::shared_ptr<Medusa>(new Medusa(2000, 2000));
+	//	testEnemy2->createCollisionBox(world);
+	//	medusaVector.push_back(testEnemy2);
+
+		//test Traps
+		std::shared_ptr<SpikeTrap> testSpikeTrap = std::shared_ptr<SpikeTrap>(new SpikeTrap(playerCharacter->xPosition , playerCharacter->yPosition + 9));
+		testSpikeTrap->createBox2D(world);
+		trapVector.push_back(testSpikeTrap);
 
 		//GUI CREATION//////////////////////////////////////////
 		if (gui->getWidgets().size() <= 0) {//if the gui is empty 
@@ -266,7 +272,12 @@ void LevelManager::LoadNextLevel(b2World &world)
 			else if (item == "HermesHelm") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.hermesHelmIcon); //set the background texture
 			}
-
+			else if (item == "GoldenFleece") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.goldenFleece); //set the background texture
+			}
+			else if (item == "MedusaHead") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.medusaHeadIcon); //set the background texture
+			}
 		}
 
 		std::shared_ptr<ExitCell> exit;
@@ -489,6 +500,12 @@ void LevelManager::update(b2World &World)
 			else if (item == "HermesHelm") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.hermesHelmIcon); //set the background texture
 			}
+			else if (item == "GoldenFleece") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.goldenFleece); //set the background texture
+			}
+			else if (item == "MedusaHead") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.medusaHeadIcon); //set the background texture
+			}
 		}
 	}
 	if (playerCharacter->itemsOnCooldown == true) { //if items on cooldown, draw the text to be the cooldown timer
@@ -574,6 +591,19 @@ void LevelManager::update(b2World &World)
 		}
 	}
 
+	//draw traps
+	for (int i = 0; i < trapVector.size(); i++) {
+		if (trapVector[i]->xPosition >= playerCharacter->xPosition && trapVector[i]->xPosition <= playerCharacter->xPosition + 50.f ||
+			trapVector[i]->xPosition <= playerCharacter->xPosition && trapVector[i]->xPosition >= playerCharacter->xPosition - 60.f) { //if the trap is within the camera view
+			if (trapVector[i]->yPosition >= playerCharacter->yPosition && trapVector[i]->yPosition <= playerCharacter->yPosition + 50.f ||
+				trapVector[i]->yPosition <= playerCharacter->yPosition && trapVector[i]->yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
+
+				window->draw(trapVector[i]->rectangle); //darw the trap
+				
+			}
+		}
+	}
+
 	//for testing
 	//if L is pressed
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
@@ -612,13 +642,13 @@ void LevelManager::update(b2World &World)
 
 	//draw stuff
 	//playerDraw stuff - done here so that we don't have to pass player the window
-	
 	window->draw(playerCharacter->rectangle);
 	if (playerCharacter->isStone == true) {
 		window->draw(playerCharacter->petrifyOverlay); //if we are petrified, draw the petrify overlay( translucent brown) over the top of the playersprite
 	}
 	window->draw(playerCharacter->shieldCircle);
 	window->draw(playerCharacter->torch->torchSprite);
+	
 	if (playerCharacter->activeItem != nullptr) { // so loong as active item isn't null
 		window->draw(playerCharacter->activeItem->rectangle);//draw it
 	}

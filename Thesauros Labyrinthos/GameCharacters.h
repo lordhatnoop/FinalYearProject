@@ -43,6 +43,7 @@ public:
 	bool playerRight = false;
 
 	sf::Sound sound;
+	bool isStone = false;
 	//enum that holds the diffrent type of entities for collision filtering
 	enum entityCategory {
 		ENEMY = 0x0001,
@@ -51,7 +52,8 @@ public:
 		PLAYERPROJECTILE = 0x0005,
 		ITEM = 0x0006,
 		TREASURECHEST = 0x0007,
-		TREASURE = 0x0008
+		TREASURE = 0x0008,
+		TRAPS = 0x0009
 	};
 
 };
