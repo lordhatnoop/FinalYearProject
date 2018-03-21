@@ -144,6 +144,7 @@
     <ClCompile Include="RopeItem.cpp" />
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="soundManager.cpp" />
+    <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="SpikeTrap.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="TorchLight.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="RopeItem.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="soundManager.h" />
+    <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="SpikeTrap.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureLoader.h" />

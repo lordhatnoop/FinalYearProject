@@ -17,4 +17,5 @@ public:
 	int animationCounter = 0;
 	sf::Vector2f pathGoal;
 	bool dead = false;
+	string getName() { return "Ghost"; };
 };

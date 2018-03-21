@@ -14,6 +14,7 @@
 #include "DespawnManager.h"
 #include "GameTraps.h"
 #include "SpikeTrap.h"
+#include "SpawnManager.h"
 
 // enum for the states of the game
 enum GameState {
@@ -93,6 +94,7 @@ public:
 private:
 	
 	DespawnManager despawnManger; //manages despawning objeccts
+	SpawnManager spawnManager; //manages spawning stuff;
 
 	bool escapeRun = false;
 

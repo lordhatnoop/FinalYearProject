@@ -28,6 +28,6 @@ public:
 	int animationCounter = 0;
 	sf::Clock timer;
 	int leftORRight;
-
+	string getName() { return "Griffin"; };
 	bool dead = false;
 };

@@ -156,6 +156,9 @@
     <ClCompile Include="SpikeTrap.cpp">
       <Filter>Source Files\Traps</Filter>
     </ClCompile>
+    <ClCompile Include="SpawnManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="SpikeTrap.h">
       <Filter>Header Files\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnManager.h">
+      <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

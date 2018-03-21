@@ -135,6 +135,7 @@ void LevelManager::LoadNextLevel(b2World &world)
 		
 		//////////////////////////SKELETON TEST/////////////////////////////////////////
 		//Enemy spawn test
+		/*
 		for (int i = 0; i < 10;) { //10 loops
 			int EnemyX = rand() % 1599 + 1;
 			int EnemyY = rand() % 899 + 1; //create X and Y postitons in the range of positions they can be 
@@ -144,7 +145,9 @@ void LevelManager::LoadNextLevel(b2World &world)
 				skeletonsVector.back()->createCollisionBox(world); //create the skeletons collision box (box2d)
 				i++; // progress i. progress i here so that we're guarenteed 10 enemies
 			}
-		}
+		}*/
+		spawnManager.spawnEnemies(world, mazeGenerator, skeletonsVector, medusaVector, griffinVector, ghostVector); //use the spawn manager to create the enemies
+
 		/*
 		std::shared_ptr<Skeleton> testEnemy = std::shared_ptr<Skeleton>(new Skeleton(mazeGenerator.startX - 10, mazeGenerator.startY ));
 		testEnemy->createCollisionBox(world);
