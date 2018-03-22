@@ -32,6 +32,7 @@ public:
 	int scale = 30;
 	string trapName;
 	bool trapTriggered = false;
+	sf::Clock TrapDelayTimer;
 	virtual void update() {};
 	virtual void createSfml() {};
 	virtual void createBox2D(b2World &myWorld) {};

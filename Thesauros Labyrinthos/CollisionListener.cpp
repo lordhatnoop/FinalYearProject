@@ -53,6 +53,7 @@ void CollisionListener::BeginContact(b2Contact * contact)
 	MedusaHeadPetrify(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for MedusaHEad body collision and turn enemies to stone
 	SpikeTrapCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for player hitting spikes
 	ArrowTrapCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for Arrow Trap collision
+	GoldenIdolCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for golden Idol Trap collision
 	/*
 	//get what objects each one is 
 	std::string nameA = ((GameCharacters*)bodyUserData)->getName();
@@ -308,6 +309,41 @@ void CollisionListener::ArrowTrapCollision(void * userData1, void * userData2, b
 			}
 			else { //else
 				static_cast<GameTraps*>(fixture1->GetUserData())->setTriggered(); //trigger the trap
+			}
+		}
+	}
+}
+
+void CollisionListener::GoldenIdolCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TRAPS) {
+		//check if actually spiketrap and kill if so
+		if (userData2 == "Idol") { // make sure it was the Idol
+			if (fixture2->GetUserData() == "Boulder") {
+				static_cast<PlayerCharacter*>(userData1)->playerHealth = 0; //player crushed and dead
+			}
+			else {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { //allow player to pick it up with the arrow key
+					static_cast<GameTraps*>(fixture2->GetUserData())->setTriggered(); //trigger the trap
+					static_cast<GameTraps*>(fixture2->GetUserData())->TrapDelayTimer.restart(); //start the delay timer
+					static_cast<PlayerCharacter*>(userData1)->treasure = static_cast<PlayerCharacter*>(userData1)->treasure + 1000; //add treasure on the pickup
+				}
+			}
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == TRAPS && fixture2->GetFilterData().categoryBits == PLAYER) {
+		if (userData1 == "Idol") { // make sure it was a Idol trap
+			if (fixture1->GetUserData() == "Boulder") { // if Boulder section of the trap
+				
+				static_cast<PlayerCharacter*>(userData2)->playerHealth = 0; // player crushed and dead
+			}
+			else { //else
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { //allow player to pick it up with the arrow key
+					static_cast<GameTraps*>(fixture1->GetUserData())->setTriggered(); //trigger the trap
+					static_cast<GameTraps*>(fixture1->GetUserData())->TrapDelayTimer.restart(); //start the delay timer
+					static_cast<PlayerCharacter*>(userData2)->treasure = static_cast<PlayerCharacter*>(userData2)->treasure + 1000; //add treasure on the pickup
+				
+				}
 			}
 		}
 	}

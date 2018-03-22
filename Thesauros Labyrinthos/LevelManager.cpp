@@ -166,9 +166,13 @@ void LevelManager::LoadNextLevel(b2World &world)
 		//testSpikeTrap->createBox2D(world);
 		//trapVector.push_back(testSpikeTrap);
 
-		std::shared_ptr<ArrowTrap> testArrowTrap = std::shared_ptr<ArrowTrap>(new ArrowTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
-		testArrowTrap->createBox2D(world);
-		trapVector.push_back(testArrowTrap);
+		//std::shared_ptr<ArrowTrap> testArrowTrap = std::shared_ptr<ArrowTrap>(new ArrowTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
+		//testArrowTrap->createBox2D(world);
+		//trapVector.push_back(testArrowTrap);
+
+		std::shared_ptr<IdolBoudlerTrap> testIdolTrap = std::shared_ptr<IdolBoudlerTrap>(new IdolBoudlerTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
+		testIdolTrap->createBox2D(world);
+		trapVector.push_back(testIdolTrap);
 
 		//GUI CREATION//////////////////////////////////////////
 		if (gui->getWidgets().size() <= 0) {//if the gui is empty 

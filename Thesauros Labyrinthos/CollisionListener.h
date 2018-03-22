@@ -20,6 +20,7 @@ public:
 	void MedusaHeadPetrify(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void SpikeTrapCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void ArrowTrapCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
+	void GoldenIdolCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	//enum that holds the diffrent type of entities for collision filtering
 	enum entityCategory {
 		ENEMY = 0x0001,

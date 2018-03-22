@@ -59,6 +59,9 @@ void TextureLoader::loadTextures()
 
 	//traps
 	spikeTexture.loadFromFile("Assets/Sprites/Traps/Spikes.png");
+	Boulder.loadFromFile("Assets/Sprites/Traps/Boulder.png");
+	GoldenIdol.loadFromFile("Assets/Sprites/Traps/Idol.png");
+	boulder2.loadFromFile("Assets/Sprites/Traps/Boulder2.png");
 
 		//background
 	backgroundTexture.loadFromFile("Assets/Sprites/background.png");

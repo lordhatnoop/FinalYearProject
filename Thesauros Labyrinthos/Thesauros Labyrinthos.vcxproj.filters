@@ -162,6 +162,9 @@
     <ClCompile Include="SpawnManager.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
+    <ClCompile Include="IdolBoulderTrap.cpp">
+      <Filter>Source Files\Traps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -282,6 +285,12 @@
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
     <ClInclude Include="ArrowTrap.h">
+      <Filter>Header Files\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="IdolBoulderTrap.h">
+      <Filter>Header Files\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapHolder.h">
       <Filter>Header Files\Traps</Filter>
     </ClInclude>
   </ItemGroup>

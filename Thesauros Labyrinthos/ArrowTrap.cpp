@@ -72,7 +72,7 @@ void ArrowTrap::createArrowBody()
 	fixture2.shape = &Shape;
 	fixture2.density = 1.f;
 	fixture2.friction = 0.0f;
-	fixture2.filter.categoryBits = TRAPS; // set the category to be ITEM
+	fixture2.filter.categoryBits = TRAPS; // set the category to be trap
 	fixture2.isSensor = true; // set to sensor
 	fixture2.userData = "Arrow"; //set this so we can check it
 	fixture2.filter.maskBits = PLAYER; //set to collide with player 

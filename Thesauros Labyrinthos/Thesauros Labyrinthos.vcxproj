@@ -133,6 +133,7 @@
     <ClCompile Include="FloorCell.cpp" />
     <ClCompile Include="HermesBoots.cpp" />
     <ClCompile Include="HermesHelm.cpp" />
+    <ClCompile Include="IdolBoulderTrap.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="mazeGeneration.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="GameItems.h" />
     <ClInclude Include="HermesBoots.h" />
     <ClInclude Include="HermesHelm.h" />
+    <ClInclude Include="IdolBoulderTrap.h" />
     <ClInclude Include="ItemHolder.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="mazeGeneration.h" />
@@ -191,6 +193,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="TorchLight.h" />
+    <ClInclude Include="TrapHolder.h" />
     <ClInclude Include="Treasure.h" />
     <ClInclude Include="TreasureChest.h" />
     <ClInclude Include="WallCell.h" />

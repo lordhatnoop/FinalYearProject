@@ -20,7 +20,7 @@ void SpikeTrap::createBox2D(b2World & myWorld)
 	BodyDef.position.Set(xPosition / scale, (yPosition - 2.f) / scale); // set the position of the box2d body using the position of the object. divide by scale to convert from real measurements to pixel measurements. adjust the xposition slightly so that it centers on the playerand surronds them like a ring
 	BodyDef.angle = 0;
 	BodyDef.fixedRotation = true; // prevent rotation
-	BodyDef.userData = "SpikeTrap"; //store what type of item it is (MedusaHead) so that we can use that to check for the collision manager how to react when colliding with item. do this to reduce the number of different enums we have and gheneralise items to ITEMS;
+	BodyDef.userData = "SpikeTrap";
 
 	Box2DBody = myWorld.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
 

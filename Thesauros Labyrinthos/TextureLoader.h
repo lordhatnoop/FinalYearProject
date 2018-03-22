@@ -62,7 +62,9 @@ public:
 		
 	//traps
 	sf::Texture spikeTexture;
-
+	sf::Texture Boulder;
+	sf::Texture boulder2;
+	sf::Texture GoldenIdol;
 
 	//test for torch / spotlight
 	sf::RenderTexture testRenderTExture;
