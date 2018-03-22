@@ -156,8 +156,11 @@
     <ClCompile Include="SpikeTrap.cpp">
       <Filter>Source Files\Traps</Filter>
     </ClCompile>
+    <ClCompile Include="ArrowTrap.cpp">
+      <Filter>Source Files\Traps</Filter>
+    </ClCompile>
     <ClCompile Include="SpawnManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="SpawnManager.h">
       <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowTrap.h">
+      <Filter>Header Files\Traps</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

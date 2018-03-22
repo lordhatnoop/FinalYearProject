@@ -27,6 +27,7 @@ public:
 	int wanderDistance;
 	int animationCounter = 0;
 	sf::Clock timer;
+	sf::Clock wanderTimer;
 	int leftORRight;
 	string getName() { return "Griffin"; };
 	bool dead = false;

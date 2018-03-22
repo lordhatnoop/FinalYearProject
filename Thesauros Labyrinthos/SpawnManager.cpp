@@ -38,4 +38,11 @@ void SpawnManager::spawnEnemies(b2World &world,MazeGeneration maze,vector<std::s
 			}
 		}
 	}
+	//int EnemyX = rand() % 99 + 1;
+//	int EnemyY = rand() % 59 + 1; //create X and Y postitons in the range of positions they can be. get rand to 99 or 59 becasue we want them to only be multiples of 10 so we take taht and multiply it by 10 
+
+	//griffinVector.push_back(std::shared_ptr<Griffin>(new Griffin(EnemyX * 10, EnemyY * 10))); //create a new enemy at that point if it's floor . multiply the pos's by 10 to get the actual position we wanted
+	//griffinVector.back()->createCollisionBox(world); //create the skeletons collision box (box2d)
+	//ghostVector.push_back(std::shared_ptr<Ghost>(new Ghost(EnemyX * 10, EnemyY * 10))); //create a new enemy at that point if it's floor . multiply the pos's by 10 to get the actual position we wanted
+	//ghostVector.back()->createCollisionBox(world); //create the skeletons collision box (box2d)
 }

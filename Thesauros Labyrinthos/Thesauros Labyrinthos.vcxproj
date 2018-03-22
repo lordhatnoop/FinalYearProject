@@ -118,6 +118,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArrowTrap.cpp" />
     <ClCompile Include="b2GLDraw.cpp" />
     <ClCompile Include="BombItem.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -153,6 +154,7 @@
     <ClCompile Include="WallCell.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArrowTrap.h" />
     <ClInclude Include="b2GLDraw.h" />
     <ClInclude Include="BombItem.h" />
     <ClInclude Include="Camera.h" />

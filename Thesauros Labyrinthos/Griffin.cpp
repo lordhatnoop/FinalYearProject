@@ -92,9 +92,9 @@ void Griffin::update(PlayerCharacter * player)
 					animationCounter++;
 				}
 				else if (animationCounter == 1) {
-					textureSubRect.left = 556;
+					textureSubRect.left = 264;
 					textureSubRect.width = 107;
-					textureSubRect.top = 218;
+					textureSubRect.top = 458.5;
 					textureSubRect.height = 76;
 
 					animationCounter--;
@@ -110,9 +110,9 @@ void Griffin::update(PlayerCharacter * player)
 					animationCounter++;
 				}
 				else if (animationCounter == 1) {
-					textureSubRect.left = 663;
+					textureSubRect.left = 371;
 					textureSubRect.width = -107;//left so flip animations
-					textureSubRect.top = 218;
+					textureSubRect.top = 458.5;
 					textureSubRect.height = 76;
 
 					animationCounter--;
@@ -195,23 +195,24 @@ void Griffin::Charge()
 void Griffin::Wander()
 {
 	if (wanderStart == false) { // if not gen'd distance
-		wanderDistance = rand() % 80 + 1; //generate a randomn distance to wander
+		wanderDistance = rand() % 5 + 1; //generate a randomn time to wander
 		wanderStartPosition = sf::Vector2f(xPosition, yPosition); //set the inital position so we can compare against it 
 		leftORRight = rand() % 2 + 1; //random 1 or 2; 1 will be left 2 will be right
 		wanderStart = true;
+		wanderTimer.restart(); //restart the timer so we can time the wander
 	}
 	if (wanderStart == true) {
 		if (leftORRight == 1) { //1 so want to go left
 			dynamicBody->SetLinearVelocity(b2Vec2(-1, 0));
 
-			if (xPosition <= wanderStartPosition.x - wanderDistance) {//if wandered far enough - 
+			if (wanderTimer.getElapsedTime().asSeconds() >= wanderDistance) {//if wandered long enough - 
 				wanderStart = false; //set back to false so that we can start the wander again
 			}
 		}
 		else if (leftORRight == 2) { //right
 			dynamicBody->SetLinearVelocity(b2Vec2(1, 0));
 
-			if (xPosition >= wanderStartPosition.x + wanderDistance) {//if wandered far enough - 
+			if (wanderTimer.getElapsedTime().asSeconds() >= wanderDistance) {//if wandered long enough - 
 				wanderStart = false; //set back to false so that we can start the wander again
 			}
 		}

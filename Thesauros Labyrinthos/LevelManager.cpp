@@ -162,9 +162,13 @@ void LevelManager::LoadNextLevel(b2World &world)
 	//	medusaVector.push_back(testEnemy2);
 
 		//test Traps
-		std::shared_ptr<SpikeTrap> testSpikeTrap = std::shared_ptr<SpikeTrap>(new SpikeTrap(playerCharacter->xPosition , playerCharacter->yPosition + 9));
-		testSpikeTrap->createBox2D(world);
-		trapVector.push_back(testSpikeTrap);
+		//std::shared_ptr<SpikeTrap> testSpikeTrap = std::shared_ptr<SpikeTrap>(new SpikeTrap(playerCharacter->xPosition , playerCharacter->yPosition + 9));
+		//testSpikeTrap->createBox2D(world);
+		//trapVector.push_back(testSpikeTrap);
+
+		std::shared_ptr<ArrowTrap> testArrowTrap = std::shared_ptr<ArrowTrap>(new ArrowTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
+		testArrowTrap->createBox2D(world);
+		trapVector.push_back(testArrowTrap);
 
 		//GUI CREATION//////////////////////////////////////////
 		if (gui->getWidgets().size() <= 0) {//if the gui is empty 
@@ -350,18 +354,22 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	for (int i = 0; i < ghostVector.size(); i++) {
 		world.DestroyBody(ghostVector[i]->dynamicBody); //destroy all the ghjost bodies
 	}
-	ghostVector.clear();//clear the griffin vector
+	ghostVector.clear();//clear the Ghost vector
 
 	for (int i = 0; i < treasureVector.size(); i++) {
 		world.DestroyBody(treasureVector[i]->Body); //destroy all the griffin bodies
 	}
-	treasureVector.clear();//clear the griffin vector
+	treasureVector.clear();//clear the Treasure vector
 
 	for (int i = 0; i < treasureChestVector.size(); i++) {
 		world.DestroyBody(treasureChestVector[i]->chestBody); //destroy all the treasureChest bodies
 	}
-	treasureChestVector.clear();
+	treasureChestVector.clear(); //clear treasure chests
 
+	for (int i = 0; i < trapVector.size(); i++) {
+		world.DestroyBody(trapVector[i]->Box2DBody); //destroy all the trap bodies
+	}
+	trapVector.clear(); //clear traps
 
 	gui->removeAllWidgets(); //remove all the gui
 
@@ -407,11 +415,26 @@ void LevelManager::update(b2World &World)
 	for (int i = 0; i < medusaVector.size(); i++) {
 		medusaVector[i]->update(playerCharacter);
 	}
+	//update any ghosts
+	for (int i = 0; i < ghostVector.size(); i++) {
+		ghostVector[i]->update();
+	}
+	//update any griffins
+	for (int i = 0; i < griffinVector.size(); i++) {
+		griffinVector[i]->update(playerCharacter);
+	}
 
 	//update any treasure chests
 	for (int i = 0; i < treasureChestVector.size(); i++) {
 		treasureChestVector[i]->update();
 	}
+
+	//update the traps if they need it
+	for (int i = 0; i < trapVector.size(); i++) {
+		trapVector[i]->update();
+	}
+
+
 	//////////////////////GUI UPDATE//////////////////////////////////////////////////////////////////
 
 	//treasure UI
@@ -564,6 +587,28 @@ void LevelManager::update(b2World &World)
 				medusaVector[i]->yPosition <= playerCharacter->yPosition && medusaVector[i]->yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
 
 				window->draw(medusaVector[i]->rectangle);
+			}
+		}
+	}
+	//draw ghosts
+	for (int i = 0; i < ghostVector.size(); i++) {
+		if (ghostVector[i]->xPosition >= playerCharacter->xPosition && ghostVector[i]->xPosition <= playerCharacter->xPosition + 50.f ||
+			ghostVector[i]->xPosition <= playerCharacter->xPosition && ghostVector[i]->xPosition >= playerCharacter->xPosition - 60.f) { //if the medusa is within the camera view
+			if (ghostVector[i]->yPosition >= playerCharacter->yPosition && ghostVector[i]->yPosition <= playerCharacter->yPosition + 50.f ||
+				ghostVector[i]->yPosition <= playerCharacter->yPosition && ghostVector[i]->yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
+
+				window->draw(ghostVector[i]->rectangle);
+			}
+		}
+	}
+	//draw griffins
+	for (int i = 0; i < griffinVector.size(); i++) {
+		if (griffinVector[i]->xPosition >= playerCharacter->xPosition && griffinVector[i]->xPosition <= playerCharacter->xPosition + 50.f ||
+			griffinVector[i]->xPosition <= playerCharacter->xPosition && griffinVector[i]->xPosition >= playerCharacter->xPosition - 60.f) { //if the medusa is within the camera view
+			if (griffinVector[i]->yPosition >= playerCharacter->yPosition && griffinVector[i]->yPosition <= playerCharacter->yPosition + 50.f ||
+				griffinVector[i]->yPosition <= playerCharacter->yPosition && griffinVector[i]->yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
+
+				window->draw(griffinVector[i]->rectangle);
 			}
 		}
 	}

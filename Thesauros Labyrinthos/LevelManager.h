@@ -14,6 +14,7 @@
 #include "DespawnManager.h"
 #include "GameTraps.h"
 #include "SpikeTrap.h"
+#include "ArrowTrap.h"
 #include "SpawnManager.h"
 
 // enum for the states of the game

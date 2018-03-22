@@ -63,7 +63,7 @@ void Ghost::createCollisionBox(b2World & myWorld)
 
 void Ghost::Animate()
 {
-	if (animationTimer.getElapsedTime().asSeconds() > 0.3) { // every third of a second 
+	if (animationTimer.getElapsedTime().asSeconds() > 0.5) { // every third of a second 
 		//if else if for left and right movement so we know whether to invert sprite or not.
 		if (xPosition < pathGoal.x) { // moving right
 			textureSubRect.width = 39; // width
@@ -107,7 +107,7 @@ void Ghost::Animate()
 
 		animationCounter++; // update frame count after setting position in sprite s heet
 		rectangle.setTextureRect(textureSubRect); // set to use the texture SubRectangle
-
+		animationTimer.restart();
 		if (animationCounter > 3) {
 			animationCounter = 0; //reset to 0 if gone past 3
 		}
@@ -116,8 +116,8 @@ void Ghost::Animate()
 
 void Ghost::decidePath()
 {
-	int x = rand() % 1000 + 1; //random point between 1 and 1000
-	int y = rand() % 600 + 1; //random point between 1 and 600
+	int x = rand() % 799 + 1; //random point between 1 and 800 // not the full space because maze doesn't tend to generate much in the 900 + range
+	int y = rand() % 499 + 1; //random point between 1 and 500
 
 	pathGoal = (sf::Vector2f(x, y)); //set goal to be the new points
 }
@@ -126,20 +126,21 @@ void Ghost::update()
 {
 	if (isStone == false) {
 		//move
-		b2Vec2 temp; //b2vec 2 which we will set the values for below
+		b2Vec2 temp = b2Vec2(0,0); //b2vec 2 which we will set the values for below
 		if (floor(xPosition) < pathGoal.x) {
-			temp.x = 3; // if need to go right, positive 3 to b2vec2 x component
+			temp.x = 1; // if need to go right, positive 3 to b2vec2 x component
 		}
 		else if (floor(xPosition) > pathGoal.x) {
-			temp.x = -3; //opposite
+			temp.x = -1; //opposite
 		}
 		//y check
 		if (floor(yPosition) < pathGoal.y) {
-			temp.y = 3; // if need to go down, positive 3 to b2vec2 x component
+			temp.y = 1; // if need to go down, positive 3 to b2vec2 x component
 		}
 		else if (floor(yPosition) > pathGoal.y) {
-			temp.y = -3; //opposite
+			temp.y = -1; //opposite
 		}
+		
 
 		//now that we have the value, do the actual movement
 		dynamicBody->SetLinearVelocity(temp);//set velkocity to be above decided values
@@ -152,8 +153,10 @@ void Ghost::update()
 
 		Animate();// ghost animate function - do after position update so that we have up to date readings
 
-		if (sf::Vector2f(xPosition, yPosition) == pathGoal) { // if reached goal point
-			decidePath();
+		if (xPosition >= pathGoal.x && xPosition < pathGoal.x +2) { // if reached goal point
+			if (yPosition >= pathGoal.y && yPosition <= pathGoal.y + 2) {
+				decidePath();
+			}
 		}
 
 	}
