@@ -7,6 +7,7 @@ public:
 
 	void CreateSFML();
 	void CreateBody(b2World &world);
+	void update();
 	void collect();
 	void decideValue();
 	int value;

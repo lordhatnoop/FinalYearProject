@@ -437,6 +437,10 @@ void LevelManager::update(b2World &World)
 	for (int i = 0; i < trapVector.size(); i++) {
 		trapVector[i]->update();
 	}
+	//update treasure
+	for (int i = 0; i < treasureVector.size(); i++) {
+		treasureVector[i]->update();
+	}
 
 
 	//////////////////////GUI UPDATE//////////////////////////////////////////////////////////////////

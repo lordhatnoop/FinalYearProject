@@ -69,6 +69,12 @@ void Treasure::CreateBody(b2World & myWorld)
 
 }
 
+void Treasure::update()
+{
+	position = sf::Vector2f(Body->GetPosition().x / 30.f, Body->GetPosition().y / 30.f);
+	rectangle.setPosition(position); //update position
+}
+
 void Treasure::collect()
 {
 	collected = true;
