@@ -35,5 +35,5 @@ public:
 	virtual void update() {};
 	virtual void createSfml() {};
 	virtual void createBox2D(b2World &myWorld) {};
-	
+	virtual void setTriggered() {};
 };

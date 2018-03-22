@@ -17,4 +17,5 @@ public:
 
 	void createArrowBody();
 	void createArrowSfml();
+	void setTriggered() override;
 };

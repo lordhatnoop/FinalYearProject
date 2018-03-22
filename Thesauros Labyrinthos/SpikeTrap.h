@@ -13,5 +13,5 @@ public:
 	void update() override;
 	void createSfml() override;
 	void createBox2D(b2World &myWorld) override;
-	
+	void setTriggered() override {};
 };

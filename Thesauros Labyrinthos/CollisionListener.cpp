@@ -52,6 +52,7 @@ void CollisionListener::BeginContact(b2Contact * contact)
 	BombExplosion(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for bomb explosion hitting walls
 	MedusaHeadPetrify(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for MedusaHEad body collision and turn enemies to stone
 	SpikeTrapCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for player hitting spikes
+	ArrowTrapCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for Arrow Trap collision
 	/*
 	//get what objects each one is 
 	std::string nameA = ((GameCharacters*)bodyUserData)->getName();
@@ -282,6 +283,31 @@ void CollisionListener::SpikeTrapCollision(void * userData1, void * userData2, b
  		if (userData1 == "SpikeTrap") { // make sure it was a the spike trap
 			if (fixture2->GetUserData() == "FootSensor") { //make sure it was the foot sensor colliding
 				static_cast<PlayerCharacter*>(userData2)->playerHealth = 0; //set to be dead 
+			}
+		}
+	}
+}
+
+void CollisionListener::ArrowTrapCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TRAPS) {
+		//check if actually spiketrap and kill if so
+		if (userData2 == "ArrowTrap") { // make sure it was the spiketrap
+			if (fixture2->GetUserData() == "Arrow") {
+				static_cast<PlayerCharacter*>(userData1)->playerHealth--; //minus health if it was the arrow section of the trap colliding
+			}
+			else {
+				static_cast<GameTraps*>(fixture2->GetUserData())->setTriggered(); //trigger the trap
+			}
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == TRAPS && fixture2->GetFilterData().categoryBits == PLAYER) {
+		if (userData1 == "ArrowTrap") { // make sure it was a the spike trap
+			if (fixture1->GetUserData() == "Arrow") { // if arrow section of the trap
+				static_cast<PlayerCharacter*>(userData2)->playerHealth--; //minus health if it was the arrow section of the trap colliding
+			}
+			else { //else
+				static_cast<GameTraps*>(fixture1->GetUserData())->setTriggered(); //trigger the trap
 			}
 		}
 	}

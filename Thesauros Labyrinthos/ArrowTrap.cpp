@@ -2,14 +2,14 @@
 
 void ArrowTrap::update()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) { //once triggered. delete pressureplate and create arrow
+	if (trapTriggered == true) { //once triggered. delete pressureplate and create arrow
 		if (arrowShot == false) { // if triggered but not shot arrow - do that
 			createArrowBody();
 			createArrowSfml();
 		}
 		else if (arrowShot == true) { //else update the arrow
-			xPosition = Box2DBody->GetPosition().x / scale;
-			yPosition = Box2DBody->GetPosition().y / scale;
+			xPosition = Box2DBody->GetPosition().x * scale;
+			yPosition = Box2DBody->GetPosition().y * scale;
 			rectangle.setPosition(sf::Vector2f(xPosition, yPosition));
 		}
 	}
@@ -47,6 +47,7 @@ void ArrowTrap::createBox2D(b2World & myWorld)
 	fixture1.friction = 0.0f;
 	fixture1.filter.categoryBits = TRAPS; // set the category to be ITEM
 	fixture1.isSensor = true; // set to sensor
+	fixture1.userData = this;
 	fixture1.filter.maskBits = PLAYER; //set to collide with player 
 	Box2DBody->CreateFixture(&fixture1);
 }
@@ -73,7 +74,7 @@ void ArrowTrap::createArrowBody()
 	fixture2.friction = 0.0f;
 	fixture2.filter.categoryBits = TRAPS; // set the category to be ITEM
 	fixture2.isSensor = true; // set to sensor
-	fixture2.userData == "Arrow"; //set this so we can check it
+	fixture2.userData = "Arrow"; //set this so we can check it
 	fixture2.filter.maskBits = PLAYER; //set to collide with player 
 	Box2DBody->CreateFixture(&fixture2);
 
@@ -85,9 +86,9 @@ void ArrowTrap::createArrowSfml()
 {
 	//change the rectangle size, pos, texture
 	rectangle.setPosition(xPosition - 30.f, yPosition);
-	rectangle.setSize(sf::Vector2f(1.f, 1.f));
-	rectangle.setOrigin(sf::Vector2f(0.5f, 0.5f));
-	//rectangle.setFillColor(sf::Color::Black);
+	rectangle.setSize(sf::Vector2f(2.f, 1.f));
+	rectangle.setOrigin(sf::Vector2f(1.f, 0.5f));
+	rectangle.setFillColor(sf::Color(255,255,255,255)); //set to use the texture colour instead of the black colour from before
 
 	//get the arrow texture
 	rectangle.setTexture(&textureLoader.playerTexture);
@@ -98,4 +99,9 @@ void ArrowTrap::createArrowSfml()
 	textureSubRect.height = 5;
 
 	rectangle.setTextureRect(textureSubRect); //set to use the selected portion of the sprite sheet
+}
+
+void ArrowTrap::setTriggered()
+{
+	trapTriggered = true;
 }
