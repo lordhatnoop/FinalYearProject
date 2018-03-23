@@ -140,6 +140,7 @@
     <ClCompile Include="Medusa.cpp" />
     <ClCompile Include="MedusaHead.cpp" />
     <ClCompile Include="MiniMap.cpp" />
+    <ClCompile Include="Minotaur.cpp" />
     <ClCompile Include="NonBodyWallCell.cpp" />
     <ClCompile Include="playerArrow.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
@@ -181,6 +182,8 @@
     <ClInclude Include="Medusa.h" />
     <ClInclude Include="MedusaHead.h" />
     <ClInclude Include="MiniMap.h" />
+    <ClInclude Include="Minotaur.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="NonBodyWallCell.h" />
     <ClInclude Include="playerArrow.h" />
     <ClInclude Include="PlayerCharacter.h" />

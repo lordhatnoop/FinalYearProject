@@ -290,7 +290,7 @@ void MazeGeneration::generateMaze(b2World &world) {
 			}
 		}
 
-
+		populateIndex(); //populate the indexLookup for the path generation
 		
 		//print the level to an external text file to save it incase we need to run back
 		string levelString = "Assets/Level" + to_string(levelCounter) + ".txt"; //create the name of the tyxt doument by taking the currentlevel number
@@ -412,6 +412,16 @@ void MazeGeneration::createAdjacency(int j, int i, int position)
 										   // Mark path in adjacency matrix
 		adjacency[position][position + maze_size_x] = 1;
 
+	}
+}
+
+void MazeGeneration::populateIndex()
+{
+	// Populate index lookup table
+	for (int i = 0; i < maze_size_x; i++) {
+		for (int j = 0; j < maze_size_y; j++) {
+			indexLookup[i][j] = j * maze_size_x + i;
+		}
 	}
 }
 

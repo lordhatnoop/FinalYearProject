@@ -4,6 +4,7 @@
 #include "Medusa.h"
 #include "Griffin.h"
 #include "Ghost.h"
+#include "Minotaur.h"
 #include "PlayerCharacter.h"
 #include "Camera.h"
 #include "TextureLoader.h"
@@ -47,6 +48,7 @@ public:
 	vector <std::shared_ptr<Medusa>> medusaVector;
 	vector <std::shared_ptr<Griffin>> griffinVector;
 	vector <std::shared_ptr<Ghost>> ghostVector;
+	vector <std::shared_ptr<Minotaur>> minotaurVector;
 	vector <std::shared_ptr<TreasureChest>> treasureChestVector;
 	vector <std::shared_ptr<Treasure>> treasureVector;
 	vector <std::shared_ptr<GameTraps>> trapVector;

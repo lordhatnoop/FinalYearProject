@@ -6,6 +6,7 @@
 #include "ExitCell.h"
 #include "NonBodyWallCell.h"
 #include "FakeWallCell.h"
+#include "Node.h"
 
 //changing the values of these defines changes the eventual outcome of the maze generation , experiment. (e.g changing radius to 1 result in more of a cave than a maze.
 //size of the map
@@ -54,6 +55,149 @@ public:
 	int endX;
 	int endY;
 
+	//path gen stuff
+	int indexLookup[maze_size_x][maze_size_y];
+	int nNodes = maze_size_x * maze_size_y; // number of nodes/cells
+	short index(short x, short y) { return indexLookup[x][y]; }
+	bool inverseIndex(short index, short *x, short *y) {
+		if (index > nNodes) { return false; }
+		else
+		{
+			*x = index % maze_size_x;
+			*y = index / maze_size_x;
+			return true;
+		}
+	};
+
+	list<int> GeneratePath(short currentI, short currentJ, short goalI, short goalJ)
+	{
+		Node currentNode;
+		list <int>path;
+		list<Node> open; // List of open nodes to be explored
+		list<Node> closed; // List of closed nodes which have been explored
+		int goalIndex; // Index of the goal node
+		int currentIndex; // Index of the current node
+
+		goalIndex = index(goalI, goalJ); // Set goal node index
+		currentIndex = index(currentI, currentJ); // Set current node index
+		currentNode.index = currentIndex; // Set the index of the currentgraph node
+		currentNode.parentIndex = -1; // Set the parent of the current node to NULL
+		currentNode.score(0, currentI, currentJ, goalI, goalJ); // Score the current node
+		open.push_back(currentNode); // Put the current node on the open list
+
+		while (currentIndex != goalIndex)
+		{
+
+
+			open.sort();	// Sort the list of open node by list quality
+
+			currentNode = open.front();	// Take the node that scored best on the open list
+			open.pop_front();// Take it off the open list
+			closed.push_back(currentNode);// Add that node to the closed list
+			currentIndex = currentNode.index;// Set the current index
+
+											 // Look in the adjacency matrix for connections to other nodes
+			for (int otherIndex = 0; otherIndex < nNodes; otherIndex++) {
+				//check for a connection 
+				if (adjacency[currentIndex][otherIndex]) {
+					//if there is a connection
+					list<Node>::iterator graphListIter;
+					bool onClosed = false;
+					bool onOpen = false;
+
+					//find if it's on the closed list
+					//check through closed using graphiterator until reaching the end of closed
+					for (graphListIter = closed.begin(); graphListIter != closed.end(); ++graphListIter) {
+
+						//if index's are same
+						if ((*graphListIter).index == otherIndex) {
+							//found on closed list
+							onClosed = true;
+
+							//check g value 
+							//if current g value is less than that of the node found on the current node index
+							//then update that nodes parent to the current node
+							if (currentNode.gCost + 1.0 < (*graphListIter).gCost) {
+								(*graphListIter).parentIndex = currentIndex;
+							}
+						}
+					}
+
+					//if not closed
+					if (!onClosed) {
+						//find out whether it's on the open list
+						for (graphListIter = open.begin(); graphListIter != open.end(); ++graphListIter) {
+
+							if ((*graphListIter).index == otherIndex) {
+
+								//found on open list
+								onOpen = true;
+
+								//check g value 
+								//if current g value is less than that of the node found on the current node index
+								//then update that nodes parent to the current node
+								if (currentNode.gCost + 1.0 < (*graphListIter).gCost) {
+									(*graphListIter).parentIndex = currentIndex;
+								}
+							}
+						}
+					}
+
+
+					//if it's not in either
+					if (!onClosed && !onOpen) {
+						//if not on open or closed
+						Node tmpNode;
+
+						//set parent node to the current node
+						tmpNode.parentIndex = currentIndex;
+						//set node index to other index
+						tmpNode.index = otherIndex;
+						//find the x and y position of that node 
+						inverseIndex(otherIndex, &currentI, &currentJ);
+						//score the node
+						tmpNode.score(currentNode.gCost, currentI, currentJ, goalI, goalJ);
+						//add to open list
+						open.push_back(tmpNode);
+					}
+
+					//Check if adjacent node on closed list, open list, and see if $g$ can be improved
+					// If not set values for this node and add to open list.
+
+				}
+
+			}
+		}
+		// Reconstruct the path
+		// Start with goal node working backwards towarsd the first node
+		// We know that we’re at the first node because it has a parent of -1
+		int parent;
+		list <Node>::iterator graphListIter;
+
+		currentNode = closed.back(); //set current node to  goal node
+		parent = currentNode.parentIndex;// set the parent to be the parent of the current node
+		path.push_front(currentIndex); //add current node to the satr of the path
+		closed.pop_back(); // removes the node from the back of closed
+
+						   //Now work backwards throught the closed list reconstructing the path
+
+		for (graphListIter = closed.end(), graphListIter--; graphListIter != closed.begin(); --graphListIter) {
+			currentNode = *graphListIter;
+			if (currentNode.index == parent) //found the node
+			{
+				//add to the path
+				path.push_front(parent);
+				//set parent to be this nodes parent
+				parent = currentNode.parentIndex;
+				//remove node from the closed list
+				closed.erase(graphListIter);
+				//start working backward through the closed again from the end
+				graphListIter = closed.end();
+			}
+		}
+		return path;
+
+	};
 
 private:
 	int cellInRange(int x, int y);
@@ -62,4 +206,5 @@ private:
 	void addRooms(int x, int y, bool posORNeg);
 	void setAdjacencySize();
 	void createAdjacency(int j, int i,int position);
+	void populateIndex();
 };

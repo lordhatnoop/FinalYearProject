@@ -147,19 +147,28 @@ void LevelManager::LoadNextLevel(b2World &world)
 			}
 		}*/
 		spawnManager.spawnEnemies(world, mazeGenerator, skeletonsVector, medusaVector, griffinVector, ghostVector); //use the spawn manager to create the enemies
-
+		
+		//test Skeleton
 		/*
 		std::shared_ptr<Skeleton> testEnemy = std::shared_ptr<Skeleton>(new Skeleton(mazeGenerator.startX - 10, mazeGenerator.startY ));
 		testEnemy->createCollisionBox(world);
 		skeletonsVector.push_back(testEnemy);
 		*/
 		
-		std::shared_ptr<Medusa> testEnemy = std::shared_ptr<Medusa>(new Medusa(mazeGenerator.startX - 10, mazeGenerator.startY));
-		testEnemy->createCollisionBox(world);
-		medusaVector.push_back(testEnemy);
+		//test Medusa
+		//std::shared_ptr<Medusa> testEnemy = std::shared_ptr<Medusa>(new Medusa(mazeGenerator.startX - 10, mazeGenerator.startY));
+		//testEnemy->createCollisionBox(world);
+		//medusaVector.push_back(testEnemy);
+
 	//	std::shared_ptr<Medusa> testEnemy2 = std::shared_ptr<Medusa>(new Medusa(2000, 2000));
 	//	testEnemy2->createCollisionBox(world);
 	//	medusaVector.push_back(testEnemy2);
+
+		//test minotaur
+		std::shared_ptr<Minotaur> testEnemy = std::shared_ptr<Minotaur>(new Minotaur(mazeGenerator.startX - 10, mazeGenerator.startY));
+		testEnemy->createCollisionBox(world);
+		minotaurVector.push_back(testEnemy);
+
 
 		//test Traps
 		//std::shared_ptr<SpikeTrap> testSpikeTrap = std::shared_ptr<SpikeTrap>(new SpikeTrap(playerCharacter->xPosition , playerCharacter->yPosition + 9));
@@ -426,6 +435,10 @@ void LevelManager::update(b2World &World)
 	//update any griffins
 	for (int i = 0; i < griffinVector.size(); i++) {
 		griffinVector[i]->update(playerCharacter);
+	}
+	//update the minotaur once it spawns
+	for (int i = 0; i < minotaurVector.size(); i++) {
+		minotaurVector[i]->update(playerCharacter, &mazeGenerator);
 	}
 
 	//update any treasure chests
