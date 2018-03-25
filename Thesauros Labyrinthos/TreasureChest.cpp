@@ -184,11 +184,12 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 					itemSprite.setTextureRect(textureSubrect);
 				}
 			}
-			
-			
-			else {
-				printf("item = %i \n", selectedItem);
-
+			else { //give treasure
+				//printf("item = %i \n", selectedItem);
+				itemSprite.setFillColor(sf::Color::Cyan);
+				int value = rand() % 100 + 10; //between 10 and 100
+				printf("treasure");
+				playerCharacter->treasure = playerCharacter->treasure + value; // add treasure to the player
 			}
 			if (alreadyOpened == true) { //if chest is opened swap sprite
 				textureSubrect.left = 0;
