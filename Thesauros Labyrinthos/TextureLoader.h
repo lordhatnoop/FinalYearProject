@@ -36,6 +36,7 @@ public:
 	sf::Texture skeletonTexture;
 	sf::Texture griffinTexture;
 	sf::Texture ghostTexture;
+	sf::Texture minotaurTexture;
 	//player textures
 	sf::Texture playerTexture;
 	sf::Texture torchTexture;

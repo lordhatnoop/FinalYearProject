@@ -94,6 +94,9 @@ public:
 
 private:
 	
+	sf::Clock minotaurTimer;
+	bool minotaurSpawned = false;
+
 	DespawnManager despawnManger; //manages despawning objeccts
 	SpawnManager spawnManager; //manages spawning stuff;
 

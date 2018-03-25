@@ -128,6 +128,9 @@ void LevelManager::LoadNextLevel(b2World &world)
 	else { // else do the normal load next level code
 		mazeGenerator.generateMaze(world); // generate a maze
 
+		//reset minotaur timer so that the minotaur isn't instanlty spawned
+		minotaurTimer.restart();
+
 		//set the player's position on the screen
 		playerCharacter->xPosition = mazeGenerator.startX;
 		playerCharacter->yPosition = mazeGenerator.startY;
@@ -147,7 +150,9 @@ void LevelManager::LoadNextLevel(b2World &world)
 			}
 		}*/
 		spawnManager.spawnEnemies(world, mazeGenerator, skeletonsVector, medusaVector, griffinVector, ghostVector); //use the spawn manager to create the enemies
-		
+		spawnManager.spawnTreasure(world, mazeGenerator, treasureVector); //spawn treasure
+		spawnManager.spawnChests(world, mazeGenerator, treasureChestVector);
+		spawnManager.spawnTraps(world, mazeGenerator, trapVector); //create traps
 		//test Skeleton
 		/*
 		std::shared_ptr<Skeleton> testEnemy = std::shared_ptr<Skeleton>(new Skeleton(mazeGenerator.startX - 10, mazeGenerator.startY ));
@@ -165,7 +170,7 @@ void LevelManager::LoadNextLevel(b2World &world)
 	//	medusaVector.push_back(testEnemy2);
 
 		//test minotaur
-		std::shared_ptr<Minotaur> testEnemy = std::shared_ptr<Minotaur>(new Minotaur(mazeGenerator.startX - 10, mazeGenerator.startY));
+		std::shared_ptr<Minotaur> testEnemy = std::shared_ptr<Minotaur>(new Minotaur(mazeGenerator.startX - 10, mazeGenerator.startY + 6));
 		testEnemy->createCollisionBox(world);
 		minotaurVector.push_back(testEnemy);
 
@@ -179,9 +184,9 @@ void LevelManager::LoadNextLevel(b2World &world)
 		//testArrowTrap->createBox2D(world);
 		//trapVector.push_back(testArrowTrap);
 
-		std::shared_ptr<IdolBoudlerTrap> testIdolTrap = std::shared_ptr<IdolBoudlerTrap>(new IdolBoudlerTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
-		testIdolTrap->createBox2D(world);
-		trapVector.push_back(testIdolTrap);
+		//std::shared_ptr<IdolBoudlerTrap> testIdolTrap = std::shared_ptr<IdolBoudlerTrap>(new IdolBoudlerTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
+		//testIdolTrap->createBox2D(world);
+		//trapVector.push_back(testIdolTrap);
 
 		//GUI CREATION//////////////////////////////////////////
 		if (gui->getWidgets().size() <= 0) {//if the gui is empty 
@@ -305,25 +310,25 @@ void LevelManager::LoadNextLevel(b2World &world)
 		mazeGenerator.cellsVector.push_back(exit);
 
 
-		//create treasure chests
-		for (int i = 0; i < 3;) {
-			int chestX = rand() % 1599 + 1;
-			int chestY = rand() % 899 + 1; //create X and Y postitons in the range of positions they can be 
+		//create treasure chests - for testing
+		//for (int i = 0; i < 3;) {
+		//	int chestX = rand() % 1599 + 1;
+		//	int chestY = rand() % 899 + 1; //create X and Y postitons in the range of positions they can be 
 
-			if (mazeGenerator.maze[chestX / 10][chestY / 10] == 0) {// check the randomised position against the maze to see if it's a floor (don't want  them to spawn in walls) (divide by 10 to change from screenposition to array position)
-				treasureChestVector.push_back(std::shared_ptr<TreasureChest>(new TreasureChest(playerCharacter->xPosition + 10 + (i *2), playerCharacter->yPosition + 5))); //for testing, push a single chest to the back
-				treasureChestVector.back()->createBody(world); //create the body
-				i++; // progress i. progress i here so that we're guarenteed 3 chests
-			}
+		//	if (mazeGenerator.maze[chestX / 10][chestY / 10] == 0) {// check the randomised position against the maze to see if it's a floor (don't want  them to spawn in walls) (divide by 10 to change from screenposition to array position)
+		//		treasureChestVector.push_back(std::shared_ptr<TreasureChest>(new TreasureChest(playerCharacter->xPosition + 10 + (i *2), playerCharacter->yPosition + 5))); //for testing, push a single chest to the back
+		//		treasureChestVector.back()->createBody(world); //create the body
+		//		i++; // progress i. progress i here so that we're guarenteed 3 chests
+		//	}
 
-		}
-		treasureChestVector.push_back(std::shared_ptr<TreasureChest>( new TreasureChest(playerCharacter->xPosition + 5 , playerCharacter->yPosition +5 ))); //for testing, push a single chest to the back
-		treasureChestVector.back()->createBody(world); //create the body
+	//	}
+		//treasureChestVector.push_back(std::shared_ptr<TreasureChest>( new TreasureChest(playerCharacter->xPosition + 5 , playerCharacter->yPosition +5 ))); //for testing, push a single chest to the back
+	//	treasureChestVector.back()->createBody(world); //create the body
 
 		
 		
-		treasureVector.push_back(std::shared_ptr<Treasure>(new Treasure(playerCharacter->xPosition + 10.f, playerCharacter->yPosition)));
-		treasureVector.back()->CreateBody(world);
+	//	treasureVector.push_back(std::shared_ptr<Treasure>(new Treasure(playerCharacter->xPosition + 10.f, playerCharacter->yPosition)));
+	//	treasureVector.back()->CreateBody(world);
 
 		//create the minimap
 		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
@@ -341,6 +346,7 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	//playerCharacter->dynamicBody = nullptr; // set body null
 	//playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //reset the amount of fuel the player has for the torch
 
+	
 	//clear the vectors
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) {
 		if (mazeGenerator.cellsVector[i]->cellBody != nullptr) {
@@ -369,8 +375,15 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	}
 	ghostVector.clear();//clear the Ghost vector
 
+	for (int i = 0; i < minotaurVector.size(); i++) {
+		world.DestroyBody(minotaurVector[i]->dynamicBody); //destroy all the minotaur bodies
+	}
+	minotaurVector.clear();//clear the Ghost vector
+	minotaurSpawned = false; // can spawn again
+
+
 	for (int i = 0; i < treasureVector.size(); i++) {
-		world.DestroyBody(treasureVector[i]->Body); //destroy all the griffin bodies
+		world.DestroyBody(treasureVector[i]->Body); //destroy all the treasure bodies
 	}
 	treasureVector.clear();//clear the Treasure vector
 
@@ -383,6 +396,8 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 		world.DestroyBody(trapVector[i]->Box2DBody); //destroy all the trap bodies
 	}
 	trapVector.clear(); //clear traps
+
+	gameMiniMap = nullptr; //clear minimap
 
 	gui->removeAllWidgets(); //remove all the gui
 
@@ -571,8 +586,17 @@ void LevelManager::update(b2World &World)
 	despawnManger.despawnGriffin(griffinVector, World);
 	despawnManger.despawnWalls(mazeGenerator.cellsVector, World);
 
+	//Check for timer for minotaur
+	if (minotaurTimer.getElapsedTime().asSeconds() > 150) { // 2 and a half minutes
+		if (minotaurSpawned == false) {
+			std::shared_ptr<Minotaur> testEnemy = std::shared_ptr<Minotaur>(new Minotaur(mazeGenerator.startX - 10, mazeGenerator.startY + 6)); //spawn the minotaur at the player's start position
+			testEnemy->createCollisionBox(World);
+			minotaurVector.push_back(testEnemy);
+			minotaurSpawned = true; //set true so don't keep spawning
+		}
+	}
+
 	/////////////////////////DRAW///////////////////////////////////////////////////
-	
 
 	//set the window to use the cameraview
 //	window->setView(playerView->cameraView);
@@ -630,6 +654,16 @@ void LevelManager::update(b2World &World)
 				griffinVector[i]->yPosition <= playerCharacter->yPosition && griffinVector[i]->yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
 
 				window->draw(griffinVector[i]->rectangle);
+			}
+		}
+	}
+	for (int i = 0; i < minotaurVector.size(); i++) {
+		if (minotaurVector[i]->xPosition >= playerCharacter->xPosition && minotaurVector[i]->xPosition <= playerCharacter->xPosition + 50.f ||
+			minotaurVector[i]->xPosition <= playerCharacter->xPosition && minotaurVector[i]->xPosition >= playerCharacter->xPosition - 60.f) { //if the medusa is within the camera view
+			if (minotaurVector[i]->yPosition >= playerCharacter->yPosition && minotaurVector[i]->yPosition <= playerCharacter->yPosition + 50.f ||
+				minotaurVector[i]->yPosition <= playerCharacter->yPosition && minotaurVector[i]->yPosition >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw things that are within our camera view to save performance
+
+				window->draw(minotaurVector[i]->rectangle);
 			}
 		}
 	}

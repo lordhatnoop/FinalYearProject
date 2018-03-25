@@ -88,14 +88,14 @@ public:
 		while (currentIndex != goalIndex)
 		{
 
+			if (open.size() >= 1) {
+				open.sort();	// Sort the list of open node by list quality
 
-			open.sort();	// Sort the list of open node by list quality
-
-			currentNode = open.front();	// Take the node that scored best on the open list
-			open.pop_front();// Take it off the open list
-			closed.push_back(currentNode);// Add that node to the closed list
-			currentIndex = currentNode.index;// Set the current index
-
+				currentNode = open.front();	// Take the node that scored best on the open list
+				open.pop_front();// Take it off the open list
+				closed.push_back(currentNode);// Add that node to the closed list
+				currentIndex = currentNode.index;// Set the current index
+			}
 											 // Look in the adjacency matrix for connections to other nodes
 			for (int otherIndex = 0; otherIndex < nNodes; otherIndex++) {
 				//check for a connection 
@@ -174,25 +174,27 @@ public:
 		int parent;
 		list <Node>::iterator graphListIter;
 
-		currentNode = closed.back(); //set current node to  goal node
-		parent = currentNode.parentIndex;// set the parent to be the parent of the current node
-		path.push_front(currentIndex); //add current node to the satr of the path
-		closed.pop_back(); // removes the node from the back of closed
+		if (closed.size() >= 1) {
+			currentNode = closed.back(); //set current node to  goal node
+			parent = currentNode.parentIndex;// set the parent to be the parent of the current node
+			path.push_front(currentIndex); //add current node to the satr of the path
+			closed.pop_back(); // removes the node from the back of closed
 
 						   //Now work backwards throught the closed list reconstructing the path
 
-		for (graphListIter = closed.end(), graphListIter--; graphListIter != closed.begin(); --graphListIter) {
-			currentNode = *graphListIter;
-			if (currentNode.index == parent) //found the node
-			{
-				//add to the path
-				path.push_front(parent);
-				//set parent to be this nodes parent
-				parent = currentNode.parentIndex;
-				//remove node from the closed list
-				closed.erase(graphListIter);
-				//start working backward through the closed again from the end
-				graphListIter = closed.end();
+			for (graphListIter = closed.end(), graphListIter--; graphListIter != closed.begin(); --graphListIter) {
+				currentNode = *graphListIter;
+				if (currentNode.index == parent) //found the node
+				{
+					//add to the path
+					path.push_front(parent);
+					//set parent to be this nodes parent
+					parent = currentNode.parentIndex;
+					//remove node from the closed list
+					closed.erase(graphListIter);
+					//start working backward through the closed again from the end
+					graphListIter = closed.end();
+				}
 			}
 		}
 		return path;

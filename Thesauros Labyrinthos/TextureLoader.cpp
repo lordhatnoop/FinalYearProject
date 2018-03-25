@@ -71,6 +71,7 @@ void TextureLoader::loadTextures()
 	skeletonTexture.loadFromFile("Assets/Sprites/Enemies/Skeleton/Skeleton.png");
 	medusaTexture.loadFromFile("Assets/Sprites/Enemies/Medusa/Medusa.png");
 	ghostTexture.loadFromFile("Assets/Sprites/Enemies/Ghost.png");
+	minotaurTexture.loadFromFile("Assets/Sprites/Enemies/MinotaurKing.png");
 	//WIP - works, needs tweaking
 	/*testRenderTExture.create(800, 450);
 	testRenderTExture.clear(sf::Color(0, 0, 0, 200));

@@ -1,5 +1,6 @@
 #pragma once
 #include "GameCharacters.h"
+#include "TextureLoader.h"
 #include "PlayerCharacter.h"
 #include "mazeGeneration.h"
 
@@ -15,5 +16,16 @@ public:
 private:
 	list<int> path;
 	void checkDead();
+	void move(short x , short y);
 	sf::Clock pathCheckTimer;
+	int roundUp(int number, int multiple)
+	{
+		int result = ((number + multiple / 2) / multiple) * multiple;
+		return result;
+	};
+	int floorY(int value) {
+		int result = 10 * (value / 10);
+		
+		return result;
+	};
 };

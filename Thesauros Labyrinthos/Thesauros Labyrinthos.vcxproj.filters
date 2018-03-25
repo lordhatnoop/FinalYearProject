@@ -166,7 +166,7 @@
       <Filter>Source Files\Traps</Filter>
     </ClCompile>
     <ClCompile Include="Minotaur.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GameCharcters\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
