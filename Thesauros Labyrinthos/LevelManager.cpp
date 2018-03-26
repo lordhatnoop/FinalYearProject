@@ -67,6 +67,7 @@ void LevelManager::FSM(b2World &world)
 	case deadState:
 		//dead so delete level. set player stuff back to whatever and then go to menu
 		DeleteCurrentLevel(world);
+		levelCounter = 0;
 		playerCharacter->shieldEnergy = playerCharacter->shieldEnergyMax; //reset shield energy
 		playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //reset the fuel for next run
 		playerCharacter->playerHealth = playerCharacter->playerMaxHealth; //reset health for next run

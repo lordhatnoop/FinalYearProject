@@ -1,12 +1,12 @@
 #include "playerArrow.h"
 #include "TextureLoader.h"
-playerArrow::playerArrow(int x, int y, bool playerDirection)
+playerArrow::playerArrow(int x, int y, bool playerDirection, float multiplier)
 {
 	xPosition = x;
 	yPosition = y;
 	direction = playerDirection;
 	createSFML(); // create the sfml on arrow creation
-
+	damage = 1 * multiplier; //set damage
 }
 
 void playerArrow::createSFML()

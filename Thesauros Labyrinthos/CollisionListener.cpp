@@ -112,7 +112,7 @@ void CollisionListener::ArrowCollision(void * userData1, void * userData2, b2Fix
 	//arrow enemy collision
 	else if (fixture1->GetFilterData().categoryBits == PLAYERPROJECTILE && fixture2->GetFilterData().categoryBits == ENEMY) {
 		static_cast<playerArrow*>(userData1)->destroyed = true; //arrow destoryed
-		static_cast<GameCharacters*>(userData2)->health--;// reduce enemy health
+		static_cast<GameCharacters*>(userData2)->health = static_cast<GameCharacters*>(userData2)->health - static_cast<playerArrow*>(userData1)->damage;// reduce enemy health
 		if (static_cast<GameCharacters*>(userData2)->playerLeft == true) {
 			static_cast<GameCharacters*>(userData2)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(1, 0), true);
 		}
@@ -122,7 +122,7 @@ void CollisionListener::ArrowCollision(void * userData1, void * userData2, b2Fix
 	}
 	else if (fixture1->GetFilterData().categoryBits == ENEMY && fixture2->GetFilterData().categoryBits == PLAYERPROJECTILE) {
 		static_cast<playerArrow*>(userData2)->destroyed = true; //arrow destoryed
-		static_cast<GameCharacters*>(userData1)->health--;// reduce enemy health
+		static_cast<GameCharacters*>(userData1)->health = static_cast<GameCharacters*>(userData1)->health - static_cast<playerArrow*>(userData2)->damage;// reduce enemy health
 		if (static_cast<GameCharacters*>(userData1)->playerLeft == true) {
 			static_cast<GameCharacters*>(userData1)->dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(1, 0), true);
 		}

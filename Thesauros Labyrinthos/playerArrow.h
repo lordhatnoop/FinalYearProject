@@ -3,7 +3,7 @@
 class playerArrow {
 public:
 
-	playerArrow(int x, int y, bool playerDirection);
+	playerArrow(int x, int y, bool playerDirection,float multiplier);
 	void createSFML();
 	void createHitBox(b2World &myWorld);
 	void update();
@@ -34,5 +34,5 @@ public:
 	};
 
 	float scale = 30.f;
-	
+	int damage;
 };

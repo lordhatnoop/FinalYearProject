@@ -171,7 +171,7 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) { //attack
-			arrowVector.push_back(std::shared_ptr<playerArrow>(new playerArrow(xPosition, yPosition, facingLeftORRight))); //push an arrow to the back of the vector.
+			arrowVector.push_back(std::shared_ptr<playerArrow>(new playerArrow(xPosition, yPosition, facingLeftORRight, ItemDamageMultiplier))); //push an arrow to the back of the vector.
 			arrowVector.back()->createHitBox(myWorld);
 		}
 
