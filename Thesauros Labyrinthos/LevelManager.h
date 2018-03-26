@@ -26,7 +26,8 @@ enum GameState {
 	upgradeState,
 	upgradeIdleState,
 	deleteUpgradeMenuState,
-	loadEscapeRunLevelState
+	loadEscapeRunLevelState,
+	deadState
 };
 
 class LevelManager {

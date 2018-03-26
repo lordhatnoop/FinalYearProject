@@ -64,8 +64,19 @@ void LevelManager::FSM(b2World &world)
 	case loadEscapeRunLevelState:
 		loadBackwardsLevel(world);
 		break;
+	case deadState:
+		//dead so delete level. set player stuff back to whatever and then go to menu
+		DeleteCurrentLevel(world);
+		playerCharacter->shieldEnergy = playerCharacter->shieldEnergyMax; //reset shield energy
+		playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //reset the fuel for next run
+		playerCharacter->playerHealth = playerCharacter->playerMaxHealth; //reset health for next run
+		for (int i = 1; i < playerCharacter->AquiredItems.size(); i++) {
+			playerCharacter->AquiredItems.pop_back(); //want to get rid of all the items except the starting item (bomb) so start the counter at 1 to skip the first item
+		}
+		loadMenu(); //load the menu
 	}
 }
+
 
 void LevelManager::loadMenu()
 {
@@ -305,9 +316,9 @@ void LevelManager::LoadNextLevel(b2World &world)
 			}
 		}
 
-		std::shared_ptr<ExitCell> exit;
-		exit = std::shared_ptr<ExitCell>(new ExitCell(mazeGenerator.endX, mazeGenerator.endY));
-		mazeGenerator.cellsVector.push_back(exit);
+	//	std::shared_ptr<ExitCell> exit;
+	//	exit = std::shared_ptr<ExitCell>(new ExitCell(mazeGenerator.startX - 40, mazeGenerator.startY));
+//		mazeGenerator.cellsVector.push_back(exit);
 
 
 		//create treasure chests - for testing
@@ -402,7 +413,11 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	gui->removeAllWidgets(); //remove all the gui
 
 	
-	if (escapeRun == false) { // if not on the escape run - do the normal load level
+	//transition to other state depending on a few variables
+	if (currentState == deadState) {
+		//if we're dead, don't want to load either of the level types.
+	}
+	else if (escapeRun == false) { // if not on the escape run - do the normal load level
 		currentState = loadLevelState; // transition to load level state to load the next level
 	}
 	else if (escapeRun == true) { //otherwise
@@ -414,7 +429,9 @@ void LevelManager::update(b2World &World)
 {
 	//////////////////////////////////UPDATE//////////////////////////////////////////////////
 	// call the player update function and pass delta time
-	
+	if (playerCharacter->playerHealth <= 0) {
+		currentState = deadState; //if health is zero (or below beacsue of multiple hits at the end) - set dead
+	}
 	playerCharacter->update(dt, World);
 	//update the arrows
 	for (int i = 0; i < playerCharacter->arrowVector.size(); i++) {
@@ -710,11 +727,6 @@ void LevelManager::update(b2World &World)
 	//for testing
 	//if L is pressed
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
-		/*for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) { //search vector
-			if (mazeGenerator.cellsVector[i]->cellType == "Exit") { // find the exit cell
-				mazeGenerator.cellsVector[i]->ExitReached = true;
-			}
-		}*/
 		currentState = deleteLevelState;
 	}
 	
@@ -729,11 +741,6 @@ void LevelManager::update(b2World &World)
 
 				//completed level so go to deleteLevel
 				currentState = deleteLevelState;
-			}
-			if (mazeGenerator.cellsVector[i]->ExitReached == true) { // exit is reached
-				currentState = deleteLevelState;
-				//DeleteCurrentLevel(); //delete the current Level
-
 			}
 		}
 	}
@@ -756,10 +763,10 @@ void LevelManager::update(b2World &World)
 		window->draw(playerCharacter->activeItem->rectangle);//draw it
 	}
 	//set the window to the minimap view so we can tell the minimap what to draw
-//	window->setView(gameMiniMap->minimapView);
+	window->setView(gameMiniMap->minimapView);
 
 	//draw all the minimap stuff and update it 
-//	gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
+	gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
 	
 
 	//set the window back to the normal view
@@ -1028,11 +1035,12 @@ void LevelManager::DeleteUpgradeMenu()
 //reload the saved levels for a backward run
 void LevelManager::loadBackwardsLevel(b2World & world)
 {
-	
+
 	escapeRun = true; //set true so we know we're on the escape run
 	levelCounter--; //go backwards in the level counter
 	if (levelCounter == 0) { // once player through all the levels
 		currentState = menuCreate; // just go back to main menu
+		playerCharacter->treasure = playerCharacter->treasure + 500; //reward player for making it back safely.
 		escapeRun = false; // going back to the menu so no longer on the escape run and want this to be set false if the player starts another run
 	}
 	else if (levelCounter % 3 == 0) {//if it would be a upgrade menu level usually
@@ -1046,8 +1054,8 @@ void LevelManager::loadBackwardsLevel(b2World & world)
 		//however cause we aren't making a new maze and loading one from a file, we can't do this. so use these counters that increment as we load each value from the file instead.
 		int xCounter = 0;
 		int yCounter = 0;
-		
-		
+
+
 		//if (levelFile.is_open()) { // open the file
 		levelFile.open(levelString);
 		if (!levelFile) {
@@ -1055,55 +1063,55 @@ void LevelManager::loadBackwardsLevel(b2World & world)
 			//exit(1);   // call system to stop
 		}
 
-			while (levelFile >> line) //put the values from the file into the line holder
-			{
-				//if maze cell is 1 create wall
-				if (line == 1) {
-					printf("1");
-					mazeGenerator.cellsVector.push_back(std::shared_ptr<WallCell>(new WallCell(xCounter * 10, yCounter * 10, world)));
+		while (levelFile >> line) //put the values from the file into the line holder
+		{
+			//if maze cell is 1 create wall
+			if (line == 1) {
+				printf("1");
+				mazeGenerator.cellsVector.push_back(std::shared_ptr<WallCell>(new WallCell(xCounter * 10, yCounter * 10, world)));
 
-				}
-				else if (line == 2) { // if 4, the cell is a fake wall created during the random extra walls.
-					printf("2");
-					mazeGenerator.cellsVector.push_back(std::shared_ptr<FakeWallCell>(new FakeWallCell(xCounter * 10, yCounter * 10, world)));
-				}
-				else if (line == 0) {
-					printf("0"); // create floorcell
-					mazeGenerator.cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(xCounter * 10, yCounter * 10)));
-					
+			}
+			else if (line == 2) { // if 4, the cell is a fake wall created during the random extra walls.
+				printf("2");
+				mazeGenerator.cellsVector.push_back(std::shared_ptr<FakeWallCell>(new FakeWallCell(xCounter * 10, yCounter * 10, world)));
+			}
+			else if (line == 0) {
+				printf("0"); // create floorcell
+				mazeGenerator.cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(xCounter * 10, yCounter * 10)));
 
-				}
-				else if (line == 4) {
-					printf("4"); //exitcell
-								 //cellsVector.push_back(new ExitCell(x * 10, y * 10));
-				}
-				else if (line == 3) { // if 4, the cell is completely surronded by walls, so create a nonbodyWallcell
-					printf("3");
-					//was going to create these non body wall cells originally to reduce the amount of lag, however, hoaving this number of images to render and draw also caused lag (but less than having them all be bodies). so instead when it's a 3 just don't draw anything at all and i will add a background. Massivly improves performance
-					//cellsVector.push_back(std::shared_ptr<NonBodyWallCell>(new NonBodyWallCell(x * 10, y * 10)));
-				}
-				else if (line == 5) { // 5 is still floor, but the p[layer's spawn position so special
-					printf("5"); // create floorcell
-					mazeGenerator.cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(xCounter * 10, yCounter * 10)));
-					
-					playerCharacter->xPosition = xCounter * 10;
-					playerCharacter->yPosition = yCounter * 10;
-				}
 
-				yCounter++; // update the position
+			}
+			else if (line == 4) {
+				printf("4"); //exitcell
+				mazeGenerator.cellsVector.push_back(std::shared_ptr<ExitCell>(new ExitCell(xCounter * 10, yCounter * 10)));
+			}
+			else if (line == 3) { // if 4, the cell is completely surronded by walls, so create a nonbodyWallcell
+				printf("3");
+				//was going to create these non body wall cells originally to reduce the amount of lag, however, hoaving this number of images to render and draw also caused lag (but less than having them all be bodies). so instead when it's a 3 just don't draw anything at all and i will add a background. Massivly improves performance
+				//cellsVector.push_back(std::shared_ptr<NonBodyWallCell>(new NonBodyWallCell(x * 10, y * 10)));
+			}
+			else if (line == 5) { // 5 is still floor, but the p[layer's spawn position so special
+				printf("5"); // create floorcell
+				mazeGenerator.cellsVector.push_back(std::shared_ptr<FloorCell>(new FloorCell(xCounter * 10, yCounter * 10)));
 
-				if (yCounter >= 60) { // once we've reached the end of the line // the highest y position - needs to be the same as the maze size in mazegenertor otherwise the loaded levels will be broken
-					yCounter = 0; // reset back to 1st y position
-					xCounter++; //increment xPosition
-				}
+				playerCharacter->xPosition = xCounter * 10;
+				playerCharacter->yPosition = yCounter * 10;
 			}
 
-			//levelFile.close(); //close once loaded the level
-		//}
+			yCounter++; // update the position
+
+			if (yCounter >= 60) { // once we've reached the end of the line // the highest y position - needs to be the same as the maze size in mazegenertor otherwise the loaded levels will be broken
+				yCounter = 0; // reset back to 1st y position
+				xCounter++; //increment xPosition
+			}
+		}
+
+		//levelFile.close(); //close once loaded the level
+	//}
 
 
 
-		//GUI CREATION//////////////////////////////////////////
+	//GUI CREATION//////////////////////////////////////////
 		if (gui->getWidgets().size() <= 0) {//if the gui is empty 
 											//create the gui for the level and add it to the GUI holder. do this here instead of update becasue we don't want to keep cvreating them over and over again
 			treasureUI = tgui::TextBox::create();
@@ -1150,15 +1158,19 @@ void LevelManager::loadBackwardsLevel(b2World & world)
 
 		//create the minimap
 		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
-		int playerX = rand() % 1599 + 1;
-		
-		
+		int playerX = rand() % 800 + 1;
+
+
 		playerCharacter->createCollisionBox(world);
 		currentState = inGameState;// set the current state to be ingame state so that we can start updating the game
+
+
+		//create the objects for the backwards run
+		spawnManager.spawnEnemies(world, mazeGenerator, skeletonsVector, medusaVector, griffinVector, ghostVector); //use the spawn manager to create the enemies
+		spawnManager.spawnTreasure(world, mazeGenerator, treasureVector); //spawn treasure
+		spawnManager.spawnChests(world, mazeGenerator, treasureChestVector);
+		spawnManager.spawnTraps(world, mazeGenerator, trapVector); //create traps
 	}
-	
-
-
 }
 
 

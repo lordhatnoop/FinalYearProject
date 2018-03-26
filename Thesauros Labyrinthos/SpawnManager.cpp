@@ -59,7 +59,7 @@ void SpawnManager::spawnTreasure(b2World & world, MazeGeneration maze, vector<st
 		if (maze.maze[treasureX][treasureY] == 0) { // if it's a floor tile
 			i++; //update i
 
-			treasureVector.push_back(std::shared_ptr<Treasure>(new Treasure(treasureX, treasureY)));
+			treasureVector.push_back(std::shared_ptr<Treasure>(new Treasure(treasureX * 10, treasureY* 10)));
 			treasureVector.back()->CreateBody(world);
 		}
 	}
@@ -76,7 +76,7 @@ void SpawnManager::spawnChests(b2World & world, MazeGeneration maze, vector<std:
 		if (maze.maze[treasureX][treasureY] == 0) { // if it's a floor tile
 			i++; //update i
 
-			treasureChestVector.push_back(std::shared_ptr<TreasureChest>(new TreasureChest(treasureX, treasureY)));
+			treasureChestVector.push_back(std::shared_ptr<TreasureChest>(new TreasureChest(treasureX *10, treasureY *10)));
 			treasureChestVector.back()->createBody(world);
 		}
 	}
@@ -95,15 +95,15 @@ void SpawnManager::spawnTraps(b2World & world, MazeGeneration maze, vector<std::
 			int trapType = rand() % 30 + 1; //between 30 and 1
 
 			if (trapType >= 1 && trapType <= 15) { // if between 1 and 15 - spike trap
-				trapsVector.push_back(std::shared_ptr<SpikeTrap>(new SpikeTrap(trapX, trapY))); //create trap
+				trapsVector.push_back(std::shared_ptr<SpikeTrap>(new SpikeTrap(trapX*10, trapY*10))); //create trap
 				trapsVector.back()->createBox2D(world);
 			}
 			else if (trapType > 15 && trapType <= 25) { // 16 to 25 - arrow trap
-				trapsVector.push_back(std::shared_ptr<ArrowTrap>(new ArrowTrap(trapX, trapY))); //create trap
+				trapsVector.push_back(std::shared_ptr<ArrowTrap>(new ArrowTrap(trapX *10, trapY *10))); //create trap
 				trapsVector.back()->createBox2D(world);
 			}
 			else { //the rest - boulder idol trap
-				trapsVector.push_back(std::shared_ptr<IdolBoudlerTrap>(new IdolBoudlerTrap(trapX, trapY))); //create trap
+				trapsVector.push_back(std::shared_ptr<IdolBoudlerTrap>(new IdolBoudlerTrap(trapX *10, trapY *10))); //create trap
 				trapsVector.back()->createBox2D(world);
 			}
 		}

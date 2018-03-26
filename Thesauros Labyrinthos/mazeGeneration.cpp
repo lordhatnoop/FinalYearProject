@@ -66,7 +66,7 @@ void MazeGeneration::generateMaze(b2World &world) {
 
 		count++;
 		if (count > MAGIC) {
-			fillCells();
+			//fillCells();
 		}
 
 
@@ -103,10 +103,10 @@ void MazeGeneration::generateMaze(b2World &world) {
 		visitedCells++;
 
 		//so long as it's a floor tile, store's it as the current last tile so that we can use it for the exit if needed
-		if (maze[rx][ry] == 0 ) {
-			endX = rx *20;
-			endY = ry *20;
-		}
+		//if (maze[rx][ry] == 0 ) {
+		//	endX = rx *20;
+		//	endY = ry *20;
+		//}
 	}
 
 	//fillCells();
@@ -232,8 +232,12 @@ void MazeGeneration::generateMaze(b2World &world) {
 		}
 	}
 	maze[startX / 20][startY / 20] = 5; // amke sure the start is always a floor and the player spawn point (5)
-	maze[endX/ 20][endY / 20] = 2; // set the end to be 2 at the end of all the other generation to guarentee it's the exit
 
+	genEndPos(); //generate exitCell Position
+
+	if (maze[endX][endY] == 0) { //make sure it would be a floor tile
+		maze[endX][endY] = 4; // set the end to be 2 at the end of all the other generation to guarentee it's the exit
+	}
 	setAdjacencySize();
 		// Done, so create the wallCells from the mazecells
 		for (size_t x = 0; x < maze_size_x; x++) {
@@ -264,8 +268,8 @@ void MazeGeneration::generateMaze(b2World &world) {
 					createAdjacency(y, x, position); //sets the surrounding positions in the adjacnecny matrix to have a 1 for this position so that they can path here
 				}
 				else if (maze[x][y] == 4) {
-					printf("2"); 
-					//cellsVector.push_back(new ExitCell(x * 10, y * 10));
+					printf("4"); 
+					cellsVector.push_back(std::shared_ptr<ExitCell>(new ExitCell(x * 10, y * 10)));
 
 					//adjacency[x][y] = 0;
 					createAdjacency(y, x, position);
@@ -339,8 +343,17 @@ void MazeGeneration::digWall(int x0, int y0, int x1, int y1)
 	}
 }
 
+void MazeGeneration::genEndPos()
+{
+	while (maze[endX][endY] != 0) //while the gen'd point is not  a floor tile
+	{
+		endX = rand() % 80 + 20; //value between 20 and 80
+		endY = rand() % 50 + 20; //value between 20 and 50
+	}
+}
+
 //can't tell if this actually does anything? 
-void MazeGeneration::fillCells()
+/*void MazeGeneration::fillCells()
 {
 	int i, j;
 	for (i = 0; i < max_Cell_Width; i++) {
@@ -349,8 +362,9 @@ void MazeGeneration::fillCells()
 				maze[i * cell_Radius][j * cell_Radius] = 0;
 		}
 	}
-}
+}*/
 
+/*
 void MazeGeneration::addRooms(int x, int y, bool posORNeg )
 {
 	//below should theoretically take 6 cells near the passed xy and y and make them into floors to create a room
@@ -371,7 +385,7 @@ void MazeGeneration::addRooms(int x, int y, bool posORNeg )
 		maze[x - 2][y + 2] = 0;
 	}
 	
-}
+}*/
 
 void MazeGeneration::setAdjacencySize()
 {

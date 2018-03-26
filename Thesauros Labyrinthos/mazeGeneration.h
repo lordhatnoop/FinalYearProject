@@ -52,8 +52,8 @@ public:
 	int startY;
 
 	//hold the last cell for the exit
-	int endX;
-	int endY;
+	int endX = 0;
+	int endY = 0;
 
 	//path gen stuff
 	int indexLookup[maze_size_x][maze_size_y];
@@ -204,8 +204,9 @@ public:
 private:
 	int cellInRange(int x, int y);
 	void digWall(int x0, int y0, int x1, int y1);
-	void fillCells();
-	void addRooms(int x, int y, bool posORNeg);
+	//void fillCells();
+	void genEndPos();
+	//void addRooms(int x, int y, bool posORNeg);
 	void setAdjacencySize();
 	void createAdjacency(int j, int i,int position);
 	void populateIndex();
