@@ -231,6 +231,14 @@ void MazeGeneration::generateMaze(b2World &world) {
 			}
 		}
 	}
+
+	//the left and right edegs of the map count as surronded becasue you can't check further than them, so set them manually to be nothing cells
+	for (int i = 0; i < maze_size_y; i++) {
+		maze[0][i] = 3;
+		maze[99][i] = 3;
+	}
+
+	//addRooms();
 	maze[startX / 20][startY / 20] = 5; // amke sure the start is always a floor and the player spawn point (5)
 
 	genEndPos(); //generate exitCell Position
@@ -347,8 +355,83 @@ void MazeGeneration::genEndPos()
 {
 	while (maze[endX][endY] != 0) //while the gen'd point is not  a floor tile
 	{
-		endX = rand() % 80 + 20; //value between 20 and 80
-		endY = rand() % 50 + 20; //value between 20 and 50
+		endX = rand() % 60 + 20; //value between 20 and 80
+		endY = rand() % 30 + 20; //value between 20 and 50
+	}
+}
+
+void MazeGeneration::addRooms()
+{
+	int numberOfRooms = rand() % 6 + 1; //1 to 6
+	int i;
+	for (i = 0; i < numberOfRooms;) {
+		int x = rand() % 80 + 1; //0 to 20
+		int y = rand() % 50 + 10; //10 to 60
+
+		if (maze[x][y] == 3) { // empty space
+			if (maze[x + 3][y] == 0 || maze[x + 3][y] == 1) { 
+				//create
+				maze[x][y] = 0;
+				maze[x + 1][y] = 0;
+				maze[x + 2][y] = 0;
+				maze[x + 3][y] = 0;
+				maze[x][y +1] = 0;
+				maze[x + 1][y +1] = 0;
+				maze[x + 2][y +1] = 0;
+				maze[x + 3][y +1] = 0;
+				maze[x][y -1] = 0;
+				maze[x + 1][y-1] = 0;
+				maze[x + 2][y-1] = 0;
+				maze[x + 3][y-1] = 0;
+				//create surronding walls
+				maze[x][y+2] = 1;
+				maze[x + 1][y+2] = 1;
+				maze[x + 2][y+2] = 1;
+				maze[x + 3][y+2] = 1;
+
+				maze[x][y - 2] = 1;
+				maze[x + 1][y - 2] = 1;
+				maze[x + 2][y - 2] = 1;
+				maze[x + 3][y - 2] = 1;
+
+				maze[x - 1][y] = 1;
+				maze[x - 1][y + 1] = 1;
+				maze[x - 1][y - 1] = 1;
+
+				i++;
+			}
+			else if (maze[x - 3][y] == 0 || maze[x - 3][y] == 1) {
+				//create
+				maze[x][y] = 0;
+				maze[x - 1][y] = 0;
+				maze[x - 2][y] = 0;
+				maze[x - 3][y] = 0;
+				maze[x][y + 1] = 0;
+				maze[x - 1][y + 1] = 0;
+				maze[x - 2][y + 1] = 0;
+				maze[x - 3][y + 1] = 0;
+				maze[x][y - 1] = 0;
+				maze[x - 1][y - 1] = 0;
+				maze[x - 2][y - 1] = 0;
+				maze[x - 3][y - 1] = 0;
+				//create surronding walls
+				maze[x][y + 2] = 1;
+				maze[x - 1][y + 2] = 1;
+				maze[x - 2][y + 2] = 1;
+				maze[x - 3][y + 2] = 1;
+
+				maze[x][y - 2] = 1;
+				maze[x - 1][y - 2] = 1;
+				maze[x - 2][y - 2] = 1;
+				maze[x - 3][y - 2] = 1;
+
+				maze[x + 1][y] = 1;
+				maze[x + 1][y + 1] = 1;
+				maze[x + 1][y - 1] = 1;
+
+				i++;
+			}
+		}
 	}
 }
 

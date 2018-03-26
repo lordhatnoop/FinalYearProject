@@ -6,11 +6,11 @@ SpawnManager::SpawnManager()
 
 void SpawnManager::spawnEnemies(b2World &world,MazeGeneration maze,vector<std::shared_ptr<Skeleton>>& skeletonVector, vector<std::shared_ptr<Medusa>>& medusaVector, vector<std::shared_ptr<Griffin>>& griffinVector, vector<std::shared_ptr<Ghost>>& ghostVector)
 {
-	int numberOfEnemies = rand() % 30 + 10; //random number of enemies between 10 and 30
+	int numberOfEnemies = rand() % 30 + 10; //random number of enemies between 10 and 40
 	
 	for (int i = 0; i < numberOfEnemies;) { // loops
-		int EnemyX = rand() % 80 + 1;
-		int EnemyY = rand() % 50 + 1; //create X and Y postitons in the range of positions they can be. get rand to 99 or 59 becasue we want them to only be multiples of 10 so we take taht and multiply it by 10 
+		int EnemyX = rand() % 79 + 1;
+		int EnemyY = rand() % 49 + 1; //create X and Y postitons in the range of positions they can be. get rand to 99 or 59 becasue we want them to only be multiples of 10 so we take taht and multiply it by 10 
 
 
 		if (maze.maze[EnemyX][EnemyY] == 0) { // if it's a floor tile
@@ -49,12 +49,12 @@ void SpawnManager::spawnEnemies(b2World &world,MazeGeneration maze,vector<std::s
 
 void SpawnManager::spawnTreasure(b2World & world, MazeGeneration maze, vector<std::shared_ptr<Treasure>>& treasureVector)
 {
-	int numberOfTreasure = rand() % 60 + 40; //random number of enemies between 40 and 60
+	int numberOfTreasure = rand() % 60 + 40; //random number of treasure between 40 and 100
 
 
 	for (int i = 0; i < numberOfTreasure;) { // loops
-		int treasureX = rand() % 80 + 1;
-		int treasureY = rand() % 50 + 1; //create X and Y postitons in the range of positions they can be. get rand to 99 or 59 becasue we want them to only be multiples of 10 so we take taht and multiply it by 10 
+		int treasureX = rand() % 79 + 1;
+		int treasureY = rand() % 49 + 1; //create X and Y postitons in the range of positions they can be. get rand to 99 or 59 becasue we want them to only be multiples of 10 so we take taht and multiply it by 10 
 
 		if (maze.maze[treasureX][treasureY] == 0) { // if it's a floor tile
 			i++; //update i
@@ -65,13 +65,13 @@ void SpawnManager::spawnTreasure(b2World & world, MazeGeneration maze, vector<st
 	}
 }
 
-void SpawnManager::spawnChests(b2World & world, MazeGeneration maze, vector<std::shared_ptr<TreasureChest>> treasureChestVector)
+void SpawnManager::spawnChests(b2World & world, MazeGeneration maze, vector<std::shared_ptr<TreasureChest>> &treasureChestVector)
 {
-	int numberOfChests = rand() % 10 + 1; //between 1 and 10
+	int numberOfChests = rand() % 10 + 1; //between 1 and 11
 
 	for (int i = 0; i < numberOfChests;) {//loops
-		int treasureX = rand() % 80 + 1;
-		int treasureY = rand() % 50 + 1; //create X and Y postitons in the range of positions they can be. get rand to 99 or 59 becasue we want them to only be multiples of 10 so we take taht and multiply it by 10 
+		int treasureX = rand() % 79 + 1;
+		int treasureY = rand() % 49 + 1; //create X and Y postitons in the range of positions they can be. get rand to 99 or 59 becasue we want them to only be multiples of 10 so we take taht and multiply it by 10 
 
 		if (maze.maze[treasureX][treasureY] == 0) { // if it's a floor tile
 			i++; //update i
@@ -81,9 +81,9 @@ void SpawnManager::spawnChests(b2World & world, MazeGeneration maze, vector<std:
 		}
 	}
 }
-void SpawnManager::spawnTraps(b2World & world, MazeGeneration maze, vector<std::shared_ptr<GameTraps>> trapsVector)
+void SpawnManager::spawnTraps(b2World & world, MazeGeneration maze, vector<std::shared_ptr<GameTraps>> &trapsVector)
 {
-	int numberOfTraps = rand() % 10 + 1; //between 1 and 10
+	int numberOfTraps = rand() % 10 + 1; //between 1 and 11
 
 	for (int i = 0; i < numberOfTraps;) {//loops
 		int trapX = rand() % 80 + 1;

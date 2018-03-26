@@ -620,14 +620,14 @@ void LevelManager::update(b2World &World)
 
 	//draw all the maze cells
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) {
-		if (mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition + 50.f ||
-			mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition - 60.f) { //if the cell is within the camera view
-			if (mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition + 50.f ||
-				mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw the cell if it's in our camera view
+		//if (mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition + 50.f ||
+		//	mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition - 60.f) { //if the cell is within the camera view
+		//	if (mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition + 50.f ||
+		//		mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw the cell if it's in our camera view
 
 				window->draw(mazeGenerator.cellsVector[i]->rectangle);
-			}
-		}
+		//	}
+	//	}
 	}
 
 	//draw the skeletons
@@ -757,20 +757,20 @@ void LevelManager::update(b2World &World)
 		window->draw(playerCharacter->petrifyOverlay); //if we are petrified, draw the petrify overlay( translucent brown) over the top of the playersprite
 	}
 	window->draw(playerCharacter->shieldCircle);
-	window->draw(playerCharacter->torch->torchSprite);
+//	window->draw(playerCharacter->torch->torchSprite);
 	
 	if (playerCharacter->activeItem != nullptr) { // so loong as active item isn't null
 		window->draw(playerCharacter->activeItem->rectangle);//draw it
 	}
 	//set the window to the minimap view so we can tell the minimap what to draw
-	window->setView(gameMiniMap->minimapView);
+	//window->setView(gameMiniMap->minimapView);
 
 	//draw all the minimap stuff and update it 
-	gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
+	//gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
 	
 
 	//set the window back to the normal view
-	window->setView(playerView->cameraView);
+	//window->setView(playerView->cameraView);
 
 }
 

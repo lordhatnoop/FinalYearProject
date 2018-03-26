@@ -206,7 +206,7 @@ private:
 	void digWall(int x0, int y0, int x1, int y1);
 	//void fillCells();
 	void genEndPos();
-	//void addRooms(int x, int y, bool posORNeg);
+	void addRooms();
 	void setAdjacencySize();
 	void createAdjacency(int j, int i,int position);
 	void populateIndex();
