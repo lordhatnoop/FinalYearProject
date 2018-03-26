@@ -165,7 +165,7 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 				}
 			}
 			else if (selectedItem > 700 && selectedItem <= 800) {
-				//Golden Fleece 
+				//Medusa Head
 				for (int i = 0; i < playerCharacter->AquiredItems.size(); i++) {
 					if (playerCharacter->AquiredItems[i]->itemName == "MedusaHead") {
 						ItemAlreadyAquired = true; //item al;ready aquired 
@@ -182,6 +182,20 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 					textureSubrect.height = 20;
 					textureSubrect.top = 0;
 					itemSprite.setTextureRect(textureSubrect);
+				}
+			}
+			else if (selectedItem > 800 && selectedItem <= 900) {
+				//poseidons trident
+				for (int i = 0; i < playerCharacter->AquiredItems.size(); i++) {
+					if (playerCharacter->AquiredItems[i]->itemName == "PoseidonsStaff") {
+						ItemAlreadyAquired = true; //item al;ready aquired 
+					}
+				}
+				if (ItemAlreadyAquired == false) { // if item isn't aquired yet
+					printf("Poseidon's Trident \n");
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<PoseidonsStaff>(new PoseidonsStaff())); //add the Medusa Head Item
+					alreadyOpened = true;//setopened
+					itemSprite.setTexture(&textureLoader.poseidonsTrident); //set chest item texture
 				}
 			}
 			else { //give treasure

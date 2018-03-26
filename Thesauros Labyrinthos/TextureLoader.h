@@ -60,7 +60,8 @@ public:
 	sf::Texture medusaHead;
 	sf::Texture medusaHeadIcon;
 
-		
+	sf::Texture tidalWave;
+	sf::Texture poseidonsTrident;
 	//traps
 	sf::Texture spikeTexture;
 	sf::Texture Boulder;

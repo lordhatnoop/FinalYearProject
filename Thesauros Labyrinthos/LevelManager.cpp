@@ -319,6 +319,9 @@ void LevelManager::LoadNextLevel(b2World &world)
 			else if (item == "MedusaHead") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.medusaHeadIcon); //set the background texture
 			}
+			else if (item == "PoseidonsStaff") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.poseidonsTrident); //set the background texture
+			}
 		}
 
 	//	std::shared_ptr<ExitCell> exit;
@@ -591,6 +594,9 @@ void LevelManager::update(b2World &World)
 			}
 			else if (item == "MedusaHead") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.medusaHeadIcon); //set the background texture
+			}
+			else if (item == "PoseidonsStaff") {
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.poseidonsTrident); //set the background texture
 			}
 		}
 	}

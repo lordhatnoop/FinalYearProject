@@ -144,6 +144,7 @@
     <ClCompile Include="NonBodyWallCell.cpp" />
     <ClCompile Include="playerArrow.cpp" />
     <ClCompile Include="PlayerCharacter.cpp" />
+    <ClCompile Include="PoseidonsStaff.cpp" />
     <ClCompile Include="RopeItem.cpp" />
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="soundManager.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="playerArrow.h" />
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="PlayerItemStatuses.h" />
+    <ClInclude Include="PoseidonsStaff.h" />
     <ClInclude Include="RopeItem.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="soundManager.h" />

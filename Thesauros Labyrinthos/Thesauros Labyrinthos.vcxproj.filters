@@ -171,6 +171,9 @@
     <ClCompile Include="StunTrap.cpp">
       <Filter>Source Files\Traps</Filter>
     </ClCompile>
+    <ClCompile Include="PoseidonsStaff.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -307,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="StunTrap.h">
       <Filter>Header Files\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="PoseidonsStaff.h">
+      <Filter>Header Files\Items</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

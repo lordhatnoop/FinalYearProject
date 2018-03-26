@@ -57,6 +57,8 @@ void TextureLoader::loadTextures()
 	medusaHead.loadFromFile("Assets/Sprites/MedusaHead.png");
 	medusaHeadIcon.loadFromFile("Assets/Sprites/MedusaHeadIcon.png");
 
+	tidalWave.loadFromFile("Assets/Sprites/TidalWave.png");
+	poseidonsTrident.loadFromFile("Assets/Sprites/Poseidons_trident");
 	//traps
 	spikeTexture.loadFromFile("Assets/Sprites/Traps/Spikes.png");
 	Boulder.loadFromFile("Assets/Sprites/Traps/Boulder.png");

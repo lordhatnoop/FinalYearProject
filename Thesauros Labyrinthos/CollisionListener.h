@@ -19,6 +19,7 @@ public:
 	void TreasurePickUP(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void BombExplosion(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void MedusaHeadPetrify(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
+	void PoseidonsTrident(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void SpikeTrapCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void ArrowTrapCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);
 	void GoldenIdolCollision(void* userData1, void* userData2, b2Fixture* fixture1, b2Fixture* fixture2);

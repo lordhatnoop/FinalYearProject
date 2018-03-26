@@ -8,3 +8,4 @@
 #include "HermesHelm.h"
 #include "GoldenFleece.h"
 #include "MedusaHead.h"
+#include "PoseidonsStaff.h"
