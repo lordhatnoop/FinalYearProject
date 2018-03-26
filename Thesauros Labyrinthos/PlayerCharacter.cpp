@@ -526,7 +526,7 @@ void PlayerCharacter::Petrified()
 	int petrifiedTime = petrifiedClock->getElapsedTime().asSeconds();
 	if (petrifiedTime >= 2) {
 		isStone = false; //no longer stone
-		playerHealth--; //take damage
+		
 	}
 }
 

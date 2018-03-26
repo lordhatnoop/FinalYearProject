@@ -3,3 +3,4 @@
 #include "ArrowTrap.h"
 #include "SpikeTrap.h"
 #include "IdolBoulderTrap.h"
+#include "StunTrap.h"

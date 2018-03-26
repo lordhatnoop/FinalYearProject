@@ -82,3 +82,18 @@ void DespawnManager::despawnGhost(vector<std::shared_ptr<Ghost>> &ghostVector, b
 		}
 	}
 }
+
+void DespawnManager::despawnTraps(vector<std::shared_ptr<GameTraps>>&trapVector, b2World & World)
+{
+	for (trapIterator = trapVector.begin(); trapIterator != trapVector.end();) {
+		if ((*trapIterator)->deactivated == true) { //if trap deactivated
+			if ((*trapIterator)->Box2DBody != nullptr) { //some traps destory body on triggering, so check for that
+				World.DestroyBody((*trapIterator)->Box2DBody); //destroy the body
+			}
+			trapIterator = trapVector.erase(trapIterator); // remove from  vector
+		}
+		else {
+			trapIterator++;
+		}
+	}
+}

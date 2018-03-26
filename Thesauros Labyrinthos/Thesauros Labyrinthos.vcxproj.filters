@@ -168,6 +168,9 @@
     <ClCompile Include="Minotaur.cpp">
       <Filter>Source Files\GameCharcters\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="StunTrap.cpp">
+      <Filter>Source Files\Traps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="Minotaur.h">
       <Filter>Header Files\GameCharcters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="StunTrap.h">
+      <Filter>Header Files\Traps</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

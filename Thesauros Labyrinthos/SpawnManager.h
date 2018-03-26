@@ -7,10 +7,8 @@
 #include "PlayerCharacter.h"
 #include "TreasureChest.h"
 #include "Treasure.h"
-#include "GameTraps.h"
-#include "SpikeTrap.h"
-#include "ArrowTrap.h"
-#include "IdolBoulderTrap.h"
+#include "TrapHolder.h"
+
 #include "mazeGeneration.h"
 
 class SpawnManager {

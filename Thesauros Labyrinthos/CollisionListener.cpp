@@ -24,6 +24,7 @@ void CollisionListener::BeginContact(b2Contact * contact)
 
 	//this method works for all objects, but categories could get quite long, and it requires the enum for the categories to be declared in each class that needs a category
 	//if the two fixture's categories are player and enemy
+	//have to check twice, becasue we don't know which object will be which fixture, so we have to check to see if it's fixture 1, and if not, check to see if it's fixture 2, and if it's neither, than it's not that object
 	if (fixtureA->GetFilterData().categoryBits == PLAYER && fixtureB->GetFilterData().categoryBits == ENEMY) {
 		static_cast<PlayerCharacter*>(bodyUserData)->m_contactingEnemy = true; // get the player that is being collided with, and set it's bool for colliding with enemies to true
 	}
@@ -54,6 +55,7 @@ void CollisionListener::BeginContact(b2Contact * contact)
 	SpikeTrapCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for player hitting spikes
 	ArrowTrapCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for Arrow Trap collision
 	GoldenIdolCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for golden Idol Trap collision
+	StunTrapCollision(bodyUserData, bodyUserData2, fixtureA, fixtureB); //check for stun Trap collision
 	/*
 	//get what objects each one is 
 	std::string nameA = ((GameCharacters*)bodyUserData)->getName();
@@ -292,8 +294,8 @@ void CollisionListener::SpikeTrapCollision(void * userData1, void * userData2, b
 void CollisionListener::ArrowTrapCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
 {
 	if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TRAPS) {
-		//check if actually spiketrap and kill if so
-		if (userData2 == "ArrowTrap") { // make sure it was the spiketrap
+		
+		if (userData2 == "ArrowTrap") { // make sure it was the ArrowTrap
 			if (fixture2->GetUserData() == "Arrow") {
 				static_cast<PlayerCharacter*>(userData1)->playerHealth--; //minus health if it was the arrow section of the trap colliding
 			}
@@ -303,7 +305,7 @@ void CollisionListener::ArrowTrapCollision(void * userData1, void * userData2, b
 		}
 	}
 	else if (fixture1->GetFilterData().categoryBits == TRAPS && fixture2->GetFilterData().categoryBits == PLAYER) {
-		if (userData1 == "ArrowTrap") { // make sure it was a the spike trap
+		if (userData1 == "ArrowTrap") { // make sure it was a the arrow trap
 			if (fixture1->GetUserData() == "Arrow") { // if arrow section of the trap
 				static_cast<PlayerCharacter*>(userData2)->playerHealth--; //minus health if it was the arrow section of the trap colliding
 			}
@@ -317,7 +319,7 @@ void CollisionListener::ArrowTrapCollision(void * userData1, void * userData2, b
 void CollisionListener::GoldenIdolCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
 {
 	if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TRAPS) {
-		//check if actually spiketrap and kill if so
+		
 		if (userData2 == "Idol") { // make sure it was the Idol
 			if (fixture2->GetUserData() == "Boulder") {
 				static_cast<PlayerCharacter*>(userData1)->playerHealth = 0; //player crushed and dead
@@ -345,6 +347,28 @@ void CollisionListener::GoldenIdolCollision(void * userData1, void * userData2, 
 				
 				}
 			}
+		}
+	}
+}
+
+void CollisionListener::StunTrapCollision(void * userData1, void * userData2, b2Fixture * fixture1, b2Fixture * fixture2)
+{
+	if (fixture1->GetFilterData().categoryBits == PLAYER && fixture2->GetFilterData().categoryBits == TRAPS) {
+		
+		if (userData2 == "StunTrap") { // make sure it was the stunTrap
+			static_cast<GameTraps*>(fixture2->GetUserData())->setTriggered(); //trigger the trap
+			static_cast<PlayerCharacter*>(userData1)->isStone = true; //set is stone true
+			static_cast<PlayerCharacter*>(userData1)->petrifiedClock->restart(); //reset timer
+			static_cast<PlayerCharacter*>(userData1)->dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); //remove velocity
+			//no damage, just want it to stun
+		}
+	}
+	else if (fixture1->GetFilterData().categoryBits == TRAPS && fixture2->GetFilterData().categoryBits == PLAYER) {
+		if (userData1 == "StunTrap") { // make sure it was a stun trap
+			static_cast<GameTraps*>(fixture1->GetUserData())->setTriggered(); //trigger the trap
+			static_cast<PlayerCharacter*>(userData2)->isStone = true; //set is stone true
+			static_cast<PlayerCharacter*>(userData2)->petrifiedClock->restart(); //reset timer
+			static_cast<PlayerCharacter*>(userData2)->dynamicBody->SetLinearVelocity(b2Vec2(0, 0)); //remove velocity
 		}
 	}
 }

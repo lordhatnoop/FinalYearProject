@@ -81,7 +81,7 @@ void LevelManager::FSM(b2World &world)
 
 void LevelManager::loadMenu()
 {
-
+	window->setView(window->getDefaultView()); //swap back to deault view
 	title.setTexture(textureLoader.titleTexture); // create a title sprite and get the texture for it from the textureLoader
 	title.setPosition(100, 0);
 	title.setScale(sf::Vector2f(1.5, 1.5)); // set the scale of the title image to be 1.5 x the image size
@@ -182,23 +182,27 @@ void LevelManager::LoadNextLevel(b2World &world)
 	//	medusaVector.push_back(testEnemy2);
 
 		//test minotaur
-		std::shared_ptr<Minotaur> testEnemy = std::shared_ptr<Minotaur>(new Minotaur(mazeGenerator.startX - 10, mazeGenerator.startY + 6));
-		testEnemy->createCollisionBox(world);
-		minotaurVector.push_back(testEnemy);
+	//	std::shared_ptr<Minotaur> testEnemy = std::shared_ptr<Minotaur>(new Minotaur(mazeGenerator.startX - 10, mazeGenerator.startY + 6));
+	//	testEnemy->createCollisionBox(world);
+	//	minotaurVector.push_back(testEnemy);
 
 
 		//test Traps
-		//std::shared_ptr<SpikeTrap> testSpikeTrap = std::shared_ptr<SpikeTrap>(new SpikeTrap(playerCharacter->xPosition , playerCharacter->yPosition + 9));
+		//std::shared_ptr<SpikeTrap> testSpikeTrap = std::shared_ptr<SpikeTrap>(new SpikeTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
 		//testSpikeTrap->createBox2D(world);
 		//trapVector.push_back(testSpikeTrap);
 
-		//std::shared_ptr<ArrowTrap> testArrowTrap = std::shared_ptr<ArrowTrap>(new ArrowTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
+		//std::shared_ptr<ArrowTrap> testArrowTrap = std::shared_ptr<ArrowTrap>(new ArrowTrap(playerCharacter->xPosition , playerCharacter->yPosition +10));
 		//testArrowTrap->createBox2D(world);
 		//trapVector.push_back(testArrowTrap);
 
 		//std::shared_ptr<IdolBoudlerTrap> testIdolTrap = std::shared_ptr<IdolBoudlerTrap>(new IdolBoudlerTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
 		//testIdolTrap->createBox2D(world);
 		//trapVector.push_back(testIdolTrap);
+
+//		std::shared_ptr<StunTrap> testStunTrap = std::shared_ptr<StunTrap>(new StunTrap(playerCharacter->xPosition , playerCharacter->yPosition + 10));
+		//testStunTrap->createBox2D(world);
+		//trapVector.push_back(testStunTrap);
 
 		//GUI CREATION//////////////////////////////////////////
 		if (gui->getWidgets().size() <= 0) {//if the gui is empty 
@@ -405,7 +409,9 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	treasureChestVector.clear(); //clear treasure chests
 
 	for (int i = 0; i < trapVector.size(); i++) {
-		world.DestroyBody(trapVector[i]->Box2DBody); //destroy all the trap bodies
+		if (trapVector[i]->Box2DBody != nullptr) { //some of the traps destory their body on triggering so check the body is still active
+			world.DestroyBody(trapVector[i]->Box2DBody); //destroy all the trap bodies
+		}
 	}
 	trapVector.clear(); //clear traps
 
@@ -603,6 +609,7 @@ void LevelManager::update(b2World &World)
 	despawnManger.despawnGhost(ghostVector, World);
 	despawnManger.despawnGriffin(griffinVector, World);
 	despawnManger.despawnWalls(mazeGenerator.cellsVector, World);
+	despawnManger.despawnTraps(trapVector, World);
 
 	//Check for timer for minotaur
 	if (minotaurTimer.getElapsedTime().asSeconds() > 150) { // 2 and a half minutes
@@ -758,7 +765,7 @@ void LevelManager::update(b2World &World)
 		window->draw(playerCharacter->petrifyOverlay); //if we are petrified, draw the petrify overlay( translucent brown) over the top of the playersprite
 	}
 	window->draw(playerCharacter->shieldCircle);
-//	window->draw(playerCharacter->torch->torchSprite);
+	window->draw(playerCharacter->torch->torchSprite);
 	
 	if (playerCharacter->activeItem != nullptr) { // so loong as active item isn't null
 		window->draw(playerCharacter->activeItem->rectangle);//draw it
@@ -771,7 +778,7 @@ void LevelManager::update(b2World &World)
 	
 
 	//set the window back to the normal view
-	//window->setView(playerView->cameraView);
+	window->setView(playerView->cameraView);
 
 }
 

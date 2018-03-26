@@ -149,6 +149,7 @@
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="SpikeTrap.cpp" />
+    <ClCompile Include="StunTrap.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="TorchLight.cpp" />
     <ClCompile Include="Treasure.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="SpikeTrap.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StunTrap.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="TorchLight.h" />
     <ClInclude Include="TrapHolder.h" />
