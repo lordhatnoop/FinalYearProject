@@ -628,14 +628,14 @@ void LevelManager::update(b2World &World)
 
 	//draw all the maze cells
 	for (int i = 0; i < mazeGenerator.cellsVector.size(); i++) {
-		//if (mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition + 50.f ||
-		//	mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition - 60.f) { //if the cell is within the camera view
-		//	if (mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition + 50.f ||
-		//		mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw the cell if it's in our camera view
+		if (mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition + 50.f ||
+			mazeGenerator.cellsVector[i]->rectangle.getPosition().x <= playerCharacter->xPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().x >= playerCharacter->xPosition - 60.f) { //if the cell is within the camera view
+			if (mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition + 50.f ||
+				mazeGenerator.cellsVector[i]->rectangle.getPosition().y <= playerCharacter->yPosition && mazeGenerator.cellsVector[i]->rectangle.getPosition().y >= playerCharacter->yPosition - 60.f) { //same check as above but for yposition - draw culling. only draw the cell if it's in our camera view
 
 				window->draw(mazeGenerator.cellsVector[i]->rectangle);
-		//	}
-	//	}
+			}
+		}
 	}
 
 	//draw the skeletons
