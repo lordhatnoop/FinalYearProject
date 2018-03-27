@@ -41,7 +41,9 @@ void LevelManager::FSM(b2World &world)
 		loadMenu();
 
 		break;
-
+	case OptionsMenuState:
+		OptionsMenu();
+		break;
 	case loadLevelState:
 		LoadNextLevel(world);
 		break;
@@ -1033,6 +1035,7 @@ void LevelManager::upgradesMenuIdle()
 	}
 }
 
+
 void LevelManager::DeleteUpgradeMenu()
 {
 	//delete the upgrade menu GUI
@@ -1187,6 +1190,37 @@ void LevelManager::loadBackwardsLevel(b2World & world)
 	}
 }
 
+void LevelManager::OptionsMenu()
+{
+	if (OptionsMenuCreated == false) { //menu not created yet
+		auto OptionsTitle = tgui::TextBox::create();
+
+		OptionsTitle->setPosition(720, 276);
+		OptionsTitle->setSize(160, 24);
+		OptionsTitle->setTextSize(16);
+		OptionsTitle->setText("Sound Slider");
+		OptionsTitle->setReadOnly(); //only read, can't type in the text box
+		OptionsTitle->setVerticalScrollbarPresent(false); //no scrollbar
+		gui->add(OptionsTitle);
+
+		soundSlider = tgui::Slider::create();
+
+		soundSlider->setPosition(500, 300);
+		soundSlider->setSize(600, 10);
+		soundSlider->setMaximum(100);
+		soundSlider->setMinimum(0);
+		soundSlider->setValue(soundManager.soundVolume); // the value should be the current volume
+		gui->add(soundSlider);
+		
+		OptionsMenuCreated = true;
+	}
+	else {
+		soundManager.soundVolume = soundSlider->getValue(); //keep updating the volume to be whatever the slider value is
+		soundManager.updateSoundVolume(); //update the volumes;
+		int value = soundManager.soundVolume; //test it's set properly
+	}
+	//currentState = menuIdle; //don't need to keep updating the menu 
+}
 
 
 
@@ -1204,6 +1238,8 @@ void LevelManager::SignalManager(string msg)
 	}
 	else if (msg == "Options") {
 		std::cout << "Options Button pressed" << std::endl; // test it recognises the button
+		DeleteMainMenu(); //delete MainMenu
+		currentState = OptionsMenuState; //transition to options menu state
 	}
 
 	else if (msg == "Upgrade Item Damage") {

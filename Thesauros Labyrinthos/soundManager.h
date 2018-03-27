@@ -7,12 +7,12 @@ public:
 
 	SoundManager();
 	void loadSounds();
-
+	void updateSoundVolume();
 	sf::SoundBuffer medusaBuffer;
 	sf::Sound medusaAttack;
 	sf::SoundBuffer skeletonBuffer;
 	sf::Sound skeletonSound;
 	sf::Music mainMenuMusic;
-
+	float soundVolume = 100.f;
 };
 extern SoundManager soundManager;

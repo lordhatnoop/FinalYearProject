@@ -20,6 +20,7 @@
 enum GameState {
 	menuIdle,
 	menuCreate,
+	OptionsMenuState,
 	loadLevelState,
 	inGameState,
 	deleteLevelState,
@@ -103,11 +104,18 @@ private:
 
 	bool escapeRun = false;
 
+	//main menu
 	void loadMenu();
+
+	
 
 	//upgrades menu stuff
 	void upgradesMenu();
 	void upgradesMenuIdle();
+	//options menu
+	void OptionsMenu();
+	bool OptionsMenuCreated = false;
+	tgui::Slider::Ptr soundSlider;
 	//floats to hold the cost of the upgrades
 	float itemDamageUpgradeCost = 800.f; //start cost
 	float maxHealthUpgradeCost = 1000.f; //start cost
