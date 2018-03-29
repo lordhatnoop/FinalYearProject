@@ -1193,16 +1193,16 @@ void LevelManager::loadBackwardsLevel(b2World & world)
 void LevelManager::OptionsMenu()
 {
 	if (OptionsMenuCreated == false) { //menu not created yet
-		auto OptionsTitle = tgui::TextBox::create();
+		auto OptionsTitle = tgui::Label::create();
 
 		OptionsTitle->setPosition(720, 276);
 		OptionsTitle->setSize(160, 24);
 		OptionsTitle->setTextSize(16);
 		OptionsTitle->setText("Sound Slider");
-		OptionsTitle->setReadOnly(); //only read, can't type in the text box
-		OptionsTitle->setVerticalScrollbarPresent(false); //no scrollbar
+		OptionsTitle->getRenderer()->setTextColor(tgui::Color::White);
 		gui->add(OptionsTitle);
 
+		//soundSlider
 		soundSlider = tgui::Slider::create();
 
 		soundSlider->setPosition(500, 300);
@@ -1212,12 +1212,60 @@ void LevelManager::OptionsMenu()
 		soundSlider->setValue(soundManager.soundVolume); // the value should be the current volume
 		gui->add(soundSlider);
 		
+		//checckbox
+		muteCheckBox = tgui::CheckBox::create();
+
+		muteCheckBox->setPosition(500, 320);
+		muteCheckBox->setSize(20, 20);
+		//if the sounds were previously muted
+		if (soundManager.muted == true) {
+			muteCheckBox->check();//start the checkbox checked
+		}
+		else { //otherwise
+			muteCheckBox->uncheck();//start the checkbox unchecked
+		}
+		gui->add(muteCheckBox);
+
+		//textbox next to the checkbox
+		auto Label = tgui::Label::create();
+
+		Label->setPosition(520, 320);
+		Label->setSize(400, 24);
+		Label->setTextSize(16);
+		Label->setText("Mute All Sounds?");
+		Label->getRenderer()->setTextColor(tgui::Color::White);
+		gui->add(Label);
+
+
+		//create button to go back to main menu
+		tgui::Button::Ptr BackToMenuButton = tgui::Button::create(); // create a button on the menu
+		BackToMenuButton->setPosition(600, 800); // set the position of the button
+		BackToMenuButton->setSize(400, 50); // set the  button size
+		BackToMenuButton->setText("Back To Menu"); // set text
+		BackToMenuButton->setTextSize(40); // set size of the text
+
+		gui->add(BackToMenuButton); //add the start button to the gui so that it can be drawn and managed.
+
+		BackToMenuButton->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+
+
 		OptionsMenuCreated = true;
 	}
 	else {
 		soundManager.soundVolume = soundSlider->getValue(); //keep updating the volume to be whatever the slider value is
-		soundManager.updateSoundVolume(); //update the volumes;
+		
 		int value = soundManager.soundVolume; //test it's set properly
+
+		if (muteCheckBox->isChecked() == true) {
+			soundManager.muted = true; //if ticked, set muted
+		}
+		else {
+			soundManager.muted = false; //otherwsie not muted
+		}
+		bool test = soundManager.muted;
+
+
+		soundManager.updateSoundVolume(); //update the volumes;
 	}
 	//currentState = menuIdle; //don't need to keep updating the menu 
 }
@@ -1298,6 +1346,11 @@ void LevelManager::SignalManager(string msg)
 	else if (msg == "Begin Escape Run") {
 		currentState = deleteUpgradeMenuState;//still transition to upgrade menu deletion so that we delete the menus
 		escapeRun = true; //but also set this true to change which level gets loaded
+	}
+	else if (msg == "Back To Menu") { //options menu gop back button
+		DeleteMainMenu(); //delete the menu
+		OptionsMenuCreated = false; //set back to false so that menu can be created next time we access it
+		currentState = menuCreate; //change state to create main menu
 	}
 
 }

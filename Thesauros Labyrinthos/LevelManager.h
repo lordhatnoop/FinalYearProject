@@ -116,6 +116,7 @@ private:
 	void OptionsMenu();
 	bool OptionsMenuCreated = false;
 	tgui::Slider::Ptr soundSlider;
+	tgui::CheckBox::Ptr muteCheckBox;
 	//floats to hold the cost of the upgrades
 	float itemDamageUpgradeCost = 800.f; //start cost
 	float maxHealthUpgradeCost = 1000.f; //start cost

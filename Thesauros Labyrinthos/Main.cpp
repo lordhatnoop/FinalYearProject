@@ -131,7 +131,7 @@ int main() {
 		//gameWindow.draw(lightCircle,renderState);
 		*/
 
-		if (levelManager.getCurrentState() == menuIdle) { // if we're in the menuState, draw the title
+		if (levelManager.getCurrentState() == menuIdle || levelManager.getCurrentState() == OptionsMenuState) { // if we're in the menuState, draw the title
 			gameWindow.draw(levelManager.title); 
 		}
 

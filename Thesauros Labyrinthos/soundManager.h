@@ -14,5 +14,6 @@ public:
 	sf::Sound skeletonSound;
 	sf::Music mainMenuMusic;
 	float soundVolume = 100.f;
+	bool muted = false;
 };
 extern SoundManager soundManager;
