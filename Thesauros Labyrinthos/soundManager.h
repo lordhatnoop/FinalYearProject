@@ -8,11 +8,20 @@ public:
 	SoundManager();
 	void loadSounds();
 	void updateSoundVolume();
+	//enemies
 	sf::SoundBuffer medusaBuffer;
 	sf::Sound medusaAttack;
 	sf::SoundBuffer skeletonBuffer;
 	sf::Sound skeletonSound;
+	//menu
 	sf::Music mainMenuMusic;
+	sf::SoundBuffer menuClickBuffer;
+	sf::Sound menuClick;
+
+	//chest sounds
+	sf::SoundBuffer chestOpenBuffer;
+	sf::Sound chestOpen;
+
 	float soundVolume = 100.f;
 	bool muted = false;
 };

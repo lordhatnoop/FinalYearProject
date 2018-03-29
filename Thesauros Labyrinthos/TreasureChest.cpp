@@ -1,5 +1,6 @@
 #include "TreasureChest.h"
 #include "TextureLoader.h"
+#include "soundManager.h"
 TreasureChest::TreasureChest(int x, int y)
 {
 	xPosition = x;
@@ -211,6 +212,7 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 				textureSubrect.height = 29;
 				textureSubrect.width = 32;
 				
+				soundManager.chestOpen.play(); //play the chest open sound when the chest opens
 			}
 			rectangle.setTextureRect(textureSubrect);
 	}

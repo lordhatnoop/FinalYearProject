@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 
+//create a background image
 
 
 using namespace std;
@@ -93,6 +94,7 @@ void LevelManager::loadMenu()
 	StartButton->setSize(800, 100); // set the start button size
 	StartButton->setText("Start Game"); // set text
 	StartButton->setTextSize(40); // set size of the text
+	
 
 	gui->add(StartButton); //add the start button to the gui so that it can be drawn and managed.
 
@@ -352,7 +354,7 @@ void LevelManager::LoadNextLevel(b2World &world)
 	//	treasureVector.back()->CreateBody(world);
 
 		//create the minimap
-		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
+		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector, ghostVector,griffinVector); //create a new minimap when we load a new level
 
 		playerCharacter->createCollisionBox(world);
 		currentState = inGameState;// set the current state to be ingame state so that we can start updating the game
@@ -420,9 +422,17 @@ void LevelManager::DeleteCurrentLevel(b2World &world)
 	}
 	trapVector.clear(); //clear traps
 
-	gameMiniMap = nullptr; //clear minimap
+	//clear minimap
+	gameMiniMap->miniMapWallsVector.clear();
+	gameMiniMap->miniMapGhostvector.clear();
+	gameMiniMap->miniMapGriffinvector.clear();
+	gameMiniMap->miniMapMedusavector.clear();
+	gameMiniMap->miniMapSkeletonvector.clear();
+	gameMiniMap = nullptr; 
 
 	gui->removeAllWidgets(); //remove all the gui
+
+
 
 	
 	//transition to other state depending on a few variables
@@ -779,10 +789,10 @@ void LevelManager::update(b2World &World)
 		window->draw(playerCharacter->activeItem->rectangle);//draw it
 	}
 	//set the window to the minimap view so we can tell the minimap what to draw
-	//window->setView(gameMiniMap->minimapView);
+	window->setView(gameMiniMap->minimapView);
 
 	//draw all the minimap stuff and update it 
-	//gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector, playerCharacter);
+	gameMiniMap->MiniMapUpdate(window, mazeGenerator.cellsVector, skeletonsVector, medusaVector,ghostVector,griffinVector, playerCharacter);
 	
 
 	//set the window back to the normal view
@@ -1280,14 +1290,17 @@ void LevelManager::SignalManager(string msg)
 		DeleteMainMenu(); // delete the main menu so that it doesn't keep displaying in the game
 		//LoadNextLevel(); // load the level
 		currentState = loadLevelState;
+		soundManager.menuClick.play(); //play the button click sound on click
 	}
 	else if (msg == "Exit Game") {
+		soundManager.menuClick.play();
 		window->close();; // tell the window to close becasue we want to exit
 	}
 	else if (msg == "Options") {
 		std::cout << "Options Button pressed" << std::endl; // test it recognises the button
 		DeleteMainMenu(); //delete MainMenu
 		currentState = OptionsMenuState; //transition to options menu state
+		soundManager.menuClick.play(); //play the button click sound on click
 	}
 
 	else if (msg == "Upgrade Item Damage") {
@@ -1295,6 +1308,7 @@ void LevelManager::SignalManager(string msg)
 			playerCharacter->ItemDamageMultiplier = playerCharacter->ItemDamageMultiplier + 0.25f;//upgrade the item damage multiplier
 			playerCharacter->treasure = playerCharacter->treasure - itemDamageUpgradeCost * itemDamageUpgradeMultiplier; // remove the treasure
 			itemDamageUpgradeMultiplier = itemDamageUpgradeMultiplier + 0.25f; // increase the cost multiplier so it'll cost more next time
+			soundManager.menuClick.play(); //play the button click sound on click
 		}
 	}
 
@@ -1304,7 +1318,7 @@ void LevelManager::SignalManager(string msg)
 			playerCharacter->playerHealth = playerCharacter->playerHealth + 1; //fill the extra health we just gained
 			playerCharacter->treasure = playerCharacter->treasure - maxHealthUpgradeCost * maxHealthUpgradeMultiplier; // remove the gold
 			itemDamageUpgradeMultiplier = itemDamageUpgradeMultiplier + 1.f; // increase the cost multiplier so it'll cost more next time
-			
+			soundManager.menuClick.play(); //play the button click sound on click
 		}
 	}
 
@@ -1314,6 +1328,8 @@ void LevelManager::SignalManager(string msg)
 				playerCharacter->playerHealth = playerCharacter->playerHealth + 1; // add one health back to the player
 				playerCharacter->treasure = playerCharacter->treasure - 2000; //remove the treasure
 				 //no multiplier for this one. just high initial cost
+
+				soundManager.menuClick.play(); //play the button click sound on click
 			}
 		}
 	}
@@ -1323,6 +1339,8 @@ void LevelManager::SignalManager(string msg)
 				playerCharacter->shieldEnergy = playerCharacter->shieldEnergyMax; // add energy back to player
 				playerCharacter->treasure = playerCharacter->treasure - 2000; //remove the treasure
 																			  //no multiplier for this one. just high initial cost
+
+				soundManager.menuClick.play(); //play the button click sound on click
 			}
 		}
 	}
@@ -1332,25 +1350,35 @@ void LevelManager::SignalManager(string msg)
 			playerCharacter->shieldEnergy = playerCharacter->shieldEnergyMax; //refill the energy to be nice
 			playerCharacter->treasure = playerCharacter->treasure - energyMaxUpgradeCost * energyMaxUpgradeMultiplier; //remove the gold
 			energyMaxUpgradeMultiplier = energyMaxUpgradeMultiplier + 0.2f;
+
+			soundManager.menuClick.play(); //play the button click sound on click
 		}
 	}
 	else if (msg == "Torch Refill") {
 		if (playerCharacter->treasure >= 500) {
 			playerCharacter->currentTorchFuel = playerCharacter->maxTorchFuel; //refill torch fuel
 			playerCharacter->treasure - 500; //remove gold
+
+			soundManager.menuClick.play(); //play the button click sound on click
 		}
 	}
 	else if (msg == "Continue Game") {
 		currentState = deleteUpgradeMenuState; //transition to the deletion of the upgrade menu to prepare for next level
+
+		soundManager.menuClick.play(); //play the button click sound on click
 	}
 	else if (msg == "Begin Escape Run") {
 		currentState = deleteUpgradeMenuState;//still transition to upgrade menu deletion so that we delete the menus
 		escapeRun = true; //but also set this true to change which level gets loaded
+
+		soundManager.menuClick.play(); //play the button click sound on click
 	}
 	else if (msg == "Back To Menu") { //options menu gop back button
 		DeleteMainMenu(); //delete the menu
 		OptionsMenuCreated = false; //set back to false so that menu can be created next time we access it
 		currentState = menuCreate; //change state to create main menu
+
+		soundManager.menuClick.play(); //play the button click sound on click
 	}
 
 }

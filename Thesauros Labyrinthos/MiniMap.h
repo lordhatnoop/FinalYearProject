@@ -5,10 +5,13 @@
 #include "Cell.h"
 #include "Skeleton.h"
 #include "Medusa.h"
+#include "Griffin.h"
+#include "Ghost.h"
+
 class MiniMap {
 public:
-	MiniMap(vector <std::shared_ptr<Cell>> cellsVector, vector <std::shared_ptr<Skeleton>> Skeletons, vector <std::shared_ptr<Medusa>> Medusa);
-	void MiniMapUpdate(sf::RenderWindow *passedWindow, vector <std::shared_ptr<Cell>> cellsVector, vector <std::shared_ptr<Skeleton>> Skeletons, vector <std::shared_ptr<Medusa>> Medusa, PlayerCharacter* playerCharacter);
+	MiniMap(vector <std::shared_ptr<Cell>> cellsVector, vector <std::shared_ptr<Skeleton>> Skeletons, vector <std::shared_ptr<Medusa>> Medusa, vector <std::shared_ptr<Ghost>> Ghosts, vector <std::shared_ptr<Griffin>> Griffin);
+	void MiniMapUpdate(sf::RenderWindow *passedWindow, vector <std::shared_ptr<Cell>> cellsVector, vector <std::shared_ptr<Skeleton>> Skeletons, vector <std::shared_ptr<Medusa>> Medusa, vector <std::shared_ptr<Ghost>> Ghosts, vector <std::shared_ptr<Griffin>> Griffin, PlayerCharacter* playerCharacter);
 
 	//the view that will be used foir the minimap
 	sf::View minimapView;
@@ -16,6 +19,8 @@ public:
 	vector<sf::RectangleShape> miniMapWallsVector; // vector to hold the simplified representation of the minimap objects
 	vector<sf::RectangleShape> miniMapSkeletonvector;
 	vector<sf::RectangleShape> miniMapMedusavector;
+	vector<sf::RectangleShape> miniMapGriffinvector;
+	vector<sf::RectangleShape> miniMapGhostvector;
 	sf::RectangleShape playerMiniMap;
 	sf::RectangleShape miniMapBorder;
 };

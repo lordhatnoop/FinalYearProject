@@ -91,6 +91,7 @@ public:
 
 	//background
 	//create a background image
+	//sf::RectangleShape backgroundSprite;
 	sf::RectangleShape backgroundSprite;
 	
 
