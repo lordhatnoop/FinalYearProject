@@ -1,5 +1,5 @@
 #include "Ghost.h"
-
+#include "soundManager.h"
 
 Ghost::Ghost(int x, int y)
 {//set the positions toi be those passed
@@ -11,7 +11,7 @@ Ghost::Ghost(int x, int y)
 	health = 2;
 
 	animationTimer.restart(); //start the animation timer;
-
+	soundTImer.restart();
 	//call createSfml to create the sprite
 	createSFML();
 	//decide the first goal point
@@ -124,6 +124,19 @@ void Ghost::decidePath()
 
 void Ghost::update()
 {
+	//sound ccan only be played one time i found and can't be played by each ghost, so hopefully this should change up which ghost uses the sound each time by having random waiting times for each ghost.
+	if (soundManager.ghostsound.getStatus() != sf::Sound::Playing && soundTImer.getElapsedTime().asSeconds() > timeTillNextSound) { //check the sound isn't already playing and if the time has passed
+		timeTillNextSound = rand()% 20 + 4; //generate new wait time
+		soundTImer.restart();//restart timer
+		soundManager.ghostsound.setPosition(xPosition, yPosition, 0); //set sound position to be ghost position
+		soundManager.ghostsound.play(); //play sound
+	}
+	else if (soundTImer.getElapsedTime().asSeconds() > timeTillNextSound) {
+		//if we waited and can't play sound, wait again
+		timeTillNextSound = rand() % 20 + 4; //generate new wait time
+		soundTImer.restart();//restart timer
+	}
+
 	if (isStone == false) {
 		//move
 		b2Vec2 temp = b2Vec2(0,0); //b2vec 2 which we will set the values for below

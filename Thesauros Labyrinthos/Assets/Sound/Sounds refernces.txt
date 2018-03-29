@@ -3,3 +3,4 @@ main menu music - After war (ID 721) by Lobo Loco - http://freemusicarchive.org/
 skeleton sounds - Rattling Bones.wav by spookymodem - https://freesound.org/people/spookymodem/sounds/202102/
 menu sounds - https://opengameart.org/content/gui-sound-effects. by Lokif
 chest open / metal latch sound - http://soundbible.com/1357-Metal-Latch.html. public domain latch sound.
+Ghost - https://www.freesoundeffects.com/free-sounds/ghost-10089/1/long_short/20/

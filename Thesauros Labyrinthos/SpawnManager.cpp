@@ -14,7 +14,7 @@ void SpawnManager::spawnEnemies(b2World &world,MazeGeneration maze,vector<std::s
 
 
 		if (maze.maze[EnemyX][EnemyY] == 0) { // if it's a floor tile
-			int enemyType = rand() % 3 + 1; // random enemy type
+			int enemyType = rand() % 4 + 1; // random enemy type
 
 			if (enemyType == 1) {
 				skeletonVector.push_back(std::shared_ptr<Skeleton>(new Skeleton(EnemyX * 10, EnemyY* 10))); //create a new enemy at that point if it's floor . multiply the pos's by 10 to get the actual position we wanted

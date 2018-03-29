@@ -13,6 +13,8 @@ public:
 	sf::Sound medusaAttack;
 	sf::SoundBuffer skeletonBuffer;
 	sf::Sound skeletonSound;
+	sf::SoundBuffer ghostBuffer;
+	sf::Sound ghostsound;
 	//menu
 	sf::Music mainMenuMusic;
 	sf::SoundBuffer menuClickBuffer;
@@ -21,6 +23,7 @@ public:
 	//chest sounds
 	sf::SoundBuffer chestOpenBuffer;
 	sf::Sound chestOpen;
+
 
 	float soundVolume = 100.f;
 	bool muted = false;

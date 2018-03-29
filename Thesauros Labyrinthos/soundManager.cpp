@@ -20,6 +20,10 @@ void SoundManager::loadSounds()
 	skeletonSound.setBuffer(skeletonBuffer);
 	skeletonSound.setVolume((soundVolume / 100) * 60);
 
+	ghostBuffer.loadFromFile("Assets/Sound/Ghost.wav");
+	ghostsound.setBuffer(ghostBuffer);
+	ghostsound.setVolume((soundVolume / 100) * 50);
+	ghostsound.setAttenuation(2.f); // set how quickly the sound drops off over distance. defualt is 1 so bit higher than default
 
 	//menu sounds
 	mainMenuMusic.openFromFile("Assets/Sound/MainTheme.wav");
@@ -43,6 +47,7 @@ void SoundManager::updateSoundVolume()
 		medusaAttack.setVolume(0); 
 		mainMenuMusic.setVolume(0);
 		skeletonSound.setVolume(0);
+		ghostsound.setVolume(0);
 		menuClick.setVolume(0);
 		chestOpen.setVolume(0);
 	}
@@ -51,6 +56,7 @@ void SoundManager::updateSoundVolume()
 		medusaAttack.setVolume((soundVolume / 100) * 10); //set the volume of the sound . sound volume (current) / by max to get the percentage the volume is set to then times 10 by that to change volume level
 		mainMenuMusic.setVolume((soundVolume / 100) * 50);
 		skeletonSound.setVolume((soundVolume / 100) * 60);
+		ghostsound.setVolume((soundVolume / 100) * 50);
 		menuClick.setVolume((soundVolume / 100) * 50);
 		chestOpen.setVolume((soundVolume / 100) * 50);
 	}

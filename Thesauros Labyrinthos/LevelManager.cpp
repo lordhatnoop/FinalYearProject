@@ -1184,7 +1184,7 @@ void LevelManager::loadBackwardsLevel(b2World & world)
 		}
 
 		//create the minimap
-		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector); //create a new minimap when we load a new level
+		gameMiniMap = new MiniMap(mazeGenerator.cellsVector, skeletonsVector, medusaVector,ghostVector,griffinVector); //create a new minimap when we load a new level
 		int playerX = rand() % 800 + 1;
 
 
