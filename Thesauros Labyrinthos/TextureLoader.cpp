@@ -59,6 +59,8 @@ void TextureLoader::loadTextures()
 
 	tidalWave.loadFromFile("Assets/Sprites/TidalWave.png");
 	poseidonsTrident.loadFromFile("Assets/Sprites/Poseidons_trident.png");
+
+	gold.loadFromFile("Assets/Sprites/goldCoins.png");
 	//traps
 	spikeTexture.loadFromFile("Assets/Sprites/Traps/Spikes.png");
 	Boulder.loadFromFile("Assets/Sprites/Traps/Boulder.png");

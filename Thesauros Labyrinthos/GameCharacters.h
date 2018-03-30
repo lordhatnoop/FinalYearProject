@@ -56,4 +56,7 @@ public:
 		TRAPS = 0x0009
 	};
 
+
+	sf::Sound CharacterSound1;
+	sf::Sound CharacetrSound2;
 };

@@ -205,6 +205,7 @@ void TreasureChest::openChest(PlayerCharacter *playerCharacter)
 				int value = rand() % 100 + 10; //between 10 and 100
 				printf("treasure");
 				playerCharacter->treasure = playerCharacter->treasure + value; // add treasure to the player
+				itemSprite.setTexture(&textureLoader.gold); //display picture of gold coins
 			}
 			if (alreadyOpened == true) { //if chest is opened swap sprite
 				textureSubrect.left = 0;

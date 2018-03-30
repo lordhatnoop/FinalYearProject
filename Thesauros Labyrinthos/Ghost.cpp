@@ -124,6 +124,7 @@ void Ghost::decidePath()
 
 void Ghost::update()
 {
+	
 	//sound ccan only be played one time i found and can't be played by each ghost, so hopefully this should change up which ghost uses the sound each time by having random waiting times for each ghost.
 	if (soundManager.ghostsound.getStatus() != sf::Sound::Playing && soundTImer.getElapsedTime().asSeconds() > timeTillNextSound) { //check the sound isn't already playing and if the time has passed
 		timeTillNextSound = rand()% 20 + 4; //generate new wait time
@@ -136,6 +137,8 @@ void Ghost::update()
 		timeTillNextSound = rand() % 20 + 4; //generate new wait time
 		soundTImer.restart();//restart timer
 	}
+
+
 
 	if (isStone == false) {
 		//move

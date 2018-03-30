@@ -24,7 +24,7 @@ int main() {
 	
 	
 	 //Box2D level stuff setup
-	b2Vec2 gravity(0, 9.8f * 30);//normal earth gravity = 9.8, have to set it really high becasue everything is so small
+	b2Vec2 gravity(0, 9.8f * 30.f);//normal earth gravity = 9.8, have to set it really high becasue everything is so small
 	float32 timeStep = 1/ 60.0f;      //the length of time passed to simulate (seconds) */
 	int32 velocityIterations = 8.f;   //how strongly to correct velocity */
 	int32 positionIterations = 3.f;   //how strongly to correct position */
@@ -79,6 +79,9 @@ int main() {
 	backgroundSprite.setSize(sf::Vector2f(1600, 900));//set size to be window size so it fills entire window
 	backgroundSprite.setTexture(&textureLoader.backgroundTexture);
 
+	sf::Sound tempSound = soundManager.ghostsound; //test sounds
+	
+
 	while (gameWindow.isOpen()) {
 
 		gameWindow.clear(sf::Color::Black);/*!<  clears the window each frame so that it can be updated and old frames aren't left on screen */
@@ -90,6 +93,9 @@ int main() {
 
 		levelManager.FSM(world);
 		
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) { //test sounds
+			tempSound.play();
+		}
 		 //! check all user events
 		sf::Event event;
 		while (gameWindow.pollEvent(event)) /*!< while the window is checking for events */

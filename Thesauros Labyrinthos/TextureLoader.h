@@ -62,6 +62,8 @@ public:
 
 	sf::Texture tidalWave;
 	sf::Texture poseidonsTrident;
+
+	sf::Texture gold;
 	//traps
 	sf::Texture spikeTexture;
 	sf::Texture Boulder;

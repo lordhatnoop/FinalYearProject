@@ -72,6 +72,7 @@ void PlayerCharacter::createCollisionBox(b2World &myWorld)
 		BodyDef.angle = 0;
 		BodyDef.fixedRotation = true; // prevent rotation
 		BodyDef.userData = this;
+	//	BodyDef.gravityScale = 30;
 		//	BodyDef.userData = "playerCharacter"; // set the Userdata so that we can check what is colliding
 		dynamicBody = myWorld.CreateBody(&BodyDef); //create the body in the box2dworld and set it's def to be the one above
 
