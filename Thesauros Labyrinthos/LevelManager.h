@@ -21,6 +21,7 @@ enum GameState {
 	menuIdle,
 	menuCreate,
 	OptionsMenuState,
+	CreditsState,
 	loadLevelState,
 	inGameState,
 	deleteLevelState,
@@ -116,6 +117,9 @@ private:
 	//options menu
 	void OptionsMenu();
 	bool OptionsMenuCreated = false;
+	//credits
+	void creditsMenu();
+	bool CreditsMenuCreated = false;
 	tgui::Slider::Ptr soundSlider;
 	tgui::CheckBox::Ptr muteCheckBox;
 	//floats to hold the cost of the upgrades

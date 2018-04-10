@@ -142,7 +142,7 @@ int main() {
 		}
 
 		
-		world.DrawDebugData(); //debug draw for boxz2d - displays bodies,etc
+	//	world.DrawDebugData(); //debug draw for boxz2d - displays bodies,etc
 		if (levelManager.getCurrentState() == inGameState) { // if we're in game draw this stuff
 			
 			gameWindow.draw(levelManager.torchFuelUIBackgroundWhite);

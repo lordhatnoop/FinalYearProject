@@ -45,6 +45,9 @@ void LevelManager::FSM(b2World &world)
 	case OptionsMenuState:
 		OptionsMenu();
 		break;
+	case CreditsState:
+		creditsMenu();
+		break;
 	case loadLevelState:
 		LoadNextLevel(world);
 		break;
@@ -111,9 +114,19 @@ void LevelManager::loadMenu()
 	gui->add(OptionsButton); //add the Options button to the gui so that it can be drawn and managed.
 	OptionsButton->connect(std::string("pressed"), &LevelManager::SignalManager, this);
 
+	//Credits Button
+	tgui::Button::Ptr CreditsButton = tgui::Button::create(); // create a button on the menu
+	CreditsButton->setPosition(400, 600); // set the position of the button
+	CreditsButton->setSize(800, 100); // set the  button size
+	CreditsButton->setText("Credits");// set text to display on the button
+	CreditsButton->setTextSize(40); // set size of the text
 
+	gui->add(CreditsButton); //add the Exit button to the gui so that it can be drawn and managed.
+	CreditsButton->connect(std::string("pressed"), &LevelManager::SignalManager, this);
+
+	//ExitButton
 	tgui::Button::Ptr ExitButton = tgui::Button::create(); // create a button on the menu
-	ExitButton->setPosition(400, 600); // set the position of the button
+	ExitButton->setPosition(400, 750); // set the position of the button
 	ExitButton->setSize(800, 100); // set the  button size
 	ExitButton->setText("Exit Game"); // set text
 	ExitButton->setTextSize(40); // set size of the text
@@ -121,6 +134,9 @@ void LevelManager::loadMenu()
 
 	gui->add(ExitButton); //add the Exit button to the gui so that it can be drawn and managed.
 	ExitButton->connect(std::string("pressed"), &LevelManager::SignalManager, this);
+
+
+	
 
 	//play the main menu theme music
 	soundManager.mainMenuMusic.play();
@@ -130,7 +146,7 @@ void LevelManager::loadMenu()
 
 void LevelManager::DeleteMainMenu()
 {
-	soundManager.mainMenuMusic.stop();
+	//soundManager.mainMenuMusic.stop();
 	gui->removeAllWidgets(); // remove all the widgets so that menu doesn't get drawn anymore
 }
 
@@ -1280,6 +1296,68 @@ void LevelManager::OptionsMenu()
 	//currentState = menuIdle; //don't need to keep updating the menu 
 }
 
+void LevelManager::creditsMenu()
+{
+	if (CreditsMenuCreated == false) {
+
+		//title
+		tgui::TextBox::Ptr Title = tgui::TextBox::create(); // create a button on the menu
+		Title->setPosition(775, 0); // set the position of the button
+		Title->setSize(50, 50); // set the  button size
+		Title->setText("CREDITS");
+		Title->setTextSize(50);
+		Title->setReadOnly(true); //read only
+		Title->setVerticalScrollbarPresent(false); //set no vertical bar
+		Title->getRenderer()->setBackgroundColor(tgui::Color::Transparent);
+		Title->getRenderer()->setTextColor(tgui::Color::White);
+
+		gui->add(Title); //add to gui
+
+
+		//credits
+		tgui::TextBox::Ptr text = tgui::TextBox::create(); // create a button on the menu
+		text->setPosition(0, 50); // set the position of the button
+		text->setSize(1600, 900); // set the  button size
+		string line1 = "Bat sprite - https://opengameart.org/content/bat-sprite - 32x 32 Bat Sprite - open resource - free to use.";
+		string line2 = "Fire sprite- credit as/mention of Chromaeleon <3 - https://opengameart.org/content/2d-pixel-fire-sprite-strip";
+		string line3 = "Torch sprite- Torch Sprite by Jellytopbottom @derpbug on Jul 21, 2016 - https://www.pixilart.com/art/torch-sprite-fcf7f40a00f30c8";
+		string line4 = "TreasureChest sprite - https://opengameart.org/content/treasure-chests-32x32-and-16x16 - Blarumyrran";
+		string line5 = "ShieldIcon - http://www.freepngimg.com/png/6940-old-shield-png-image-picture-download";
+		string line6 = "Bomb sprite - Original Bomb Party sprite sheet by Matt Hackett of Lost Decade Games, expanded by Cem Kalyoncu and /usr/share. - https://opengameart.org/content/bomb-party-the-complete-set";
+		string line7 = "Hermes Boots sprite - mural depiction of mythological sandals. from http://speakslovak.info/greek-god-with-winged-shoes/the-twelve-olympians-on-emaze-greek-god-with-winged-shoes/";
+		string line8 = "Hermes Helm sprite - art from http://children-learningreading.info/kwrhinfo-hermes-helmet.htm";
+		string line9 = "spikes, Idol, Boulder sprites - spelunky";
+		string line10 = "Boulder2, poseidons trident sprites- roblox";
+		string line11 = "wave sprite - tales of destiny ps2";
+
+		text->setText("Sprite References: \n" + line1 + "\n" + line2 + "\n" + line3 + "\n" + line4 + "\n" + line5 + "\n" + line6 + "\n" +
+			line7 + "\n" + line8 + "\n" + line9 + "\n" + line10 + "\n" + line11);// set text to display on the button - all of the loaded lines
+		text->setTextSize(16); // set size of the text
+		text->setReadOnly(true); //read only
+		text->setVerticalScrollbarPresent(false); //set no vertical bar
+		text->getRenderer()->setBackgroundColor(tgui::Color::Transparent);
+		text->getRenderer()->setTextColor(tgui::Color::White);
+		
+		gui->add(text); //add to gui
+
+
+		//backto menu button
+		tgui::Button::Ptr BackToMenuButton = tgui::Button::create(); // create a button on the menu
+		BackToMenuButton->setPosition(600, 800); // set the position of the button
+		BackToMenuButton->setSize(400, 50); // set the  button size
+		BackToMenuButton->setText("Back To Menu"); // set text
+		BackToMenuButton->setTextSize(40); // set size of the text
+
+		gui->add(BackToMenuButton); //add the start button to the gui so that it can be drawn and managed.
+
+		BackToMenuButton->connect(std::string("pressed"), &LevelManager::SignalManager, this); // connect the button. tell it to work on press, call the signal manager function and sets the msg passed to be the text on the button
+
+
+
+		CreditsMenuCreated = true; //set done
+	}
+}
+
 
 
 void LevelManager::SignalManager(string msg)
@@ -1376,9 +1454,14 @@ void LevelManager::SignalManager(string msg)
 	else if (msg == "Back To Menu") { //options menu gop back button
 		DeleteMainMenu(); //delete the menu
 		OptionsMenuCreated = false; //set back to false so that menu can be created next time we access it
+		CreditsMenuCreated = false; //set this false as well so we can reuse this for either of them
 		currentState = menuCreate; //change state to create main menu
 
 		soundManager.menuClick.play(); //play the button click sound on click
+	}
+	else if (msg == "Credits") {
+		DeleteMainMenu(); //delete main menu
+		currentState = CreditsState; // transition to credits
 	}
 
 }
