@@ -136,7 +136,27 @@ void LevelManager::loadMenu()
 	ExitButton->connect(std::string("pressed"), &LevelManager::SignalManager, this);
 
 
+	//save button
+	tgui::Button::Ptr saveButton = tgui::Button::create(); // create a button on the menu
+	saveButton->setPosition(400, 200); // set the position of the button
+	saveButton->setSize(400, 50); // set the  button size
+	saveButton->setText("Save"); // set text
+	saveButton->setTextSize(40); // set size of the text
+
+
+	gui->add(saveButton); //add the Exit button to the gui so that it can be drawn and managed.
+	saveButton->connect(std::string("pressed"), &LevelManager::SignalManager, this);
 	
+	//load button
+	tgui::Button::Ptr loadButton = tgui::Button::create(); // create a button on the menu
+	loadButton->setPosition(800, 200); // set the position of the button
+	loadButton->setSize(400, 50); // set the  button size
+	loadButton->setText("Load"); // set text
+	loadButton->setTextSize(40); // set size of the text
+
+
+	gui->add(loadButton); //add the Exit button to the gui so that it can be drawn and managed.
+	loadButton->connect(std::string("pressed"), &LevelManager::SignalManager, this);
 
 	//play the main menu theme music
 	soundManager.mainMenuMusic.play();
@@ -1462,6 +1482,152 @@ void LevelManager::SignalManager(string msg)
 	else if (msg == "Credits") {
 		DeleteMainMenu(); //delete main menu
 		currentState = CreditsState; // transition to credits
+
+		soundManager.menuClick.play(); //play the button click sound on click
+	}
+
+	else if (msg == "Save") { //save button pressed - save the player's stats
+		string saveString = "Assets/Saves/Save.txt"; //create the name of the tyxt doument 
+		ofstream Data(saveString); // File Creation
+
+		//write upgrade costs
+		Data << energyMaxUpgradeMultiplier << endl;
+		Data << maxHealthUpgradeMultiplier << endl;
+		Data << itemDamageUpgradeMultiplier << endl;
+
+		//write the player data next
+		Data << playerCharacter->currentTorchFuel << endl; //write the current fuel to the file
+		Data << playerCharacter->maxTorchFuel << endl; //write max fuel
+		//shield
+		Data << playerCharacter->shieldEnergy << endl;
+		Data << playerCharacter->shieldEnergyMax << endl;
+		//item damage
+		Data << playerCharacter->ItemDamageMultiplier << endl;
+		//health
+		Data << playerCharacter->playerHealth << endl;
+		Data << playerCharacter->playerMaxHealth << endl;
+
+		//treasure
+		Data << playerCharacter->treasure << endl;
+
+		//aquired items
+		Data << playerCharacter->AquiredItems.size() << endl; //output the number of items
+		for (int i = 0; i < playerCharacter->AquiredItems.size(); i++) {
+			Data << playerCharacter->AquiredItems[i]->itemName << endl; //output item names
+		}
+
+		soundManager.menuClick.play(); //play the button click sound on click
+	}
+
+
+	else if (msg == "Load") { //load button pressed so load from the save file if there is one
+		string saveString = "Assets/Saves/Save.txt"; //get the save loactaion
+		int lineInt; //the current value being read
+		ifstream saveFile;
+		//counters to work out the x and y postions - need to use these becasue the normal mazegeneration increments through a maze double array and uses the position in the array for x and y positions
+		//however cause we aren't making a new maze and loading one from a file, we can't do this. so use these counters that increment as we load each value from the file instead.
+		int xCounter = 0;
+		int yCounter = 0;
+
+		string lineString;
+
+		//if (levelFile.is_open()) { // open the file
+		saveFile.open(saveString);
+		if (!saveFile) {
+			cerr << "Unable to open file datafile.txt";
+			//exit(1);   // call system to stop
+		}
+		while (saveFile.is_open()) {
+			//first line is gotten auto
+			saveFile >> energyMaxUpgradeMultiplier; //put info into the energyMaxUpgradeMultiplier
+			cout << energyMaxUpgradeMultiplier << endl;
+
+			//next line
+			getline(saveFile, lineString); //get the next line
+			saveFile >> maxHealthUpgradeMultiplier;
+			cout << maxHealthUpgradeMultiplier << endl;
+
+			//next line
+			getline(saveFile, lineString); //get the current line
+			saveFile >> itemDamageUpgradeMultiplier;
+			cout << itemDamageUpgradeMultiplier << endl;
+
+			//nextLine
+			getline(saveFile, lineString); //get the current line
+			saveFile >> playerCharacter->currentTorchFuel;
+			cout << playerCharacter->currentTorchFuel << endl;
+			
+			//next line
+			getline(saveFile, lineString); //get the current line
+			saveFile >> playerCharacter->maxTorchFuel;
+			cout << playerCharacter->maxTorchFuel << endl;
+			
+			getline(saveFile, lineString); //get the current line
+			saveFile >> playerCharacter->shieldEnergy;
+			cout << playerCharacter->shieldEnergy << endl;
+
+			getline(saveFile, lineString); //get the current line
+			saveFile >> playerCharacter->shieldEnergyMax;
+			cout << playerCharacter->shieldEnergyMax << endl;
+
+			getline(saveFile, lineString); //get the current line
+			saveFile >> playerCharacter->ItemDamageMultiplier;
+			cout << playerCharacter->ItemDamageMultiplier << endl;
+
+			getline(saveFile, lineString); //get the current line
+			saveFile >> playerCharacter->playerHealth;
+			cout << playerCharacter->playerHealth << endl;
+
+			getline(saveFile, lineString); //get the current line
+			saveFile >> playerCharacter->playerMaxHealth;
+			cout << playerCharacter->playerMaxHealth << endl;
+
+			getline(saveFile, lineString); //get the current line
+			saveFile >> playerCharacter->treasure;
+			cout << playerCharacter->treasure << endl;
+
+			//get the number of items
+			getline(saveFile, lineString); //get the current line
+			saveFile >> lineInt;
+			cout << lineInt << endl;
+
+			//load items
+			playerCharacter->AquiredItems.clear(); //clear the items held so we can load them from file
+			for (int i = 0; i < lineInt; i++) { //loop through the number of items that are saved
+				getline(saveFile, lineString); //get the current line
+				saveFile >> lineString;
+				//check it against the item names and create the appropriate item in the vector
+				if (lineString == "MedusaHead") {
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<MedusaHead>(new MedusaHead()));
+				}
+				else if (lineString == "BombItem") {
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
+				}
+				else if (lineString == "FlameCloak") {
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));
+				}
+				else if (lineString == "GoldenFleece") {
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<GoldenFleece>(new GoldenFleece()));
+				}
+				else if (lineString == "HermesBoots") {
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
+				}
+				else if (lineString == "HermesHelm") {
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm()));
+				}
+				else if (lineString == "PoseidonsStaff") {
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<PoseidonsStaff>(new PoseidonsStaff()));
+				}
+				else if (lineString == "Rope") {
+					playerCharacter->AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem()));
+				}
+
+				cout << lineString << endl;
+				cout << playerCharacter->AquiredItems.size() << endl;
+			}
+
+			saveFile.close();
+		}
 	}
 
 }
