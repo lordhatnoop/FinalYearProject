@@ -191,6 +191,7 @@
     <ClInclude Include="PlayerCharacter.h" />
     <ClInclude Include="PlayerItemStatuses.h" />
     <ClInclude Include="PoseidonsStaff.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RopeItem.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="soundManager.h" />
@@ -207,6 +208,12 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Shader\Shader.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Thesauros Labyrinthos.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
