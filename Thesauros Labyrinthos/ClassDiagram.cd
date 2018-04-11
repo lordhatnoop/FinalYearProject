@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="Cell">
-    <Position X="5" Y="34.75" Width="1.5" />
+    <Position X="20.75" Y="24.75" Width="3" />
     <NestedTypes>
       <Enum Name="Cell::entityCategory" Collapsed="true">
         <TypeIdentifier>
@@ -15,42 +15,42 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ExitCell">
-    <Position X="0.5" Y="39.5" Width="1.5" />
+    <Position X="14.25" Y="29.5" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAABAAIAAwABEAAA=</HashCode>
       <FileName>ExitCell.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FakeWallCell">
-    <Position X="2.75" Y="39.5" Width="1.5" />
+    <Position X="18.25" Y="29.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAABAAAAAAAAAAAQAAAAIAAAAAEAAA=</HashCode>
       <FileName>FakeWallCell.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FloorCell">
-    <Position X="5" Y="39.5" Width="1.5" />
+    <Position X="22" Y="29.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAIAAAAAEAAA=</HashCode>
       <FileName>FloorCell.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="NonBodyWallCell">
-    <Position X="7.25" Y="39.5" Width="1.5" />
+    <Position X="24.5" Y="29.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAIAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
       <FileName>NonBodyWallCell.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WallCell">
-    <Position X="9.5" Y="39.5" Width="1.5" />
+    <Position X="27.5" Y="29.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAgAABAAAAAAAAAAAAAAAAIAAAAAEAAA=</HashCode>
       <FileName>WallCell.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameCharacters">
-    <Position X="6" Y="16.75" Width="1.5" />
+    <Position X="11.25" Y="12.75" Width="3.25" />
     <NestedTypes>
       <Enum Name="GameCharacters::entityCategory" Collapsed="true">
         <TypeIdentifier>
@@ -64,49 +64,49 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Ghost">
-    <Position X="0.5" Y="23.25" Width="1.5" />
+    <Position X="0.5" Y="19.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAACAAAAAAAAQAAAIYAAAIgIAEAABGAAA=</HashCode>
       <FileName>Ghost.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Griffin">
-    <Position X="5" Y="23.25" Width="1.5" />
+    <Position X="8.75" Y="19.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>EAQAgAAAgQQAAGCAAgAAEAAAAAAwAIAICIAEAIAEAAA=</HashCode>
       <FileName>Griffin.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Medusa">
-    <Position X="7.25" Y="23.25" Width="1.5" />
+    <Position X="12.75" Y="19.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAQgAAAAABAIgAAAAAAAEAAAAAAQAACIGIAECEAEAAA=</HashCode>
       <FileName>Medusa.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Minotaur">
-    <Position X="9.5" Y="23.25" Width="1.5" />
+    <Position X="16.75" Y="19.25" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAAAAAAACAAAAKEAAAAAAQAAAYCIAEAACEAAA=</HashCode>
       <FileName>Minotaur.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Skeleton">
-    <Position X="11.75" Y="23.25" Width="1.5" />
+    <Position X="22" Y="19.25" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AEQAAAAAABAIQAAAACAAEAAAAAAQAACMCIAECEAEAAA=</HashCode>
       <FileName>Skeleton.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Camera">
-    <Position X="8.5" Y="2.75" Width="1.5" />
+    <Position X="53.25" Y="7.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAACAEAACAAAAAAAAAAAIAAAAAAAAAAAAAAAACAEAAA=</HashCode>
       <FileName>Camera.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="playerArrow">
-    <Position X="10" Y="9.25" Width="1.5" />
+    <Position X="42.75" Y="2.25" Width="4" />
     <NestedTypes>
       <Enum Name="playerArrow::entityCategory" Collapsed="true">
         <TypeIdentifier>
@@ -120,42 +120,35 @@
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerCharacter">
-    <Position X="2.75" Y="23.25" Width="1.5" />
+    <Position X="4.5" Y="19.25" Width="3.5" />
     <TypeIdentifier>
       <HashCode>kBEDAGABBAAAhMIAKAQiQUhEKgKQAACAcIAEAIAOECQ=</HashCode>
       <FileName>PlayerCharacter.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PlayerItemStatuses">
-    <Position X="6.75" Y="2.75" Width="1.5" />
+    <Position X="55.5" Y="7.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAQBAgAAAAAAABIAAAAAAACEAAAAAAAAAAAAA=</HashCode>
       <FileName>PlayerItemStatuses.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TorchLight">
-    <Position X="5" Y="2.75" Width="1.5" />
+    <Position X="58.25" Y="7.25" Width="4.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAACAAAAAAAAAAAAAAAIAAAAAACQAEAIE=</HashCode>
       <FileName>TorchLight.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="b2GLDraw">
-    <Position X="1.25" Y="2.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>QBAAAAAAABAAAAAAAAQAAAAAAEAAABAJAAABAAAAAAA=</HashCode>
-      <FileName>b2GLDraw.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="DespawnManager">
-    <Position X="8.25" Y="9.25" Width="1.5" />
+    <Position X="59.25" Y="2.25" Width="6.25" />
     <TypeIdentifier>
       <HashCode>AhCAAAAAAggACAAAAAAAwAAAAAAABAACAAgIIAACAAA=</HashCode>
       <FileName>DespawnManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="CollisionListener">
-    <Position X="3" Y="9.25" Width="1.5" />
+    <Position X="52.5" Y="2.25" Width="6.5" />
     <NestedTypes>
       <Enum Name="CollisionListener::entityCategory" Collapsed="true">
         <TypeIdentifier>
@@ -169,77 +162,77 @@
     </TypeIdentifier>
   </Class>
   <Class Name="LevelManager">
-    <Position X="1" Y="44" Width="1.25" />
+    <Position X="38" Y="2.25" Width="4.25" />
     <TypeIdentifier>
       <HashCode>JEHQC4ZAQHhAkYhkokFAABAACyQAgaAqaATAAABGAkw=</HashCode>
       <FileName>LevelManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MazeGeneration">
-    <Position X="3.25" Y="2.75" Width="1.5" />
+    <Position X="47" Y="2.25" Width="5" />
     <TypeIdentifier>
       <HashCode>AgAIACAAECAAEENhAAAgAAAAAAABgAAAAAABGACBQII=</HashCode>
       <FileName>mazeGeneration.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MiniMap">
-    <Position X="1.25" Y="9.25" Width="1.5" />
+    <Position X="46.75" Y="18.5" Width="17" />
     <TypeIdentifier>
       <HashCode>AAQAAAAQUAAAAIAAAQACAAAAAAAAEAAAAAAAAIACAAA=</HashCode>
       <FileName>MiniMap.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Node">
-    <Position X="6.5" Y="9.25" Width="1.5" />
+    <Position X="46.75" Y="13.5" Width="5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAACAAAAAAIAAABAAAAAAAAAAAgAAABAAE=</HashCode>
       <FileName>Node.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SoundManager">
-    <Position X="13.75" Y="2.75" Width="1.5" />
+    <Position X="46.75" Y="8.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAEAAAAAAgAAEIAgCAAABAECAEAAAAIADIBEAAAAAAA=</HashCode>
       <FileName>soundManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SpawnManager">
-    <Position X="4.75" Y="9.25" Width="1.5" />
+    <Position X="46.75" Y="16.25" Width="15" />
     <TypeIdentifier>
       <HashCode>AAIAQAAAAFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
       <FileName>SpawnManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="TextureLoader">
-    <Position X="2.75" Y="44" Width="1.25" />
+    <Position X="35.25" Y="2.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>WKRAAQIQBgYBCAAIIAAFRAEFgACCABAgBKAAqAhAABI=</HashCode>
       <FileName>TextureLoader.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BombItem">
-    <Position X="11.75" Y="39.5" Width="1.5" />
+    <Position X="1" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACgAAAQAAAAEAAgAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>BombItem.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GoldenFleece">
-    <Position X="16.25" Y="39.5" Width="1.5" />
+    <Position X="9" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACgAAAAAAAAGAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>GoldenFleece.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="FlameCloakItem">
-    <Position X="20.75" Y="39.5" Width="1.5" />
+    <Position X="17" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACgCAAAAAAAECAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>FlameCloakItem.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameItems">
-    <Position X="19.5" Y="33.25" Width="1.5" />
+    <Position X="15" Y="2.75" Width="3.25" />
     <NestedTypes>
       <Enum Name="GameItems::entityCategory" Collapsed="true">
         <TypeIdentifier>
@@ -253,42 +246,42 @@
     </TypeIdentifier>
   </Class>
   <Class Name="HermesBoots">
-    <Position X="23" Y="39.5" Width="1.5" />
+    <Position X="21" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACgAAAAAAIAEAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>HermesBoots.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HermesHelm">
-    <Position X="25.25" Y="39.5" Width="1.5" />
+    <Position X="25" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACgAAAAAAAAEAAAAgAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>HermesHelm.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="MedusaHead">
-    <Position X="27.5" Y="39.5" Width="1.5" />
+    <Position X="29" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAAAACgCAAAAAAAEAAAAAAAAAAAAAAAAAEAAA=</HashCode>
       <FileName>MedusaHead.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PoseidonsStaff">
-    <Position X="14" Y="39.5" Width="1.5" />
+    <Position X="5" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACgCAIAAAAAEAAAAIAAAAAAAAAAAAkAAA=</HashCode>
       <FileName>PoseidonsStaff.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="RopeItem">
-    <Position X="18.5" Y="39.5" Width="1.5" />
+    <Position X="13" Y="9" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACgAAAAAAAAEAAAAAAAAAAAAAAIAAEAAA=</HashCode>
       <FileName>RopeItem.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Treasure">
-    <Position X="12" Y="2.75" Width="1.5" />
+    <Position X="53.5" Y="10.5" Width="2.75" />
     <NestedTypes>
       <Enum Name="Treasure::entityCategory" Collapsed="true">
         <TypeIdentifier>
@@ -302,7 +295,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TreasureChest">
-    <Position X="10.25" Y="2.75" Width="1.5" />
+    <Position X="49.5" Y="8.5" Width="3.5" />
     <NestedTypes>
       <Enum Name="TreasureChest::entityCategory" Collapsed="true">
         <TypeIdentifier>
@@ -316,14 +309,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ArrowTrap">
-    <Position X="18.5" Y="23" Width="1.5" />
+    <Position X="34.5" Y="18.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAACgAAABAAAAAAAAABAAAAAAAAAAAAEAQI=</HashCode>
       <FileName>ArrowTrap.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GameTraps">
-    <Position X="17.25" Y="17.25" Width="1.5" />
+    <Position X="32.75" Y="12.75" Width="3" />
     <NestedTypes>
       <Enum Name="GameTraps::entityCategory" Collapsed="true">
         <TypeIdentifier>
@@ -337,32 +330,25 @@
     </TypeIdentifier>
   </Class>
   <Class Name="IdolBoudlerTrap">
-    <Position X="20.75" Y="23" Width="1.5" />
+    <Position X="38.25" Y="18.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAQAAAACgACAAAAAAAAAAACAAAAAAAIAAAAEAAY=</HashCode>
       <FileName>IdolBoulderTrap.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SpikeTrap">
-    <Position X="14" Y="23" Width="1.5" />
+    <Position X="27" Y="18.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACgAAQAAAAAAAAAAAAAAAAAAAAAAAEAAI=</HashCode>
       <FileName>SpikeTrap.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="StunTrap">
-    <Position X="16.25" Y="23" Width="1.5" />
+    <Position X="30.75" Y="18.5" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACgABAAAQAAAAAAAAAAAAAAAIAAAAEAAI=</HashCode>
       <FileName>StunTrap.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="GameState">
-    <Position X="11.75" Y="9.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AABAACABCAAgAAgCAAAAAwQAAAAAAgAAAAAAAAAAACA=</HashCode>
-      <FileName>LevelManager.h</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
