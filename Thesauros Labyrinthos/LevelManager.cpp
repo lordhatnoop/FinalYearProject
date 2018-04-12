@@ -671,6 +671,7 @@ void LevelManager::update(b2World &World)
 			std::shared_ptr<Minotaur> testEnemy = std::shared_ptr<Minotaur>(new Minotaur(mazeGenerator.startX - 10, mazeGenerator.startY + 6)); //spawn the minotaur at the player's start position
 			testEnemy->createCollisionBox(World);
 			minotaurVector.push_back(testEnemy);
+			soundManager.minotaurSound.play(); //plays the minotaur moo to signal it's spawning
 			minotaurSpawned = true; //set true so don't keep spawning
 		}
 	}

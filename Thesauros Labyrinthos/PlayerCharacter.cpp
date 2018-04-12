@@ -1,5 +1,6 @@
 #include "PlayerCharacter.h"
 #include "textureLoader.h"
+#include "soundManager.h"
 #include "ItemHolder.h"
 PlayerCharacter::PlayerCharacter(int x, int y)
 {
@@ -16,11 +17,12 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	petrifiedClock = new sf::Clock;
 	CurrentItemClock = new sf::Clock;
 	animationTimer.restart(); 
-
+	attackTimer.restart(); 
 	
 
 	//testing items - push them to aquired so we can use them
-	AquiredItems.push_back(std::shared_ptr<MedusaHead>(new MedusaHead()));
+	AquiredItems.push_back(std::shared_ptr<PoseidonsStaff>(new PoseidonsStaff()));
+	//AquiredItems.push_back(std::shared_ptr<MedusaHead>(new MedusaHead()));
 	//AquiredItems.push_back(std::shared_ptr<GoldenFleece>(new GoldenFleece()));
 	//AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm()));
 	//AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
@@ -172,8 +174,12 @@ void PlayerCharacter::update(float dt, b2World &myWorld)
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) { //attack
-			arrowVector.push_back(std::shared_ptr<playerArrow>(new playerArrow(xPosition, yPosition, facingLeftORRight, ItemDamageMultiplier))); //push an arrow to the back of the vector.
-			arrowVector.back()->createHitBox(myWorld);
+			if (attackTimer.getElapsedTime().asSeconds() > 1) { //delay constant attacks
+				arrowVector.push_back(std::shared_ptr<playerArrow>(new playerArrow(xPosition, yPosition, facingLeftORRight, ItemDamageMultiplier))); //push an arrow to the back of the vector.
+				arrowVector.back()->createHitBox(myWorld);
+				attackTimer.restart();
+				soundManager.arrowSound.play(); //play arrow sound
+			}
 		}
 
 		//not else if so that we can jump while moving
@@ -272,7 +278,7 @@ void PlayerCharacter::collidingWithEnemy()
 	//so long as the player isn't invincible
 	if (playerInvincible == false) {
 		playerHealth--; //reduce the playerHealth
-		dynamicBody->ApplyLinearImpulseToCenter(b2Vec2(5, 0), true); //apply an impulse to player, to knock them back
+		dynamicBody->ApplyLinearImpulse(b2Vec2(5, 0),b2Vec2(2,0),true ); //apply an impulse to player, to knock them back
 		playerInvincible = true; // set the player invinicble so can't keep taking damage
 		playerHit = false; // used to differntaite between types of invincibility 
 		invincibilityClock->restart(); // restart the clock so we can time it

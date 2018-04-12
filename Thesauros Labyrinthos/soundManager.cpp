@@ -25,6 +25,15 @@ void SoundManager::loadSounds()
 	ghostsound.setVolume((soundVolume / 100) * 50);
 	ghostsound.setAttenuation(2.f); // set how quickly the sound drops off over distance. defualt is 1 so bit higher than default
 
+	minotaurBuffer.loadFromFile("Assets/Sound/Minotaur.wav");
+	minotaurSound.setBuffer(minotaurBuffer);
+	minotaurSound.setVolume((soundVolume / 100) * 50);
+	
+
+	griffinBuffer.loadFromFile("Assets/Sound/Ghost.wav");
+	griffinSound.setBuffer(griffinBuffer);
+	griffinSound.setVolume((soundVolume / 100) * 50);
+	
 	//menu sounds
 	mainMenuMusic.openFromFile("Assets/Sound/MainTheme.wav");
 	mainMenuMusic.setVolume((soundVolume / 100) * 50);
@@ -38,6 +47,11 @@ void SoundManager::loadSounds()
 	chestOpenBuffer.loadFromFile("Assets/Sound/MetalLatch.wav");
 	chestOpen.setBuffer(chestOpenBuffer);
 	chestOpen.setVolume((soundVolume / 100) * 50);
+
+	//attack sound
+	arrowBuffer.loadFromFile("Assets/Sound/BowFire.wav");
+	arrowSound.setBuffer(arrowBuffer);
+	arrowSound.setVolume((soundVolume / 100) * 50);
 }
 
 void SoundManager::updateSoundVolume()
@@ -50,6 +64,10 @@ void SoundManager::updateSoundVolume()
 		ghostsound.setVolume(0);
 		menuClick.setVolume(0);
 		chestOpen.setVolume(0);
+		griffinSound.setVolume(0);
+		minotaurSound.setVolume(0);
+		arrowSound.setVolume(0);
+	
 	}
 	else {
 		//update the volumes when needed
@@ -59,5 +77,8 @@ void SoundManager::updateSoundVolume()
 		ghostsound.setVolume((soundVolume / 100) * 50);
 		menuClick.setVolume((soundVolume / 100) * 50);
 		chestOpen.setVolume((soundVolume / 100) * 50);
+		griffinSound.setVolume((soundVolume / 100) * 50);
+		minotaurSound.setVolume((soundVolume / 100) * 50);
+		arrowSound.setVolume((soundVolume / 100) * 50);
 	}
 }

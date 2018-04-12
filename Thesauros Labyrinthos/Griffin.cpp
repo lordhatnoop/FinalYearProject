@@ -189,6 +189,9 @@ void Griffin::Charge()
 			}
 		}
 		//check if charge target distance
+		if (soundManager.griffinSound.getStatus() != sf::Sound::Playing) { // if sound not already playing
+			soundManager.griffinSound.play(); //play the griffin roar on charge
+		}
 	}
 }
 

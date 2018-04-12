@@ -15,6 +15,10 @@ public:
 	sf::Sound skeletonSound;
 	sf::SoundBuffer ghostBuffer;
 	sf::Sound ghostsound;
+	sf::SoundBuffer griffinBuffer;
+	sf::Sound griffinSound;
+	sf::SoundBuffer minotaurBuffer;
+	sf::Sound minotaurSound;
 	//menu
 	sf::Music mainMenuMusic;
 	sf::SoundBuffer menuClickBuffer;
@@ -24,6 +28,9 @@ public:
 	sf::SoundBuffer chestOpenBuffer;
 	sf::Sound chestOpen;
 
+	//attack
+	sf::SoundBuffer arrowBuffer;
+	sf::Sound arrowSound;
 
 	float soundVolume = 100.f;
 	bool muted = false;

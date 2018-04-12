@@ -45,6 +45,7 @@ public:
 
 	//vector to store created arrows
 	vector<std::shared_ptr<playerArrow>> arrowVector;
+	sf::Clock attackTimer;
 
 	//ITEMS WOO
 	vector<std::shared_ptr<GameItems>> AquiredItems;
