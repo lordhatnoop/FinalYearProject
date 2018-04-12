@@ -1,7 +1,7 @@
 #pragma once
 #include "Skeleton.h"
 #include "TextureLoader.h"
-
+#include "soundManager.h"
 #include <iostream>
 Skeleton::~Skeleton()
 {
@@ -133,6 +133,9 @@ void Skeleton::LookForPlayer(PlayerCharacter *player)
 			}
 			else if (risen == true) { // if the risen animation has completed
 				// if difference is minus, to the right
+				if (soundManager.skeletonSound.getStatus() != sf::Sound::Playing) { //if sound is not playing
+					soundManager.skeletonSound.play(); //play the skeleton sound on moving 
+				}
 				if (xPosition - player->xPosition < 0) {
 					playerLeft = false;
 					playerRight = true;

@@ -1350,9 +1350,9 @@ void LevelManager::creditsMenu()
 		string line9 = "spikes, Idol, Boulder sprites - spelunky";
 		string line10 = "Boulder2, poseidons trident sprites- roblox";
 		string line11 = "wave sprite - tales of destiny ps2";
-
-		text->setText("Sprite References: \n" + line1 + "\n" + line2 + "\n" + line3 + "\n" + line4 + "\n" + line5 + "\n" + line6 + "\n" +
-			line7 + "\n" + line8 + "\n" + line9 + "\n" + line10 + "\n" + line11);// set text to display on the button - all of the loaded lines
+		string sound = "medusa attack - dota 2 sounds \n main menu music - After war (ID 721) by Lobo Loco - http://freemusicarchive.org/music/Lobo_Loco/RETRO/After_war_ID_721 \n skeleton sounds - Rattling Bones.wav by spookymodem - https://freesound.org/people/spookymodem/sounds/202102/ \n menu sounds - https://opengameart.org/content/gui-sound-effects. by Lokif \n chest open / metal latch sound - http://soundbible.com/1357-Metal-Latch.html. public domain latch sound. \n Ghost - https://www.freesoundeffects.com/free-sounds/ghost-10089/1/long_short/20/ \n Minotaur/Cow Sound, Griffin/Lion Roar , Bow fire sound - http://soundbible.com - Sound Bible free to puse sounds";
+		text->setText("Sprite References: \n \n" + line1 + "\n" + line2 + "\n" + line3 + "\n" + line4 + "\n" + line5 + "\n" + line6 + "\n" +
+			line7 + "\n" + line8 + "\n" + line9 + "\n" + line10 + "\n" + line11 + "\n \n Sound References: \n \n" + sound);// set text to display on the button - all of the loaded lines
 		text->setTextSize(16); // set size of the text
 		text->setReadOnly(true); //read only
 		text->setVerticalScrollbarPresent(false); //set no vertical bar
