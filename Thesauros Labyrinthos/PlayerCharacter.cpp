@@ -21,12 +21,12 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	
 
 	//testing items - push them to aquired so we can use them
-	AquiredItems.push_back(std::shared_ptr<PoseidonsStaff>(new PoseidonsStaff()));
+	//AquiredItems.push_back(std::shared_ptr<PoseidonsStaff>(new PoseidonsStaff()));
 	//AquiredItems.push_back(std::shared_ptr<MedusaHead>(new MedusaHead()));
 	//AquiredItems.push_back(std::shared_ptr<GoldenFleece>(new GoldenFleece()));
 	//AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm()));
 	//AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
-	//AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
+	AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
 //	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
 	//AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
 }

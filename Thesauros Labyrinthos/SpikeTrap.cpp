@@ -17,7 +17,7 @@ void SpikeTrap::createBox2D(b2World & myWorld)
 {
 	//bodyDef
 	BodyDef.type = b2_staticBody;
-	BodyDef.position.Set(xPosition / scale, (yPosition - 2.f) / scale); // set the position of the box2d body using the position of the object. divide by scale to convert from real measurements to pixel measurements. adjust the xposition slightly so that it centers on the playerand surronds them like a ring
+	BodyDef.position.Set(xPosition / scale, (yPosition - 2.f) / scale); // set the position of the box2d body using the position of the object. divide by scale to convert from real measurements to pixel measurements.
 	BodyDef.angle = 0;
 	BodyDef.fixedRotation = true; // prevent rotation
 	BodyDef.userData = "SpikeTrap";
