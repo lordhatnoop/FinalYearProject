@@ -27,7 +27,7 @@ PlayerCharacter::PlayerCharacter(int x, int y)
 	//AquiredItems.push_back(std::shared_ptr<HermesHelm>(new HermesHelm()));
 	//AquiredItems.push_back(std::shared_ptr<HermesBoots>(new HermesBoots()));
 	AquiredItems.push_back(std::shared_ptr<BombItem>(new BombItem()));
-//	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes
+	AquiredItems.push_back(std::shared_ptr<RopeItem>(new RopeItem())); //start the player with ropes and bombs
 	//AquiredItems.push_back(std::shared_ptr<FlameCloakItem>(new FlameCloakItem()));  // testing fire cloak
 }
 

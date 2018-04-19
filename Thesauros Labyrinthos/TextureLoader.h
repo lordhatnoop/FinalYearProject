@@ -64,6 +64,8 @@ public:
 	sf::Texture poseidonsTrident;
 
 	sf::Texture gold;
+
+	sf::Texture rope;
 	//traps
 	sf::Texture spikeTexture;
 	sf::Texture Boulder;

@@ -1,5 +1,5 @@
 #include "RopeItem.h"
-
+#include "textureLoader.h"
 void RopeItem::update(PlayerItemStatuses *playerStatus)
 {
 	if (durationTimer->getElapsedTime().asSeconds() < duration) { //so long as item hasn't used it's duration
@@ -16,7 +16,8 @@ void RopeItem::createSfml()
 	rectangle.setPosition(xPosition , yPosition ); //set initial position
 	rectangle.setOrigin(sf::Vector2f(1.f, 20.f)); // set the origin
 	rectangle.setSize(sf::Vector2f(2.f, 40.f)); //set the size 
-	rectangle.setFillColor(sf::Color::Magenta);//colour 
+	//rectangle.setFillColor(sf::Color::Magenta);//colour 
+	rectangle.setTexture(&textureLoader.rope); //texture
 }
 
 void RopeItem::createBox2D(b2World &myWorld)

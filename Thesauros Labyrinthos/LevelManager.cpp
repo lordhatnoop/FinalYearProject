@@ -339,7 +339,7 @@ void LevelManager::LoadNextLevel(b2World &world)
 			string item = playerCharacter->AquiredItems[playerCharacter->currentItem]->itemName; //get the name of the item
 																								 //set the background texture based on item name
 			if (item == "Rope") {
-
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.rope);
 			}
 			else if (item == "FlameCloak") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.flameCloakGUITexture); //set the background texture
@@ -623,7 +623,7 @@ void LevelManager::update(b2World &World)
 			string item = playerCharacter->AquiredItems[playerCharacter->currentItem]->itemName; //get the name of the item
 			//set the background texture based on item name
 			if (item == "Rope") {
-
+				currentItemUI->getRenderer()->setTextureBackground(textureLoader.rope);
 			}
 			else if (item == "FlameCloak") {
 				currentItemUI->getRenderer()->setTextureBackground(textureLoader.flameCloakGUITexture); //set the background texture
@@ -1323,8 +1323,8 @@ void LevelManager::creditsMenu()
 
 		//title
 		tgui::TextBox::Ptr Title = tgui::TextBox::create(); // create a button on the menu
-		Title->setPosition(775, 0); // set the position of the button
-		Title->setSize(50, 50); // set the  button size
+		Title->setPosition(700, 0); // set the position of the button
+		Title->setSize(800, 50); // set the  button size
 		Title->setText("CREDITS");
 		Title->setTextSize(50);
 		Title->setReadOnly(true); //read only
